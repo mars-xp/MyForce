@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.xiang.batterytest">
+
+    <application
+        android:name=".MyApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MFScanActivity" />
+        <activity android:name=".battery.MFBlankActivity" />
+
+        <service
+            android:name=".battery.MFDisposeServices"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".remotebg.SleepAccessibilityService"
+            android:enabled="true"
+            android:process=":service"
+            android:label="BatteryTest"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+
+        </service>
+        <provider
+            android:name="com.tools.ipc.ServiceProvider"
+            android:authorities="${applicationId}.local_service"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":service" />
+    </application>
+
+</manifest>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BatteryTest</string>
+    <string name="accessibility">only a test</string>
+</resources>

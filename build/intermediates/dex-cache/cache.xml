@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.1.1_f7af88ce2f195608ebecd41c0470bb7364edc45e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="aeffc00151d8e33489ddbada13c57ec23c9deae1">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_c12ff08cc6d719b0c26e0c3d290e5df2ff8cd183/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c8e9f59d430a38d894753aca1507dd04c842f362">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_10eea9921d584fa35aebd564840e845ad6949b41/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.1.1_18fa9d632c440cbf1554778b47667ae0d0d9b3c9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.1_e7520e8bd9365456d07e4bb0a239422c1255abb5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.1.1_ffc50e0c823248f6cb4dea5a76f6505acce8a14e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.1.1_493b54b5560eec0229218af7003032ddbf935397/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0d191c1a09e4892d059e5ce749e4ad4e08129e35">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.1.1_4c1f0dcec443347a0ea3db92ab5fbe0ccc09192f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="db6571f3c2113b53c3c64cfaaae8ca3250e941d2">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_70c4f6db57ceb5120c2a575ec783f22a6c52e6f6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="02741d05d4b697fba5e279e9881aaa1da0ca7c7f">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.1.1_b691c70868451184358e0958bf345f7f74f62614/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c03bf57f358aa10d253f21989e93bcf6014b3b17">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.1.1_989cf888b8714471021f7ef89dd755da46f4926c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="0fb891e8f0cfba0513043a7bb357513d229ca2cd">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.1.1_572fb77c3bee0f5fd451d7c7fde8e65b4fa98df3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="ecb496cc08dd52551fc5ec6db3bc0632e95a89bb">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.1.1_6b45722bd345e4d12939adefd73f484423bb669d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.1.1_bbce82959553cd053f6d6d13f4f43949da9c8cde/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3e04ac8ca644ea7baddf6fdcf72e15c79e9df94a">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.1_a8080ef3e236cdcacf89af98741d9da2418bf994/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.1.1_2ada5e9d01199529aca5e46b060edd1f76401adc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e2719c102dca3a7a5b02ce07f769362da6ddb4ab">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.1.1_70689ace87cc6e4be4eb914b2caee7208cbf4e33/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3499400d09c683f96ae8519fe170a4ebb7bef0a6">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_c9119c36bc9acb957b6bb8e275947c506bfde4e3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.1.1_a60d8fee7dce20b7102d0c31d4261add2e1bf159/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c03bf57f358aa10d253f21989e93bcf6014b3b17">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.1.1_9f19e329aae732f46f8b8127707cb25ba28d8656/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="7bde4c34162092e0a77e7f12dc85ed77c484cf5c">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.1.1_9f5d063a0df5b4b3ffc6df92223f462764c52d13/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="02741d05d4b697fba5e279e9881aaa1da0ca7c7f">
+        <dex dex="/Users/jinxiangpeng/private/github/myforce/MyForce/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.1.1_26e305b8219ccf2cc2123e512441a474dd6b3bc0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/jinxiangpeng/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.1.1/support-annotations-25.1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b59b6ee8d6ecc03e672d253800430343493a6ed8">
+        <dex dex="/Users/jinxiangpeng/AndroidStudioProjects/BatteryTest/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.1.1_5e248d59006eb6b10682f51018fe25a76d9207a3/classes.dex" />
+    </item>
+
+</items>
