@@ -182,6 +182,7 @@ public class MFDisposeServices extends Service {
         int count = intent.getIntExtra("count", 0);
         txtCount.setText("/" + String.valueOf(count));
         txtNum.setText("1");
+        mIndex = 1;
 //        createInfoLoader();
 //        mImageFetcher = createImageFetcher(mSimpleName, R.drawable.icon_default);
 
