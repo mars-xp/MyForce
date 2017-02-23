@@ -50,9 +50,7 @@ public class PhoneType extends Thread{
 	private int m_iCurType = 0;
 	private int m_iCurStep = 0;
 	private static boolean m_bThreadFlag = false;
-	// private static Context m_context = null;
 	private static PhoneType m_phoneType = null;
-	public String m_errMsg = null;
 
 	// use in sleepaccessibility
 	public boolean m_bWorkingFlag = false;
@@ -200,7 +198,6 @@ public class PhoneType extends Thread{
 		m_iCurStep = 0;
 		
 		if (aMessenger == null) {
-			PhoneType.getInstance().m_errMsg = "[PhoneType.forceStop] Exception: handler == null";
 			return false;
 		}
 		final Messenger messenger = new Messenger(aMessenger);
@@ -537,9 +534,6 @@ public class PhoneType extends Thread{
 				iCount--;
 			} catch (Exception e) {
 				e.printStackTrace();
-				// PhoneType.m_errMsg = new String();
-				PhoneType.getInstance().m_errMsg = "[PhoneType.executeClickActionList] Exception: "
-						+ e.toString();
 				bRet = false;
 				break;
 			}
@@ -597,9 +591,7 @@ public class PhoneType extends Thread{
 		try {
 			sleep(count);
 		} catch (Exception e) {
-			// PhoneType.m_errMsg = new String();
-			PhoneType.getInstance().m_errMsg = "[PhoneType.waitMilliseconds] Exception: "
-					+ e.toString();
+			e.printStackTrace();
 		}
 	}
 
@@ -664,9 +656,6 @@ public class PhoneType extends Thread{
 			messenger.send(msg);
 		} catch (Exception e) {
 			e.printStackTrace();
-			// PhoneType.m_errMsg = new String();
-			PhoneType.getInstance().m_errMsg = "[PhoneType.sendMessageToCaller] Exception: "
-					+ e.toString();
 		}
 	}
 
@@ -680,10 +669,6 @@ public class PhoneType extends Thread{
 				+ m_release + "," + m_sdk + "] ";
 
 		return strBaseInfo;
-	}
-
-	public static String getErrorMsg() {
-		return PhoneType.getInstance().m_errMsg;
 	}
 
 	public static void writeServiceFlag(int iFlag) {

@@ -301,7 +301,6 @@ public class DomParser {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			PhoneType.getInstance().m_errMsg = "[DomParser.parse] Exception: " + e.toString();
 			find = false;
 		}
 		if (find == false) {

@@ -84,9 +84,7 @@ public class SleepAccessibilityService extends AccessibilityService {
             }
             PhoneType.setFindingFlag(false);
         } catch (Exception e) {
-            // PhoneType.m_errMsg = new String();
-            PhoneType.getInstance().m_errMsg = "[SleepAccessibilityService.onAccessibilityEvent] Exception: "
-                    + e.toString();
+            e.printStackTrace();
             PhoneType.setWrokingFlag(false);
         }
 
@@ -148,9 +146,6 @@ public class SleepAccessibilityService extends AccessibilityService {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                // PhoneType.m_errMsg = new String();
-                PhoneType.getInstance().m_errMsg = "[SleepAccessibilityService.forNode] Exception: "
-                        + e.toString();
             }
         }
         int n = node.getChildCount();
@@ -316,9 +311,7 @@ public class SleepAccessibilityService extends AccessibilityService {
                 bRet = false;
             }
         } catch (Exception e) {
-            // PhoneType.m_errMsg = new String();
-            PhoneType.getInstance().m_errMsg = "[SleepAccessibilityService.doAction] Exception: "
-                    + e.toString();
+            e.printStackTrace();
         }
         return bRet;
     }
