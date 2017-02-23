@@ -19,6 +19,10 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.xiang.batterytest.MyApp;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -299,6 +303,28 @@ public class SystemUtil {
             }
 
         }
+    }
+
+    public static String getProcessName() {
+        BufferedReader cmdlineReader = null;
+        try {
+            cmdlineReader = new BufferedReader(new InputStreamReader(new FileInputStream("/proc/" + android.os.Process.myPid() + "/cmdline"), "iso-8859-1"));
+            int c;
+            StringBuilder processName = new StringBuilder();
+            while ((c = cmdlineReader.read()) > 0) {
+                processName.append((char) c);
+            }
+            return processName.toString();
+        } catch (Exception ignore) {
+        } finally {
+            try {
+                if (cmdlineReader != null) {
+                    cmdlineReader.close();
+                }
+            } catch (IOException ignore) {
+            }
+        }
+        return "";
     }
 
     public static String getCurrentAppPname() {

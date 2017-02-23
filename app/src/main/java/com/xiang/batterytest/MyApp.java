@@ -2,9 +2,12 @@ package com.xiang.batterytest;
 
 import android.app.Application;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.xiang.batterytest.battery.MFDisposeServices;
+import com.xiang.batterytest.remotebg.PhoneType;
 import com.xiang.batterytest.remotebg.SleepAccessibilityService;
+import com.xiang.batterytest.util.SystemUtil;
 
 /**
  * Created by jinxiangpeng on 2017/2/21.
@@ -29,7 +32,15 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         _instance = this;
-        startService(new Intent(this, MFDisposeServices.class));
-        startService(new Intent(this, SleepAccessibilityService.class));
+        String vProcessName = SystemUtil.getProcessName();
+        if(!TextUtils.isEmpty(vProcessName)){
+            if(vProcessName.equals(BuildConfig.APPLICATION_ID)){
+                startService(new Intent(this, MFDisposeServices.class));
+                startService(new Intent(this, SleepAccessibilityService.class));
+            }
+            else if(vProcessName.equals(BuildConfig.APPLICATION_ID+":service")){
+                PhoneType.getInstance().init(PhoneType.PARSETYPE_FORCE_STOP);
+            }
+        }
     }
 }

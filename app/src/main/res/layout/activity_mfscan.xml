@@ -14,4 +14,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/id_btn_optimize"/>
 
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_btn_hasview"
+        android:layout_below="@+id/id_btn_optimize"
+        />
+
 </RelativeLayout>

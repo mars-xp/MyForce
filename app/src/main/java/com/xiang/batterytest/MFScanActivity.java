@@ -2,6 +2,7 @@ package com.xiang.batterytest;
 
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.xiang.batterytest.battery.MFBlankActivity;
+import com.xiang.batterytest.util.AccessUtil;
 import com.xiang.batterytest.util.SystemUtil;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.List;
 public class MFScanActivity extends AppCompatActivity {
 
     private Button mForceStop;
+    private Button mHasView;
     private int mAppCount;
     private ArrayList<String> mCheckedList;
 
@@ -34,6 +37,15 @@ public class MFScanActivity extends AppCompatActivity {
         mForceStop.setText("优化"+"("+mAppCount+")");
     }
 
+    private void setHasViewText(){
+        if(AccessUtil.isDebug){
+            mHasView.setText("无浮窗");
+        }
+        else{
+            mHasView.setText("有浮窗");
+        }
+    }
+
     private void initView(){
         mForceStop = (Button)findViewById(R.id.id_btn_optimize);
         mForceStop.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +54,15 @@ public class MFScanActivity extends AppCompatActivity {
                 doClean();
             }
         });
+        mHasView = (Button)findViewById(R.id.id_btn_hasview);
+        mHasView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AccessUtil.isDebug = !AccessUtil.isDebug;
+                setHasViewText();
+            }
+        });
+        setHasViewText();
     }
 
     private void doClean() {

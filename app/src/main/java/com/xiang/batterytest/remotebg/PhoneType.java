@@ -44,8 +44,6 @@ public class PhoneType extends Thread{
 	public List<ActionStep> m_asNotifiClickList;
 	public List<ActionStep> m_asNotifiGetList;
 	public List<ActionStep> m_asClearCatchList;
-	public List<ActionStep> m_asRateFlowList;
-	public List<ActionStep> m_asFloatWindowList;
 
 	private int m_iCurType = 0;
 	private int m_iCurStep = 0;
@@ -78,32 +76,40 @@ public class PhoneType extends Thread{
 	// use in NotiResultActivity
 	public boolean m_bInterruptFlag = false;
 
+	//parse type
+	public static final int PARSETYPE_FORCE_STOP = 0x00000001;
+	public static final int PARSETYPE_NOTIFY_CLK = 0x00000010;
+	public static final int PARSETYPE_NOTIFY_GET = 0x00000100;
+	public static final int PARSETYPE_CLEAR_CACH = 0x00001000;
+
 	public static boolean isDomParsed = false;
 
-	public static synchronized PhoneType getInstance() {
+	public static PhoneType getInstance() {
 		if (m_phoneType == null) {
-			m_phoneType = new PhoneType();
-			 m_phoneType.parseXML();
+			synchronized (PhoneType.class){
+				m_phoneType = new PhoneType();
+			}
 		}
-		// if (!isDomParsed) {
-		// m_phoneType.parseXML();
-		// isDomParsed=true;
-		// }
 		return m_phoneType;
 	}
 
-	private PhoneType() {
-		m_asForceStopList = new ArrayList<ActionStep>();
-		m_asNotifiClickList = new ArrayList<ActionStep>();
-		m_asNotifiGetList = new ArrayList<ActionStep>();
-		m_asClearCatchList = new ArrayList<ActionStep>();
-		m_asRateFlowList = new ArrayList<ActionStep>();
-		m_asFloatWindowList = new ArrayList<ActionStep>();
+	public void init(int aParseType){
+		if((aParseType & PARSETYPE_FORCE_STOP) != 0){
+			m_asForceStopList = new ArrayList<ActionStep>();
+		}
+		if((aParseType & PARSETYPE_CLEAR_CACH) != 0){
+			m_asClearCatchList = new ArrayList<ActionStep>();
+		}
+		if((aParseType & PARSETYPE_NOTIFY_CLK) != 0){
+			m_asNotifiClickList = new ArrayList<ActionStep>();
+		}
+		if((aParseType & PARSETYPE_NOTIFY_GET) != 0){
+			m_asNotifiGetList = new ArrayList<ActionStep>();
+		}
+		m_phoneType.parseXML();
+	}
 
-		// m_intervalmillisecond = setIntervalmillisecond();
-		// m_context = context;
-		// logInfo(TYPE_LOGINFO,
-		// Boolean.toString(SleepAccessibilityService.getServiceRunningFlag()));
+	private PhoneType() {
 	}
 
 	private boolean parseXML() {
@@ -135,8 +141,6 @@ public class PhoneType extends Thread{
 			m_asNotifiClickList.clear();
 			m_asNotifiGetList.clear();
 			m_asClearCatchList.clear();
-			m_asRateFlowList.clear();
-			m_asFloatWindowList.clear();
 			if (domParse.parse(is) == false) {
 				return false;
 			}
@@ -234,7 +238,7 @@ public class PhoneType extends Thread{
 									strPkgName);
 							if (executeClickActionList(MyApp.getApp()
 									.getApplicationContext(), strPkgName,
-									m_asNotifiClickList.size(), true, messenger) == true) {
+									m_asForceStopList.size(), true, messenger) == true) {
 								sendMessageToCaller(messenger,
 										AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS,
 										strPkgName);
