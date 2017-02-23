@@ -55,8 +55,8 @@ public class AccessibilityBinder extends IAccessibilityServiceInterface.Stub {
 	@Override
 	public boolean startNotiManage(IBinder messenger, List<String> pnames,
 								   boolean needClose) throws RemoteException {
-		PhoneType.getInstance().notifiChange(messenger,
-				new ArrayList<String>(pnames), !needClose);
+//		PhoneType.getInstance().notifiChange(messenger,
+//				new ArrayList<String>(pnames), !needClose);
 		return true;
 	}
 

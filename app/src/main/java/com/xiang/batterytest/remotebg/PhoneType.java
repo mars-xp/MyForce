@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
@@ -82,8 +84,11 @@ public class PhoneType extends Thread{
 	public static final int PARSETYPE_NOTIFY_GET = 0x00000100;
 	public static final int PARSETYPE_CLEAR_CACH = 0x00001000;
 
-	public static boolean isDomParsed = false;
-
+	private HandlerThread mWorkerThread;
+	private Handler mWorkerHandler;
+	private Messenger mMessenger;
+	private ArrayList<String> mAppList;
+	
 	public static PhoneType getInstance() {
 		if (m_phoneType == null) {
 			synchronized (PhoneType.class){
@@ -110,6 +115,20 @@ public class PhoneType extends Thread{
 	}
 
 	private PhoneType() {
+		mWorkerThread = new HandlerThread("accessibility_thread");
+		mWorkerThread.start();
+		mWorkerHandler = new Handler(mWorkerThread.getLooper()){
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what){
+					case 0:
+						doForceStopThread();
+						break;
+					default:
+						break;
+				}
+			}
+		};
 	}
 
 	private boolean parseXML() {
@@ -130,30 +149,65 @@ public class PhoneType extends Thread{
 		return true;
 	}
 
-	public boolean reparseXML(String strConfigFilePath) {
-		if (strConfigFilePath == null) {
-			return false;
-		}
-		try {
-			InputStream is = new FileInputStream(strConfigFilePath);
-			DomParser domParse = new DomParser();
-			m_asForceStopList.clear();
-			m_asNotifiClickList.clear();
-			m_asNotifiGetList.clear();
-			m_asClearCatchList.clear();
-			if (domParse.parse(is) == false) {
-				return false;
+	private void doForceStopThread(){
+		int iErrorCount = 0;
+		PhoneType.setThreadFlag(true);
+		PhoneType.setStreamMute(true);
+		Messenger messenger = mMessenger;
+		ArrayList<String> appInfoList = mAppList;
+		for (int i = 0; i < appInfoList.size(); i++) {
+			if (getInterruptFlag()) {
+				sendMessageToCaller(
+						messenger,
+						AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT,
+						"INTERRUT");
+				break;
+			} else {
+				String strPkgName = appInfoList.get(i);
+				sendMessageToCaller(messenger,
+						AccessUtil.TYPE_PACKAGE_FORCE_START,
+						strPkgName);
+				if (executeClickActionList(MyApp.getApp()
+								.getApplicationContext(), strPkgName,
+						m_asForceStopList.size(), true, messenger) == true) {
+					sendMessageToCaller(messenger,
+							AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS,
+							strPkgName);
+					PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
+							Integer.toString(i) + strPkgName
+									+ " TRUE");
+				} else {
+					iErrorCount++;
+					sendMessageToCaller(
+							messenger,
+							AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG,
+							strPkgName);
+					PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
+							Integer.toString(i) + strPkgName
+									+ " FALSE");
+				}
+				waitMilliseconds(m_intervalmillisecond);
+				if (getInterruptFlag()) {
+					sendMessageToCaller(
+							messenger,
+							AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
+							"INTERRUT");
+					break;
+				}
 			}
-			is.close();
-			return true;
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return false;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
 		}
+		m_allElementName = getBaseInfo() + m_allElementName;
+		if (iErrorCount == appInfoList.size()) {
+			sendMessageToCaller(messenger,
+					AccessUtil.TYPE_PACKAGE_FORCE_ALL_ERROR,
+					m_allElementName);
+		}
+		// logInfo(TYPE_LOGINFO, m_allElementName);
+		sendMessageToCaller(messenger,
+				AccessUtil.TYPE_PACKAGE_FORCE_ALL_END,
+				"PACKAGE ALL END");
+		PhoneType.setThreadFlag(false);
+		PhoneType.setStreamMute(false);
 	}
 
 	public boolean forceStop(final IBinder aMessenger,
@@ -162,124 +216,59 @@ public class PhoneType extends Thread{
 		m_iCurStep = 0;
 		
 		if (aMessenger == null) {
-			// PhoneType.m_errMsg = new String();
-			PhoneType.getInstance().m_errMsg = "[PhoneType.notifiChange] Exception: handler == null";
+			PhoneType.getInstance().m_errMsg = "[PhoneType.forceStop] Exception: handler == null";
 			return false;
 		}
 		final Messenger messenger = new Messenger(aMessenger);
-
-		// if (m_context == null) {
-		// sendMessageToCaller(msg, TYPE_PACKAGE_FROCE_CONTEXT_NONE,
-		// "m_context IS NULL");
-		// return false;
-		// }
-
 		if (appInfoList == null) {
 			sendMessageToCaller(messenger,
 					AccessUtil.TYPE_PACKAGE_FORCE_ERROR_APPLIST,
 					"APP INFO LIST IS NULL");
 			return false;
 		}
-
 		if (appInfoList.size() == 0) {
 			sendMessageToCaller(messenger,
 					AccessUtil.TYPE_PACKAGE_FORCE_ERROR_APPLIST,
 					"APP INFO LIST IS NULL");
 			return false;
 		}
-
 		if (m_phoneType == null) {
 			sendMessageToCaller(messenger,
 					AccessUtil.TYPE_PACKAGE_FROCE_MPHONE_NONE,
 					"m_phoneType IS NULL");
 			return false;
 		}
-
 		if (m_asForceStopList == null) {
 			sendMessageToCaller(messenger,
 					AccessUtil.TYPE_PACKAGE_FROCE_ACLIST_NONE,
 					"m_asForceStopList IS NULL");
 			return false;
 		}
-
 		if (m_asForceStopList.size() == 0) {
 			sendMessageToCaller(messenger,
 					AccessUtil.TYPE_PACKAGE_FROCE_ACLIST_NONE,
 					"m_asForceStopList IS EMPTY");
 			return false;
 		}
-
 		if (SleepAccessibilityService.getServiceRunningFlag() == false) {
 			sendMessageToCaller(messenger,
 					AccessUtil.TYPE_PACKAGE_FORCE_ERROR_SERVICE,
 					"SERVICE NOT RUNNING");
 			return false;
 		}
-
 		setInterruptFlag(false);
 		final boolean bRet = false;
-		if (getThreadFlag() == false) {
-			new Thread() {
-				public void run() {
-					int iErrorCount = 0;
-					PhoneType.setThreadFlag(true);
-					PhoneType.setStreamMute(true);
-					for (int i = 0; i < appInfoList.size(); i++) {
-						if (getInterruptFlag()) {
-							sendMessageToCaller(
-									messenger,
-									AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT,
-									"INTERRUT");
-							break;
-						} else {
-							String strPkgName = appInfoList.get(i);
-							sendMessageToCaller(messenger,
-									AccessUtil.TYPE_PACKAGE_FORCE_START,
-									strPkgName);
-							if (executeClickActionList(MyApp.getApp()
-									.getApplicationContext(), strPkgName,
-									m_asForceStopList.size(), true, messenger) == true) {
-								sendMessageToCaller(messenger,
-										AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS,
-										strPkgName);
-								PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-										Integer.toString(i) + strPkgName
-												+ " TRUE");
-							} else {
-								iErrorCount++;
-								sendMessageToCaller(
-										messenger,
-										AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG,
-										strPkgName);
-								PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-										Integer.toString(i) + strPkgName
-												+ " FALSE");
-							}
-							waitMilliseconds(m_intervalmillisecond);
-							if (getInterruptFlag()) {
-								sendMessageToCaller(
-										messenger,
-										AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
-										"INTERRUT");
-								break;
-							}
-						}
-					}
-					m_allElementName = getBaseInfo() + m_allElementName;
-					if (iErrorCount == appInfoList.size()) {
-						sendMessageToCaller(messenger,
-								AccessUtil.TYPE_PACKAGE_FORCE_ALL_ERROR,
-								m_allElementName);
-					}
-					// logInfo(TYPE_LOGINFO, m_allElementName);
-					sendMessageToCaller(messenger,
-							AccessUtil.TYPE_PACKAGE_FORCE_ALL_END,
-							"PACKAGE ALL END");
-					PhoneType.setThreadFlag(false);
-					PhoneType.setStreamMute(false);
-				}
-			}.start();
-		}
+		mMessenger = messenger;
+		mAppList = appInfoList;
+//		if (getThreadFlag() == false) {
+//			new Thread() {
+//				public void run() {
+//					doForceStopThread(messenger, appInfoList);
+//				}
+//			}.start();
+//		}
+		mWorkerHandler.removeMessages(0);
+		mWorkerHandler.sendEmptyMessage(0);
 		return bRet;
 	}
 
@@ -291,133 +280,117 @@ public class PhoneType extends Thread{
 		m_bThreadFlag = flag;
 	}
 
-	public boolean notifiChange(final IBinder aBinder,
-								final ArrayList<String> appInfoList, final boolean bStop) {
-		m_iCurType = TYPE_NOTIFICLICK;
-		if (aBinder == null) {
-			// PhoneType.m_errMsg = new String();
-			PhoneType.getInstance().m_errMsg = "[PhoneType.notifiChange] Exception: handler == null";
-			return false;
-		}
-		final Messenger messenger = new Messenger(aBinder);
-		// if (m_context == null) {
-		// sendMessageToCaller(handler, TYPE_PACKAGE_NOTIFY_CONTEXT_NONE,
-		// "m_context IS NULL");
-		// return false;
-		// }
-
-		if (appInfoList == null) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_APPLIST,
-					"APP INFO LIST IS NULL");
-			return false;
-		}
-
-		if (appInfoList.size() == 0) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_APPLIST,
-					"APP INFO LIST IS NULL");
-			return false;
-		}
-
-		if (m_phoneType == null) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_NOTIFY_MPHONE_NONE,
-					"m_phoneType IS NULL");
-			return false;
-		}
-
-		if (m_asNotifiClickList == null) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_NOTIFY_ACLIST_NONE,
-					"m_asNotifiClickList IS NULL");
-			return false;
-		}
-
-		if (m_asNotifiClickList.size() == 0) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_NOTIFY_ACLIST_NONE,
-					"m_asNotifiClickList IS EMPTY");
-			return false;
-		}
-
-		if (SleepAccessibilityService.getServiceRunningFlag() == false) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_SERVICE,
-					"SERVICE NOT RUNNING");
-			return false;
-		}
-
-		setInterruptFlag(false);
-		final boolean bRet = false;
-		if (getThreadFlag() == false) {
-			new Thread() {
-				public void run() {
-					int iErrorCount = 0;
-					PhoneType.setThreadFlag(true);
-					PhoneType.setStreamMute(true);
-					for (int i = 0; i < appInfoList.size(); i++) {
-						if (getInterruptFlag()) {
-							sendMessageToCaller(
-									messenger,
-									AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
-									"INTERRUT");
-							break;
-						} else {
-							String strPkgName = appInfoList.get(i);
-							sendMessageToCaller(messenger,
-									AccessUtil.TYPE_PACKAGE_NOTIFY_START,
-									strPkgName);
-							// PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-							// Integer.toString(i)+strPkgName+m_context.getPackageManager().getApplicationLabel(appInfoList.get(i)));
-							if (executeClickActionList(MyApp.getApp()
-									.getApplicationContext(), strPkgName,
-									m_asNotifiClickList.size(), bStop,
-									messenger) == true) {
-								sendMessageToCaller(messenger,
-										AccessUtil.TYPE_PACKAGE_NOTIFY_SUCCESS,
-										strPkgName);
-								PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-										Integer.toString(i) + strPkgName
-												+ " TRUE");
-							} else {
-								iErrorCount++;
-								sendMessageToCaller(
-										messenger,
-										AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_PKG,
-										strPkgName);
-								PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-										Integer.toString(i) + strPkgName
-												+ " FALSE");
-							}
-							waitMilliseconds(m_intervalmillisecond);
-							if (getInterruptFlag()) {
-								sendMessageToCaller(
-										messenger,
-										AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
-										"INTERRUT");
-								break;
-							}
-						}
-					}
-					m_allElementName = getBaseInfo() + m_allElementName;
-					if (iErrorCount == appInfoList.size()) {
-						sendMessageToCaller(messenger,
-								AccessUtil.TYPE_PACKAGE_NOTIFY_ALL_ERROR,
-								m_allElementName);
-					}
-					logInfo(TYPE_LOGINFO, m_allElementName);
-					sendMessageToCaller(messenger,
-							AccessUtil.TYPE_PACKAGE_NOTIFY_ALL_END,
-							"PACKAGE ALL END");
-
-					PhoneType.setThreadFlag(false);
-					PhoneType.setStreamMute(false);
-				}
-			}.start();
-		}
-		return bRet;
-	}
+//	public boolean notifiChange(final IBinder aBinder,
+//								final ArrayList<String> appInfoList, final boolean bStop) {
+//		m_iCurType = TYPE_NOTIFICLICK;
+//		if (aBinder == null) {
+//			PhoneType.getInstance().m_errMsg = "[PhoneType.notifiChange] Exception: handler == null";
+//			return false;
+//		}
+//		final Messenger messenger = new Messenger(aBinder);
+//		if (appInfoList == null) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_APPLIST,
+//					"APP INFO LIST IS NULL");
+//			return false;
+//		}
+//		if (appInfoList.size() == 0) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_APPLIST,
+//					"APP INFO LIST IS NULL");
+//			return false;
+//		}
+//		if (m_phoneType == null) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_NOTIFY_MPHONE_NONE,
+//					"m_phoneType IS NULL");
+//			return false;
+//		}
+//		if (m_asNotifiClickList == null) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_NOTIFY_ACLIST_NONE,
+//					"m_asNotifiClickList IS NULL");
+//			return false;
+//		}
+//		if (m_asNotifiClickList.size() == 0) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_NOTIFY_ACLIST_NONE,
+//					"m_asNotifiClickList IS EMPTY");
+//			return false;
+//		}
+//		if (SleepAccessibilityService.getServiceRunningFlag() == false) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_SERVICE,
+//					"SERVICE NOT RUNNING");
+//			return false;
+//		}
+//		setInterruptFlag(false);
+//		final boolean bRet = false;
+//		if (getThreadFlag() == false) {
+//			new Thread() {
+//				public void run() {
+//					int iErrorCount = 0;
+//					PhoneType.setThreadFlag(true);
+//					PhoneType.setStreamMute(true);
+//					for (int i = 0; i < appInfoList.size(); i++) {
+//						if (getInterruptFlag()) {
+//							sendMessageToCaller(
+//									messenger,
+//									AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
+//									"INTERRUT");
+//							break;
+//						} else {
+//							String strPkgName = appInfoList.get(i);
+//							sendMessageToCaller(messenger,
+//									AccessUtil.TYPE_PACKAGE_NOTIFY_START,
+//									strPkgName);
+//							if (executeClickActionList(MyApp.getApp()
+//									.getApplicationContext(), strPkgName,
+//									m_asNotifiClickList.size(), bStop,
+//									messenger) == true) {
+//								sendMessageToCaller(messenger,
+//										AccessUtil.TYPE_PACKAGE_NOTIFY_SUCCESS,
+//										strPkgName);
+//								PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
+//										Integer.toString(i) + strPkgName
+//												+ " TRUE");
+//							} else {
+//								iErrorCount++;
+//								sendMessageToCaller(
+//										messenger,
+//										AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_PKG,
+//										strPkgName);
+//								PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
+//										Integer.toString(i) + strPkgName
+//												+ " FALSE");
+//							}
+//							waitMilliseconds(m_intervalmillisecond);
+//							if (getInterruptFlag()) {
+//								sendMessageToCaller(
+//										messenger,
+//										AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
+//										"INTERRUT");
+//								break;
+//							}
+//						}
+//					}
+//					m_allElementName = getBaseInfo() + m_allElementName;
+//					if (iErrorCount == appInfoList.size()) {
+//						sendMessageToCaller(messenger,
+//								AccessUtil.TYPE_PACKAGE_NOTIFY_ALL_ERROR,
+//								m_allElementName);
+//					}
+//					logInfo(TYPE_LOGINFO, m_allElementName);
+//					sendMessageToCaller(messenger,
+//							AccessUtil.TYPE_PACKAGE_NOTIFY_ALL_END,
+//							"PACKAGE ALL END");
+//					PhoneType.setThreadFlag(false);
+//					PhoneType.setStreamMute(false);
+//				}
+//			}.start();
+//		}
+//		return bRet;
+//	}
 
 	public boolean notifiGet(String strPkgName, boolean bStop) {
 		m_iCurType = TYPE_NOTIFIGET;
