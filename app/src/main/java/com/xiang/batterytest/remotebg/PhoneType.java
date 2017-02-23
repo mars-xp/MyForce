@@ -76,6 +76,7 @@ public class PhoneType {
 	private Handler mWorkerHandler;
 	private Messenger mMessenger;
 	private ArrayList<String> mAppList;
+	private AudioManager mAudioManager;
 
 	public static PhoneType getInstance() {
 		if (m_phoneType == null) {
@@ -103,6 +104,7 @@ public class PhoneType {
 	}
 
 	private PhoneType() {
+		mAudioManager = (AudioManager) MyApp.getApp().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 		mWorkerThread = new HandlerThread("accessibility_thread");
 		mWorkerThread.start();
 		mWorkerHandler = new Handler(mWorkerThread.getLooper()){
@@ -140,7 +142,7 @@ public class PhoneType {
 	private void doForceStopThread(){
 		int iErrorCount = 0;
 		m_bThreadFlag = true;
-		PhoneType.setStreamMute(true);
+		setStreamMute(true);
 		Messenger messenger = mMessenger;
 		ArrayList<String> appInfoList = mAppList;
 		for (int i = 0; i < appInfoList.size(); i++) {
@@ -189,7 +191,7 @@ public class PhoneType {
 				AccessUtil.TYPE_PACKAGE_FORCE_ALL_END,
 				"PACKAGE ALL END");
 		m_bThreadFlag = false;
-		PhoneType.setStreamMute(false);
+		setStreamMute(false);
 	}
 
 	public boolean forceStop(final IBinder aMessenger,
@@ -643,30 +645,10 @@ public class PhoneType {
 		return iFlag;
 	}
 
-	public static void setStreamMute(boolean bMute) {
-		try {
-			AudioManager adManager = (AudioManager) MyApp.getApp().getApplicationContext()
-					.getSystemService(Context.AUDIO_SERVICE);
-			adManager.setStreamMute(AudioManager.STREAM_SYSTEM, bMute);
-		} catch (Exception e) {
-
+	public void setStreamMute(boolean bMute) {
+		if(mAudioManager == null){
+			mAudioManager = (AudioManager) MyApp.getApp().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 		}
-	}
-
-	private int setIntervalmillisecond() {
-
-		int CpuNum = AccessUtil.getNumCores();
-
-		float CpuFreq = AccessUtil.getCurCpuFreq();
-
-		int TotalMem = AccessUtil.getTotalMemory();
-
-		if (CpuNum >= 4 && TotalMem >= 2) {
-			return 300;
-		} else if (CpuNum >= 2 || TotalMem >= 1) {
-			return 400;
-		} else {
-			return 600;
-		}
+		mAudioManager.setStreamMute(AudioManager.STREAM_SYSTEM, bMute);
 	}
 }
