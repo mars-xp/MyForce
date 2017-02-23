@@ -12,60 +12,28 @@ import java.util.List;
  * Created by jinxiangpeng on 2017/2/22.
  */
 
-public class AccessibiltyManager implements IAccessibilityServiceInterface {
-    private static AccessibiltyManager mInstance;
+public class AccessibiltyManager {
 
-    public static synchronized AccessibiltyManager getAccessibiltyManager(
-            Context context) {
+    private static AccessibiltyManager mInstance;
+    private IAccessibilityServiceInterface mIAccessibilityServiceInterface;
+
+
+    public static AccessibiltyManager getInstance() {
         if (null == mInstance) {
-            mInstance = new AccessibiltyManager(context);
+            synchronized (AccessibiltyManager.class){
+                if(mInstance == null){
+                    mInstance = new AccessibiltyManager();
+                }
+            }
         }
         return mInstance;
     }
 
-    private AccessibiltyManager(Context context) {
-        mIAccessibilityServiceInterface = IAccessibilityServiceInterface.Stub.asInterface(LocalServiceManager.getInstance().getService("accessibility_service"));
+    private AccessibiltyManager() {
+        IBinder vBinder = LocalServiceManager.getInstance().getService("accessibility_service");
+        mIAccessibilityServiceInterface = IAccessibilityServiceInterface.Stub.asInterface(vBinder);
     }
 
-    IAccessibilityServiceInterface mIAccessibilityServiceInterface;
-
-    @Override
-    public IBinder asBinder() {
-        // TODO 自动生成的方法存根
-        return null;
-    }
-
-    @Override
-    public synchronized boolean getServicesStatus() {
-        try {
-            return mIAccessibilityServiceInterface.getServicesStatus();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    @Override
-    public synchronized boolean setServicesStatus(boolean isRunning) {
-        try {
-            mIAccessibilityServiceInterface.setServicesStatus(isRunning);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-
-    }
-
-    @Override
-    public boolean writeServiceFlag(int flag) {
-        try {
-            mIAccessibilityServiceInterface.writeServiceFlag(flag);
-        } catch (Exception e) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public boolean setInterruptFlag(boolean flag) {
         try {
             mIAccessibilityServiceInterface.setInterruptFlag(flag);
@@ -75,34 +43,36 @@ public class AccessibiltyManager implements IAccessibilityServiceInterface {
         return true;
     }
 
-    @Override
     public boolean getInterruptFlag()  {
-        // TODO 自动生成的方法存根
-        return false;
+        boolean vRet = false;
+        try{
+            vRet = mIAccessibilityServiceInterface.getInterruptFlag();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            vRet = false;
+        }
+        return vRet;
     }
 
-    @Override
-    public boolean startForceClose(IBinder messenger, List<String> pnames)
-            throws RemoteException {
+    public boolean startForceClose(IBinder messenger, List<String> pnames){
         try {
             mIAccessibilityServiceInterface.startForceClose(messenger, pnames);
         } catch (Exception e) {
             return false;
         }
         return true;
-        // TODO Auto-generated method stub
     }
 
-    @Override
-    public boolean startNotiManage(IBinder messenger, List<String> pnames,
-                                   boolean needClose) throws RemoteException {
-        try {
-            mIAccessibilityServiceInterface.startNotiManage(messenger, pnames,
-                    needClose);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
+//    public boolean startNotiManage(IBinder messenger, List<String> pnames,
+//                                   boolean needClose) throws RemoteException {
+//        try {
+//            mIAccessibilityServiceInterface.startNotiManage(messenger, pnames,
+//                    needClose);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//        return true;
+//    }
 }

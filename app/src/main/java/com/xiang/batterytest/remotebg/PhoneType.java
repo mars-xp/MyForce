@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhoneType extends Thread {
+public class PhoneType extends Thread{
 
 	// used AccessibilityConfig.xml version
 	public static final String UAB_SDK_VERSION = "2.0";

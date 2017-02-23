@@ -55,18 +55,11 @@ public class MFBlankActivity extends AppCompatActivity {
             switch (msg.what) {
                 case MSG_START_DISPOSE: {
                     if (AccessUtil.needDesktop) {
-                        AccessibiltyManager.getAccessibiltyManager(
-                                getApplicationContext()).setInterruptFlag(true);
+                        AccessibiltyManager.getInstance().setInterruptFlag(true);
                         finish();
                     } else {
-                        try {
-                            AccessibiltyManager.getAccessibiltyManager(
-                                    getApplicationContext()).startForceClose(messenger.getBinder(),
-                                    mSelectList);
-                        } catch (RemoteException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+                        AccessibiltyManager.getInstance().startForceClose(messenger.getBinder(),
+                                mSelectList);
                     }
                     break;
                 }
@@ -104,8 +97,7 @@ public class MFBlankActivity extends AppCompatActivity {
                     break;
                 }
                 case MSG_INTERRUPT: {// 打断
-                    AccessibiltyManager.getAccessibiltyManager(
-                            getApplicationContext()).setInterruptFlag(true);
+                    AccessibiltyManager.getInstance().setInterruptFlag(true);
                     break;
                 }
                 case MSG_RESTART_BLANK: {
