@@ -49,17 +49,10 @@ public class PhoneType extends Thread{
 
 	private int m_iCurType = 0;
 	private int m_iCurStep = 0;
-	private int m_iCurError = 0;
 	private static boolean m_bThreadFlag = false;
 	// private static Context m_context = null;
 	private static PhoneType m_phoneType = null;
 	public String m_errMsg = null;
-
-	// use in all class
-	public static String m_tagNameString = "UAB SDK 2.0";
-	public static final int TYPE_LOGERROR = 1;
-	public static final int TYPE_LOGINFO = 2;
-	public static final int TYPE_LOGFILE = 3;
 
 	// use in sleepaccessibility
 	public boolean m_bWorkingFlag = false;
@@ -170,18 +163,12 @@ public class PhoneType extends Thread{
 					sendMessageToCaller(messenger,
 							AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS,
 							strPkgName);
-					PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-							Integer.toString(i) + strPkgName
-									+ " TRUE");
 				} else {
 					iErrorCount++;
 					sendMessageToCaller(
 							messenger,
 							AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG,
 							strPkgName);
-					PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-							Integer.toString(i) + strPkgName
-									+ " FALSE");
 				}
 				waitMilliseconds(m_intervalmillisecond);
 				if (getInterruptFlag()) {
@@ -511,15 +498,9 @@ public class PhoneType extends Thread{
 					}
 					if (actionStep == null) {
 						if (getCurStep() >= stepCount) {
-							logInfo(TYPE_LOGINFO,
-									Integer.toString(getCurStep()) + "  "
-											+ Integer.toString(stepCount));
 							bRet = true;
 							break;
 						} else {
-							PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-									Integer.toString(getCurStep()) + "  "
-											+ Integer.toString(stepCount));
 							bRet = false;
 							break;
 						}
@@ -573,10 +554,6 @@ public class PhoneType extends Thread{
 			doAction(m_context, actionStep, strPkgName, bStop);
 		}
 		setWrokingFlag(false);
-		PhoneType.logInfo(
-				PhoneType.TYPE_LOGINFO,
-				"Count: " + Integer.toString(iCount) + " Ret:"
-						+ Boolean.toString(bRet));
 		return bRet;
 	}
 
@@ -628,14 +605,6 @@ public class PhoneType extends Thread{
 
 	public static void onNotiChange(Messenger messenger) {
 
-	}
-
-	public static void logInfo(int iType, String strInfo) {
-		if (iType == TYPE_LOGERROR) {
-		} else if (iType == TYPE_LOGINFO) {
-		} else if (iType == TYPE_LOGFILE) {
-
-		}
 	}
 
 	public synchronized static boolean getWrokingFlag() {

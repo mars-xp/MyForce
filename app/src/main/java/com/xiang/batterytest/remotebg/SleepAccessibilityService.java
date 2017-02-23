@@ -19,6 +19,11 @@ public class SleepAccessibilityService extends AccessibilityService {
     private static boolean m_bServiceRunning = false;
 
     @Override
+    public void onInterrupt() {
+
+    }
+
+    @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
 
         if (event.getSource() == null) {
@@ -63,15 +68,11 @@ public class SleepAccessibilityService extends AccessibilityService {
                 }
             }
 
-            PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                    curActionStep.m_asActionName);
             PhoneType.setFindingFlag(true);
             if (doAction(event, curActionStep, PhoneType.getCheckFlag()) == true) {
                 curActionStep = PhoneType.getInstance().getNextStep();
                 if (curActionStep != null) {
                     if (curActionStep.m_asActionName.equalsIgnoreCase("BACK")) {
-                        PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                "doAction true BACK");
                         PhoneType.getInstance().getNextStep();
                     }
                 } else {
@@ -80,7 +81,6 @@ public class SleepAccessibilityService extends AccessibilityService {
                 }
             } else {
                 PhoneType.setWrokingFlag(false);
-                PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "DoAction FALSE");
             }
             PhoneType.setFindingFlag(false);
         } catch (Exception e) {
@@ -88,14 +88,8 @@ public class SleepAccessibilityService extends AccessibilityService {
             PhoneType.getInstance().m_errMsg = "[SleepAccessibilityService.onAccessibilityEvent] Exception: "
                     + e.toString();
             PhoneType.setWrokingFlag(false);
-            PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "DoAction FALSE");
         }
 
-    }
-
-    @Override
-    public void onInterrupt() {
-        PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "onInterrupt");
     }
 
     @Override
@@ -107,7 +101,6 @@ public class SleepAccessibilityService extends AccessibilityService {
     public void onServiceConnected() {
         PhoneType.writeServiceFlag(TYPE_SERVICE_RUNNING);
         setServiceRunningFlag(true);
-        PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "onServiceConnected");
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
         info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;// AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
         // info.eventTypes =
@@ -212,15 +205,6 @@ public class SleepAccessibilityService extends AccessibilityService {
                     if (nodeInfo != null && nodeInfo.isClickable()
                             && nodeInfo.isEnabled() && nodeInfo.isCheckable()
                             && nodeInfo.isFocusable()) {
-                        if (nodeInfo.isChecked() == true) {
-                            PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                    "Is Checked  " + PhoneType.getCurPkgName());
-                        } else {
-                            PhoneType.logInfo(
-                                    PhoneType.TYPE_LOGINFO,
-                                    "Is not Checked  "
-                                            + PhoneType.getCurPkgName());
-                        }
                     }
                 }
             } else if (actionStep.m_asActionName.equalsIgnoreCase("CLICK")) {
@@ -229,7 +213,6 @@ public class SleepAccessibilityService extends AccessibilityService {
                 if (android.os.Build.MANUFACTURER.equalsIgnoreCase("HTC")
                         && actionStep.m_asElementType
                         .equalsIgnoreCase("android.widget.CheckBox")) {
-                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "IS HTC");
                     nodeInfo = forNodeHtc(accEvent.getSource(),
                             actionStep.m_asElementType, 0);
                 }
@@ -255,32 +238,22 @@ public class SleepAccessibilityService extends AccessibilityService {
                             boolean bCurChecked = nodeInfo.isChecked();
                             if (bCheck == true) {
                                 if (bCurChecked == true) {
-                                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                            "ischecked");
                                     PhoneType.getInstance().getNextStep();
                                     PhoneType.getInstance().getNextStep();
                                 } else {
-                                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                            "is not checked");
                                     nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                                     PhoneType.getInstance().getNextStep();
                                     PhoneType.getInstance().getNextStep();
                                 }
                             } else {
                                 if (bCurChecked == true) {
-                                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                            "ischecked");
                                     nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                                 } else {
-                                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                            "is not checked");
                                     PhoneType.getInstance().getNextStep();
                                     PhoneType.getInstance().getNextStep();
                                 }
                             }
                         } else {
-                            PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                    "Is Not click able");
                             PhoneType.getInstance().getNextStep();
                             PhoneType.getInstance().getNextStep();
                         }
@@ -292,32 +265,22 @@ public class SleepAccessibilityService extends AccessibilityService {
                             boolean bCurChecked = nodeInfo.isChecked();
                             if (bCheck == true) {
                                 if (bCurChecked == true) {
-                                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                            "ischecked");
                                     PhoneType.getInstance().getNextStep();
                                     PhoneType.getInstance().getNextStep();
                                 } else {
-                                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                            "is not checked");
                                     nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                                     PhoneType.getInstance().getNextStep();
                                     PhoneType.getInstance().getNextStep();
                                 }
                             } else {
                                 if (bCurChecked == true) {
-                                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                            "ischecked");
                                     nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                                 } else {
-                                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                            "is not checked");
                                     PhoneType.getInstance().getNextStep();
                                     PhoneType.getInstance().getNextStep();
                                 }
                             }
                         } else {
-                            PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                    "Is Not click able");
                             PhoneType.getInstance().getNextStep();
                             PhoneType.getInstance().getNextStep();
                         }
@@ -328,8 +291,6 @@ public class SleepAccessibilityService extends AccessibilityService {
                         if (/* nodeInfo.isClickable() && nodeInfo.isEnabled() */true) {
                             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                         } else {
-                            PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                                    "Is Not click able");
                             PhoneType.getInstance().getNextStep();
                         }
                         nodeInfo.recycle();
@@ -345,7 +306,6 @@ public class SleepAccessibilityService extends AccessibilityService {
                     nodeInfo.recycle();
                     bRet = true;
                 } else {
-                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "Not find node");
                     bRet = false;
                 }
             } else if (actionStep.m_asActionName.equalsIgnoreCase("BACK")) {
@@ -365,7 +325,6 @@ public class SleepAccessibilityService extends AccessibilityService {
 
     public boolean onUnbind(Intent intent) {
         PhoneType.writeServiceFlag(TYPE_SERVICE_UNBIND);
-        PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "onUnbind");
         setServiceRunningFlag(false);
 
         AccessUtil.setStatusForWidget(this, false);
@@ -380,8 +339,6 @@ public class SleepAccessibilityService extends AccessibilityService {
     }
 
     public synchronized static boolean getServiceRunningFlag() {
-        PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "getServiceRunningFlag"
-                + String.valueOf(m_bServiceRunning));
         if (m_bServiceRunning == false) {
             try {
                 if ((MyApp.getApp().getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_STOPPED) == ApplicationInfo.FLAG_STOPPED) {
@@ -399,8 +356,6 @@ public class SleepAccessibilityService extends AccessibilityService {
     }
 
     public synchronized static void setServiceRunningFlag(boolean flag) {
-        PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "setServiceRunningFlag"
-                + String.valueOf(flag));
         m_bServiceRunning = flag;
     }
 
@@ -419,9 +374,6 @@ public class SleepAccessibilityService extends AccessibilityService {
                         curActionStep.m_asElementType, 0) == null) {
                     PhoneType.setFindingFlag(false);
                     return false;
-                } else {
-                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "HTC FIND"
-                            + curActionStep.m_asElementType);
                 }
             } else {
                 return false;
@@ -431,9 +383,6 @@ public class SleepAccessibilityService extends AccessibilityService {
             if (forNode(event.getSource(), curActionStep.m_asElementText) == null) {
                 PhoneType.setFindingFlag(false);
                 return false;
-            } else {
-                PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "HTC FIND"
-                        + curActionStep.m_asElementType);
             }
         }
         return true;
@@ -487,21 +436,14 @@ public class SleepAccessibilityService extends AccessibilityService {
 
             boolean bCurChecked = nodeInfo.isChecked();
             if (bCheck == true) {
-                if (bCurChecked == true) {
-                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "ischecked");
-                } else {
-                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "is not checked");
+                if (!bCurChecked) {
                     nodeInfo.getParent().performAction(
                             AccessibilityNodeInfo.ACTION_CLICK);
-
                 }
             } else {
                 if (bCurChecked == true) {
-                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "ischecked");
                     nodeInfo.getParent().performAction(
                             AccessibilityNodeInfo.ACTION_CLICK);
-                } else {
-                    PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "is not checked");
                 }
             }
             nodeInfo.recycle();
