@@ -53,9 +53,6 @@ public class PhoneType extends Thread{
 	private static boolean m_bThreadFlag = false;
 	// private static Context m_context = null;
 	private static PhoneType m_phoneType = null;
-	public static final int TYPE_FORCESTOP = 1;
-	public static final int TYPE_NOTIFICLICK = 2;
-	public static final int TYPE_NOTIFIGET = 3;
 	public String m_errMsg = null;
 
 	// use in all class
@@ -212,7 +209,7 @@ public class PhoneType extends Thread{
 
 	public boolean forceStop(final IBinder aMessenger,
 			final ArrayList<String> appInfoList) {
-		m_iCurType = TYPE_FORCESTOP;
+		m_iCurType = PARSETYPE_FORCE_STOP;
 		m_iCurStep = 0;
 		
 		if (aMessenger == null) {
@@ -392,14 +389,14 @@ public class PhoneType extends Thread{
 //		return bRet;
 //	}
 
-	public boolean notifiGet(String strPkgName, boolean bStop) {
-		m_iCurType = TYPE_NOTIFIGET;
-		m_iCurStep = 0;
-		if (executeGetActionList(m_asNotifiGetList, strPkgName)) {
-			return true;
-		}
-		return false;
-	}
+//	public boolean notifiGet(String strPkgName, boolean bStop) {
+//		m_iCurType = TYPE_NOTIFIGET;
+//		m_iCurStep = 0;
+//		if (executeGetActionList(m_asNotifiGetList, strPkgName)) {
+//			return true;
+//		}
+//		return false;
+//	}
 
 	public boolean clearCatch(String strPkgName) {
 		return false;
@@ -433,19 +430,19 @@ public class PhoneType extends Thread{
 	public ActionStep getNextStep() {
 		ActionStep actionStep = null;
 		switch (m_iCurType) {
-		case TYPE_FORCESTOP:
+		case PARSETYPE_FORCE_STOP:
 			if (addCurStep() >= m_asForceStopList.size()) {
 				break;
 			}
 			actionStep = m_asForceStopList.get(getCurStep());
 			break;
-		case TYPE_NOTIFIGET:
+		case PARSETYPE_NOTIFY_GET:
 			if (addCurStep() >= m_asNotifiGetList.size()) {
 				break;
 			}
 			actionStep = m_asNotifiGetList.get(getCurStep());
 			break;
-		case TYPE_NOTIFICLICK:
+		case PARSETYPE_NOTIFY_CLK:
 			if (addCurStep() >= m_asNotifiClickList.size()) {
 				break;
 			}
@@ -458,19 +455,19 @@ public class PhoneType extends Thread{
 	public ActionStep getCurrentStep() {
 		ActionStep actionStep = null;
 		switch (m_iCurType) {
-		case TYPE_FORCESTOP:
+		case PARSETYPE_FORCE_STOP:
 			if (getCurStep() >= m_asForceStopList.size()) {
 				break;
 			}
 			actionStep = m_asForceStopList.get(getCurStep());
 			break;
-		case TYPE_NOTIFIGET:
+		case PARSETYPE_NOTIFY_GET:
 			if (getCurStep() >= m_asNotifiGetList.size()) {
 				break;
 			}
 			actionStep = m_asNotifiGetList.get(getCurStep());
 			break;
-		case TYPE_NOTIFICLICK:
+		case PARSETYPE_NOTIFY_CLK:
 			if (getCurStep() >= m_asNotifiClickList.size()) {
 				break;
 			}
