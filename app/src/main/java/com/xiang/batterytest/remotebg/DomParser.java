@@ -74,8 +74,7 @@ public class DomParser {
 										.equalsIgnoreCase(PhoneType.getInstance().m_release)
 								&& android.os.Build.VERSION.SDK
 										.equalsIgnoreCase(PhoneType.getInstance().m_sdk)
-								&& PhoneType.UAB_SDK_VERSION
-										.equalsIgnoreCase(PhoneType.getInstance().m_uabsdkver)) {
+								&& PhoneType.getInstance().UAB_SDK_VERSION.equalsIgnoreCase(PhoneType.getInstance().m_uabsdkver)) {
 							find = true;
 						} else if (PhoneType.getInstance().m_manufacturer.equalsIgnoreCase("ALL")) {
 							find = true;

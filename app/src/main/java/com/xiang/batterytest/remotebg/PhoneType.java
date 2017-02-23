@@ -24,10 +24,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhoneType extends Thread{
+public class PhoneType {
 
 	// used AccessibilityConfig.xml version
-	public static final String UAB_SDK_VERSION = "2.0";
+	public final String UAB_SDK_VERSION = "2.0";
 	// phone base info
 	public String m_manufacturer;
 	public String m_mode;
@@ -49,7 +49,7 @@ public class PhoneType extends Thread{
 
 	private int m_iCurType = 0;
 	private int m_iCurStep = 0;
-	private static boolean m_bThreadFlag = false;
+	private boolean m_bThreadFlag = false;
 	private static PhoneType m_phoneType = null;
 
 	// use in sleepaccessibility
@@ -61,22 +61,22 @@ public class PhoneType extends Thread{
 			"com.android.systemui" };
 	public String m_allElementName = null;
 
-	public static final int MESSAGE_STATE_CONTEXT = 2;
-	public static final int MESSAGE_STATE = 1;
+	public final static int MESSAGE_STATE_CONTEXT = 2;
+//	public final int MESSAGE_STATE = 1;
 	// use in NotiResultActivity
 	public boolean m_bInterruptFlag = false;
 
 	//parse type
-	public static final int PARSETYPE_FORCE_STOP = 0x00000001;
-	public static final int PARSETYPE_NOTIFY_CLK = 0x00000010;
-	public static final int PARSETYPE_NOTIFY_GET = 0x00000100;
-	public static final int PARSETYPE_CLEAR_CACH = 0x00001000;
+	public final static int PARSETYPE_FORCE_STOP = 0x00000001;
+	public final static int PARSETYPE_NOTIFY_CLK = 0x00000010;
+	public final static int PARSETYPE_NOTIFY_GET = 0x00000100;
+	public final static int PARSETYPE_CLEAR_CACH = 0x00001000;
 
 	private HandlerThread mWorkerThread;
 	private Handler mWorkerHandler;
 	private Messenger mMessenger;
 	private ArrayList<String> mAppList;
-	
+
 	public static PhoneType getInstance() {
 		if (m_phoneType == null) {
 			synchronized (PhoneType.class){
@@ -139,7 +139,7 @@ public class PhoneType extends Thread{
 
 	private void doForceStopThread(){
 		int iErrorCount = 0;
-		PhoneType.setThreadFlag(true);
+		m_bThreadFlag = true;
 		PhoneType.setStreamMute(true);
 		Messenger messenger = mMessenger;
 		ArrayList<String> appInfoList = mAppList;
@@ -188,7 +188,7 @@ public class PhoneType extends Thread{
 		sendMessageToCaller(messenger,
 				AccessUtil.TYPE_PACKAGE_FORCE_ALL_END,
 				"PACKAGE ALL END");
-		PhoneType.setThreadFlag(false);
+		m_bThreadFlag = false;
 		PhoneType.setStreamMute(false);
 	}
 
@@ -248,17 +248,11 @@ public class PhoneType extends Thread{
 //				}
 //			}.start();
 //		}
-		mWorkerHandler.removeMessages(0);
-		mWorkerHandler.sendEmptyMessage(0);
+		if(!m_bThreadFlag){
+			mWorkerHandler.removeMessages(0);
+			mWorkerHandler.sendEmptyMessage(0);
+		}
 		return bRet;
-	}
-
-	public synchronized static boolean getThreadFlag() {
-		return m_bThreadFlag;
-	}
-
-	public synchronized static void setThreadFlag(boolean flag) {
-		m_bThreadFlag = flag;
 	}
 
 //	public boolean notifiChange(final IBinder aBinder,
@@ -382,55 +376,26 @@ public class PhoneType extends Thread{
 //		return false;
 //	}
 
-	public boolean clearCatch(String strPkgName) {
-		return false;
-	}
-
-	public boolean floatWindow(String strPkgName, boolean bStop) {
-		return false;
-	}
-
-	public boolean rateFlow(String strPkgName, boolean bStop) {
-		return false;
-	}
-
-	private boolean executeGetActionList(List<ActionStep> asList,
-			String strPkgName) {
-		return false;
-	}
-
-	private synchronized int addCurStep() {
-		// PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "add m_iCurStep: " +
-		// Integer.toString(m_iCurStep));
-		return ++m_iCurStep;
-	}
-
-	private synchronized int getCurStep() {
-		// PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "get m_iCurStep: " +
-		// Integer.toString(m_iCurStep));
-		return m_iCurStep;
-	}
-
 	public ActionStep getNextStep() {
 		ActionStep actionStep = null;
 		switch (m_iCurType) {
 		case PARSETYPE_FORCE_STOP:
-			if (addCurStep() >= m_asForceStopList.size()) {
+			if ((++m_iCurStep) >= m_asForceStopList.size()) {
 				break;
 			}
-			actionStep = m_asForceStopList.get(getCurStep());
+			actionStep = m_asForceStopList.get(m_iCurStep);
 			break;
 		case PARSETYPE_NOTIFY_GET:
-			if (addCurStep() >= m_asNotifiGetList.size()) {
+			if ((++m_iCurStep) >= m_asNotifiGetList.size()) {
 				break;
 			}
-			actionStep = m_asNotifiGetList.get(getCurStep());
+			actionStep = m_asNotifiGetList.get(m_iCurStep);
 			break;
 		case PARSETYPE_NOTIFY_CLK:
-			if (addCurStep() >= m_asNotifiClickList.size()) {
+			if ((++m_iCurStep) >= m_asNotifiClickList.size()) {
 				break;
 			}
-			actionStep = m_asNotifiClickList.get(getCurStep());
+			actionStep = m_asNotifiClickList.get(m_iCurStep);
 			break;
 		}
 		return actionStep;
@@ -440,22 +405,22 @@ public class PhoneType extends Thread{
 		ActionStep actionStep = null;
 		switch (m_iCurType) {
 		case PARSETYPE_FORCE_STOP:
-			if (getCurStep() >= m_asForceStopList.size()) {
+			if (m_iCurStep >= m_asForceStopList.size()) {
 				break;
 			}
-			actionStep = m_asForceStopList.get(getCurStep());
+			actionStep = m_asForceStopList.get(m_iCurStep);
 			break;
 		case PARSETYPE_NOTIFY_GET:
-			if (getCurStep() >= m_asNotifiGetList.size()) {
+			if (m_iCurStep >= m_asNotifiGetList.size()) {
 				break;
 			}
-			actionStep = m_asNotifiGetList.get(getCurStep());
+			actionStep = m_asNotifiGetList.get(m_iCurStep);
 			break;
 		case PARSETYPE_NOTIFY_CLK:
-			if (getCurStep() >= m_asNotifiClickList.size()) {
+			if (m_iCurStep >= m_asNotifiClickList.size()) {
 				break;
 			}
-			actionStep = m_asNotifiClickList.get(getCurStep());
+			actionStep = m_asNotifiClickList.get(m_iCurStep);
 			break;
 		}
 		return actionStep;
@@ -476,7 +441,7 @@ public class PhoneType extends Thread{
 		int iCount = m_pkgwaitsecond * 1000 / m_slicemillisecond;
 		boolean bRet = true;
 		boolean bNext = true;
-		int iOldStep = getCurStep();
+		int iOldStep = m_iCurStep;
 
 		while (iCount > 0 && bRet) {
 			if (getInterruptFlag()) {
@@ -494,7 +459,7 @@ public class PhoneType extends Thread{
 						break;
 					}
 					if (actionStep == null) {
-						if (getCurStep() >= stepCount) {
+						if (m_iCurStep >= stepCount) {
 							bRet = true;
 							break;
 						} else {
@@ -521,13 +486,13 @@ public class PhoneType extends Thread{
 					}
 					waitMilliseconds(10);
 				}
-				if (iOldStep == getCurStep()) {
+				if (iOldStep == m_iCurStep) {
 					bNext = false;
 				} else {
-					iOldStep = getCurStep();
+					iOldStep = m_iCurStep;
 					bNext = true;
 				}
-				if (getWrokingFlag() == false) {
+				if (m_bWorkingFlag == false) {
 					bRet = false;
 					break;
 				}
@@ -541,8 +506,6 @@ public class PhoneType extends Thread{
 
 		if (iCount <= 0) {
 			bRet = false;
-			// PhoneType.logInfo(PhoneType.TYPE_LOGINFO, "TimeOut " +
-			// Integer.toString(getCurStep()));
 			ActionStep actionStep = new ActionStep();
 			actionStep.m_asActionName = "BACK";
 			doAction(m_context, actionStep, strPkgName, bStop);
@@ -577,34 +540,20 @@ public class PhoneType extends Thread{
 		return bRet;
 	}
 
-	public static boolean setAccessibilityStart(Context context) {
-		if (context == null) {
-			return false;
-		}
-		Intent v1_1 = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-		v1_1.setFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(v1_1);
-		return true;
-	}
-
-	public static void waitMilliseconds(int count) {
+	public void waitMilliseconds(int count) {
 		try {
-			sleep(count);
+			Thread.sleep(count);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void onNotiChange(Messenger messenger) {
-
+	public synchronized boolean getWrokingFlag() {
+		return m_bWorkingFlag;
 	}
 
-	public synchronized static boolean getWrokingFlag() {
-		return getInstance().m_bWorkingFlag;
-	}
-
-	public synchronized static void setWrokingFlag(boolean flag) {
-		getInstance().m_bWorkingFlag = flag;
+	public synchronized void setWrokingFlag(boolean flag) {
+		m_bWorkingFlag = flag;
 	}
 
 	public synchronized static boolean getCheckFlag() {

@@ -43,14 +43,13 @@ public class SleepAccessibilityService extends AccessibilityService {
             }
         }
 
-        if (PhoneType.getWrokingFlag() == false) {
+        if (PhoneType.getInstance().getWrokingFlag() == false) {
             return;
         }
 
         try {
 
-            PhoneType
-                    .waitMilliseconds(PhoneType.getInstance().m_actionwaitmillisecond);
+            PhoneType.getInstance().waitMilliseconds(PhoneType.getInstance().m_actionwaitmillisecond);
             ActionStep curActionStep = PhoneType.getInstance().getCurrentStep();
             if (curActionStep == null) {
                 return;
@@ -80,12 +79,12 @@ public class SleepAccessibilityService extends AccessibilityService {
                     // "getNextStep NULL");
                 }
             } else {
-                PhoneType.setWrokingFlag(false);
+                PhoneType.getInstance().setWrokingFlag(false);
             }
             PhoneType.setFindingFlag(false);
         } catch (Exception e) {
             e.printStackTrace();
-            PhoneType.setWrokingFlag(false);
+            PhoneType.getInstance().setWrokingFlag(false);
         }
 
     }
