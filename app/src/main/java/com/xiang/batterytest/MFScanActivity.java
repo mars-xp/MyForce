@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.xiang.batterytest.battery.AccessibiltyManager;
 import com.xiang.batterytest.battery.MFBlankActivity;
 import com.xiang.batterytest.util.AccessUtil;
 import com.xiang.batterytest.util.SystemUtil;
@@ -51,7 +53,12 @@ public class MFScanActivity extends AppCompatActivity {
         mForceStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doClean();
+                if(AccessibiltyManager.getInstance().isServiceEnable()){
+                    doClean();
+                }
+                else{
+                    Toast.makeText(MyApp.getApp().getApplicationContext(), "open accessibility service first", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         mHasView = (Button)findViewById(R.id.id_btn_hasview);

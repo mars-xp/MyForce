@@ -146,7 +146,7 @@ public class PhoneType {
 		Messenger messenger = mMessenger;
 		ArrayList<String> appInfoList = mAppList;
 		for (int i = 0; i < appInfoList.size(); i++) {
-			if (getInterruptFlag()) {
+			if (m_bInterruptFlag) {
 				sendMessageToCaller(
 						messenger,
 						AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT,
@@ -171,7 +171,7 @@ public class PhoneType {
 							strPkgName);
 				}
 				waitMilliseconds(m_intervalmillisecond);
-				if (getInterruptFlag()) {
+				if (m_bInterruptFlag) {
 					sendMessageToCaller(
 							messenger,
 							AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
@@ -453,7 +453,7 @@ public class PhoneType {
 		int iOldStep = m_iCurStep;
 
 		while (iCount > 0 && bRet) {
-			if (getInterruptFlag()) {
+			if (m_bInterruptFlag) {
 				sendMessageToCaller(messenger,
 						AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
 						"INTERRUT");
@@ -486,7 +486,7 @@ public class PhoneType {
 				}
 				waitMilliseconds(m_slicemillisecond);
 				while (getFindingFlag()) {
-					if (getInterruptFlag()) {
+					if (m_bInterruptFlag) {
 						break;
 					}
 					waitMilliseconds(10);
@@ -585,12 +585,8 @@ public class PhoneType {
 		getInstance().m_curPkgName = pkgName;
 	}
 
-	public synchronized void setInterruptFlag(boolean flag) {
+	public void setInterruptFlag(boolean flag) {
 		m_bInterruptFlag = flag;
-	}
-
-	public synchronized static boolean getInterruptFlag() {
-		return getInstance().m_bInterruptFlag;
 	}
 
 	private void sendMessageToCaller(Messenger messenger, int iType,

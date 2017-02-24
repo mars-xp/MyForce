@@ -79,9 +79,7 @@ public class MFDisposeServices extends Service {
 
                                 if (!"com.android.settings".equals(p)
                                         && !"com.htc.usage".equals(p)) {
-                                    if (!	 AccessibiltyManager.getInstance().getInterruptFlag()) {
-                                        AccessibiltyManager.getInstance().setInterruptFlag(true);
-                                    }
+                                    AccessibiltyManager.getInstance().setInterruptFlag(true);
                                     needMonitor = false;
                                 }
                                 try {
@@ -253,9 +251,7 @@ public class MFDisposeServices extends Service {
 
                 @Override
                 public void onClick(View v) {
-                    if (! AccessibiltyManager.getInstance().getInterruptFlag()) {
-                        AccessibiltyManager.getInstance().setInterruptFlag(true);
-                    }
+                    AccessibiltyManager.getInstance().setInterruptFlag(true);
                 }
             });
         }

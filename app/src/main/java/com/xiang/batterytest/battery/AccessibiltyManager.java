@@ -43,18 +43,6 @@ public class AccessibiltyManager {
         return true;
     }
 
-    public boolean getInterruptFlag()  {
-        boolean vRet = false;
-        try{
-            vRet = mIAccessibilityServiceInterface.getInterruptFlag();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            vRet = false;
-        }
-        return vRet;
-    }
-
     public void startForceStop(IBinder messenger, List<String> pnames){
         try{
             mIAccessibilityServiceInterface.startForceStop(messenger, pnames);
@@ -62,6 +50,18 @@ public class AccessibiltyManager {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public boolean isServiceEnable(){
+        boolean vRet = false;
+        try{
+            vRet = mIAccessibilityServiceInterface.isServiceEnable();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            vRet = false;
+        }
+        return vRet;
     }
 
 //    public boolean startNotiManage(IBinder messenger, List<String> pnames,

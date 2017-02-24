@@ -27,7 +27,7 @@ public class AccessibilityBinder extends IAccessibilityServiceInterface.Stub {
 	}
 
 	@Override
-	public boolean getInterruptFlag() throws RemoteException {
-		return PhoneType.getInterruptFlag();
+	public boolean isServiceEnable() throws RemoteException {
+		return SleepAccessibilityService.mIsServiceRunning;
 	}
 }
