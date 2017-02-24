@@ -10,15 +10,10 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
-import android.provider.Settings;
-
 
 import com.xiang.batterytest.MyApp;
 import com.xiang.batterytest.util.AccessUtil;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -477,13 +472,12 @@ public class PhoneType {
 					}
 				}
 				synchronized (mFindLock){
-					mFindLock.wait(m_slicemillisecond);
+					mFindLock.wait(m_slicemillisecond * 2);
 				}
-				while (m_bFinding) {
-					if (m_bInterruptFlag) {
-						break;
+				while(m_bFinding){
+					synchronized (mFindLock){
+						mFindLock.wait(m_slicemillisecond);
 					}
-					waitMilliseconds(10);
 				}
 				if (iOldStep == m_iCurStep) {
 					bNext = false;
@@ -559,7 +553,7 @@ public class PhoneType {
 
 	public void setFindingFlag(boolean flag) {
 		m_bFinding = flag;
-		if(m_bFinding){
+		if(!m_bFinding){
 			synchronized (mFindLock){
 				mFindLock.notifyAll();
 			}

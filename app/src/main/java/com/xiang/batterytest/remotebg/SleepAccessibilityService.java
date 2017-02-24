@@ -23,68 +23,56 @@ public class SleepAccessibilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-
-        if (event.getSource() == null) {
-            return;
-        } else {
-
-        }
-
-        if (PhoneType.getInstance().m_messagetype == PhoneType.MESSAGE_STATE_CONTEXT) {
-            if (event.getEventType() != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
-                    && event.getEventType() != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
-                return;
-            }
-        } else {
-            if (event.getEventType() != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-                return;
-            }
-        }
-
-        if (PhoneType.getInstance().getWrokingFlag() == false) {
-            return;
-        }
-
-        try {
-
-            PhoneType.getInstance().waitMilliseconds(PhoneType.getInstance().m_actionwaitmillisecond);
-            ActionStep curActionStep = PhoneType.getInstance().getCurrentStep();
-            if (curActionStep == null) {
-                return;
-            }
-            if (curActionStep.m_asActionName.equalsIgnoreCase("START")) {
-                curActionStep = PhoneType.getInstance().getNextStep();
-            }
-            if (curActionStep == null) {
-                return;
-            }
-
-            if (PhoneType.getInstance().m_messagetype == PhoneType.MESSAGE_STATE_CONTEXT) {
-                if (doForHTC(event, curActionStep) == false) {
-                    return;
-                }
-            }
-
-            PhoneType.getInstance().setFindingFlag(true);
-            if (doAction(event, curActionStep, PhoneType.getCheckFlag()) == true) {
-                curActionStep = PhoneType.getInstance().getNextStep();
-                if (curActionStep != null) {
-                    if (curActionStep.m_asActionName.equalsIgnoreCase("BACK")) {
-                        PhoneType.getInstance().getNextStep();
+        if(PhoneType.getInstance().getWrokingFlag()){
+            if(event != null && event.getSource() != null){
+                if (PhoneType.getInstance().m_messagetype == PhoneType.MESSAGE_STATE_CONTEXT) {
+                    if (event.getEventType() != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+                            && event.getEventType() != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
+                        return;
                     }
                 } else {
-                    // PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                    // "getNextStep NULL");
+                    if (event.getEventType() != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+                        return;
+                    }
                 }
-            } else {
-                PhoneType.getInstance().setWrokingFlag(false);
+                try {
+                    //PhoneType.getInstance().waitMilliseconds(PhoneType.getInstance().m_actionwaitmillisecond);
+                    ActionStep curActionStep = PhoneType.getInstance().getCurrentStep();
+                    if (curActionStep == null) {
+                        return;
+                    }
+                    if (curActionStep.m_asActionName.equalsIgnoreCase("START")) {
+                        curActionStep = PhoneType.getInstance().getNextStep();
+                    }
+                    if (curActionStep == null) {
+                        return;
+                    }
+                    if (PhoneType.getInstance().m_messagetype == PhoneType.MESSAGE_STATE_CONTEXT) {
+                        if (doForHTC(event, curActionStep) == false) {
+                            return;
+                        }
+                    }
+                    PhoneType.getInstance().setFindingFlag(true);
+                    if (doAction(event, curActionStep, PhoneType.getCheckFlag()) == true) {
+                        curActionStep = PhoneType.getInstance().getNextStep();
+                        if (curActionStep != null) {
+                            if (curActionStep.m_asActionName.equalsIgnoreCase("BACK")) {
+                                PhoneType.getInstance().getNextStep();
+                            }
+                        } else {
+                            // PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
+                            // "getNextStep NULL");
+                        }
+                    } else {
+                        PhoneType.getInstance().setWrokingFlag(false);
+                    }
+                    PhoneType.getInstance().setFindingFlag(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    PhoneType.getInstance().setWrokingFlag(false);
+                }
             }
-            PhoneType.getInstance().setFindingFlag(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-            PhoneType.getInstance().setWrokingFlag(false);
         }
-
     }
 
     @Override
@@ -166,25 +154,20 @@ public class SleepAccessibilityService extends AccessibilityService {
     public boolean doAction(AccessibilityEvent accEvent, ActionStep actionStep,
                             boolean bCheck) {
         boolean bRet = false;
-        if (accEvent == null || actionStep == null) {
-            return bRet;
-        }
-        if (accEvent.getSource() == null) {
-            return bRet;
-        }
         try {
-            if (actionStep.m_asActionName.equalsIgnoreCase("GET")) {
-                if (actionStep.m_asElementType
-                        .equalsIgnoreCase("android.widget.CheckBox")) {
-                    AccessibilityNodeInfo nodeInfo = findElement(accEvent,
-                            actionStep.m_asElementType,
-                            actionStep.m_asElementText);
-                    if (nodeInfo != null && nodeInfo.isClickable()
-                            && nodeInfo.isEnabled() && nodeInfo.isCheckable()
-                            && nodeInfo.isFocusable()) {
-                    }
-                }
-            } else if (actionStep.m_asActionName.equalsIgnoreCase("CLICK")) {
+//            if (actionStep.m_asActionName.equalsIgnoreCase("GET")) {
+//                if (actionStep.m_asElementType
+//                        .equalsIgnoreCase("android.widget.CheckBox")) {
+//                    AccessibilityNodeInfo nodeInfo = findElement(accEvent,
+//                            actionStep.m_asElementType,
+//                            actionStep.m_asElementText);
+//                    if (nodeInfo != null && nodeInfo.isClickable()
+//                            && nodeInfo.isEnabled() && nodeInfo.isCheckable()
+//                            && nodeInfo.isFocusable()) {
+//                    }
+//                }
+//            } else
+            if (actionStep.m_asActionName.equalsIgnoreCase("CLICK")) {
                 AccessibilityNodeInfo nodeInfo = findElement(accEvent,
                         actionStep.m_asElementType, actionStep.m_asElementText);
                 if (android.os.Build.MANUFACTURER.equalsIgnoreCase("HTC")
@@ -306,18 +289,10 @@ public class SleepAccessibilityService extends AccessibilityService {
     }
 
     private boolean doForHTC(AccessibilityEvent event, ActionStep curActionStep) {
-        if (event == null || curActionStep == null) {
-            return false;
-        }
-        if (event.getSource() == null) {
-            return false;
-        }
-        if (curActionStep.m_asElementType
-                .equalsIgnoreCase("android.widget.CheckBox")) {
+        if (curActionStep.m_asElementType.equalsIgnoreCase("android.widget.CheckBox")) {
             if (event.getSource().getChildCount() > 0) {
                 PhoneType.getInstance().setFindingFlag(true);
-                if (forNodeHtc(event.getSource(),
-                        curActionStep.m_asElementType, 0) == null) {
+                if (forNodeHtc(event.getSource(), curActionStep.m_asElementType, 0) == null) {
                     PhoneType.getInstance().setFindingFlag(false);
                     return false;
                 }
@@ -334,17 +309,13 @@ public class SleepAccessibilityService extends AccessibilityService {
         return true;
     }
 
-    private AccessibilityNodeInfo forNodeHtc(AccessibilityNodeInfo node,
-                                             String strElementType, int iLevel) {
+    private AccessibilityNodeInfo forNodeHtc(AccessibilityNodeInfo node, String strElementType, int iLevel) {
         if (node == null || strElementType == null)
             return null;
-
         if (node.getClassName().toString().equalsIgnoreCase(strElementType)) {
             return node;
         }
-
         int n = node.getChildCount();
-
         for (int i = 0; i < n; i++) {
             AccessibilityNodeInfo an = node.getChild(i);
             if (an != null) {
@@ -356,7 +327,6 @@ public class SleepAccessibilityService extends AccessibilityService {
                 an.recycle();
             }
         }
-
         return null;
     }
 
