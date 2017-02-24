@@ -65,7 +65,7 @@ public class SleepAccessibilityService extends AccessibilityService {
                 }
             }
 
-            PhoneType.setFindingFlag(true);
+            PhoneType.getInstance().setFindingFlag(true);
             if (doAction(event, curActionStep, PhoneType.getCheckFlag()) == true) {
                 curActionStep = PhoneType.getInstance().getNextStep();
                 if (curActionStep != null) {
@@ -79,7 +79,7 @@ public class SleepAccessibilityService extends AccessibilityService {
             } else {
                 PhoneType.getInstance().setWrokingFlag(false);
             }
-            PhoneType.setFindingFlag(false);
+            PhoneType.getInstance().setFindingFlag(false);
         } catch (Exception e) {
             e.printStackTrace();
             PhoneType.getInstance().setWrokingFlag(false);
@@ -315,19 +315,19 @@ public class SleepAccessibilityService extends AccessibilityService {
         if (curActionStep.m_asElementType
                 .equalsIgnoreCase("android.widget.CheckBox")) {
             if (event.getSource().getChildCount() > 0) {
-                PhoneType.setFindingFlag(true);
+                PhoneType.getInstance().setFindingFlag(true);
                 if (forNodeHtc(event.getSource(),
                         curActionStep.m_asElementType, 0) == null) {
-                    PhoneType.setFindingFlag(false);
+                    PhoneType.getInstance().setFindingFlag(false);
                     return false;
                 }
             } else {
                 return false;
             }
         } else {
-            PhoneType.setFindingFlag(true);
+            PhoneType.getInstance().setFindingFlag(true);
             if (forNode(event.getSource(), curActionStep.m_asElementText) == null) {
-                PhoneType.setFindingFlag(false);
+                PhoneType.getInstance().setFindingFlag(false);
                 return false;
             }
         }

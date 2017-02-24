@@ -49,13 +49,12 @@ public class PhoneType {
 
 	private int m_iCurType = 0;
 	private int m_iCurStep = 0;
-	private boolean m_bThreadFlag = false;
+	private boolean m_bThreadFlag = false; //用于标记点击的线程是否开始
 	private static PhoneType m_phoneType = null;
 
 	// use in sleepaccessibility
 	public boolean m_bWorkingFlag = false;
 	public boolean m_bCheckFlag = false;
-	public String m_curPkgName = null;
 	public boolean m_bFinding = false;
 	public String[] m_packageNames = { "com.android.settings",
 			"com.android.systemui" };
@@ -77,6 +76,7 @@ public class PhoneType {
 	private Messenger mMessenger;
 	private ArrayList<String> mAppList;
 	private AudioManager mAudioManager;
+	private Object mFindLock;
 
 	public static PhoneType getInstance() {
 		if (m_phoneType == null) {
@@ -104,6 +104,7 @@ public class PhoneType {
 	}
 
 	private PhoneType() {
+		mFindLock = new Object();
 		mAudioManager = (AudioManager) MyApp.getApp().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 		mWorkerThread = new HandlerThread("accessibility_thread");
 		mWorkerThread.start();
@@ -147,19 +148,12 @@ public class PhoneType {
 		ArrayList<String> appInfoList = mAppList;
 		for (int i = 0; i < appInfoList.size(); i++) {
 			if (m_bInterruptFlag) {
-				sendMessageToCaller(
-						messenger,
-						AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT,
-						"INTERRUT");
+				sendMessageToCaller(messenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT, "INTERRUT");
 				break;
 			} else {
 				String strPkgName = appInfoList.get(i);
-				sendMessageToCaller(messenger,
-						AccessUtil.TYPE_PACKAGE_FORCE_START,
-						strPkgName);
-				if (executeClickActionList(MyApp.getApp()
-								.getApplicationContext(), strPkgName,
-						m_asForceStopList.size(), true, messenger) == true) {
+				sendMessageToCaller(messenger, AccessUtil.TYPE_PACKAGE_FORCE_START, strPkgName);
+				if (exeClickAction(strPkgName, m_asForceStopList.size(), true, messenger) == true) {
 					sendMessageToCaller(messenger,
 							AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS,
 							strPkgName);
@@ -205,10 +199,13 @@ public class PhoneType {
 				mAppList = new ArrayList<>(aAppInfoList.size());
 			}
 			for(int i = 0; i < aAppInfoList.size(); i++){
-				mAppList.add(aAppInfoList.get(i));
+				String vTmp = aAppInfoList.get(i);
+				if(vTmp != null && vTmp.length() > 0){
+					mAppList.add(aAppInfoList.get(i));
+				}
 			}
 			m_bInterruptFlag = false;
-			if(!m_bThreadFlag){
+			if(!m_bThreadFlag && mAppList.size() > 0){
 				mWorkerHandler.removeMessages(0);
 				mWorkerHandler.sendEmptyMessage(0);
 			}
@@ -441,11 +438,7 @@ public class PhoneType {
 		return actionStep;
 	}
 
-	private boolean executeClickActionList(Context m_context,
-										   String strPkgName, int stepCount, boolean bStop, Messenger messenger) {
-		if (strPkgName == null) {
-			return false;
-		}
+	private boolean exeClickAction(String strPkgName, int stepCount, boolean bStop, Messenger messenger) {
 		m_iCurStep = 0;
 		int iCount = m_pkgwaitsecond * 1000 / m_slicemillisecond;
 		boolean bRet = true;
@@ -454,16 +447,26 @@ public class PhoneType {
 
 		while (iCount > 0 && bRet) {
 			if (m_bInterruptFlag) {
-				sendMessageToCaller(messenger,
-						AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
-						"INTERRUT");
+				sendMessageToCaller(messenger, AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT, "INTERRUT");
 				break;
 			}
 			try {
-				if (bNext == true) {
+				if (bNext) {
 					bNext = false;
-					ActionStep actionStep = getCurrentStep();
-					if (actionStep == null) {
+					ActionStep actionStep = null;
+					if(m_iCurStep < m_asForceStopList.size()){
+						actionStep = m_asForceStopList.get(m_iCurStep);
+					}
+					if(actionStep != null){
+						if (actionStep.m_asActionName.equalsIgnoreCase("START")) {
+							bRet = doAction(actionStep, strPkgName,	bStop);
+						} else if (actionStep.m_asActionName.equalsIgnoreCase("BACK")) {
+							bRet = doAction(actionStep, strPkgName, bStop);
+							bRet = true;
+							break;
+						}
+					}
+					else{
 						if (m_iCurStep >= stepCount) {
 							bRet = true;
 							break;
@@ -471,21 +474,12 @@ public class PhoneType {
 							bRet = false;
 							break;
 						}
-					} else {
-						if (actionStep.m_asActionName.equalsIgnoreCase("START")) {
-							bRet = doAction(m_context, actionStep, strPkgName,
-									bStop);
-						} else if (actionStep.m_asActionName
-								.equalsIgnoreCase("BACK")) {
-							bRet = doAction(m_context, actionStep, strPkgName,
-									bStop);
-							bRet = true;
-							break;
-						}
 					}
 				}
-				waitMilliseconds(m_slicemillisecond);
-				while (getFindingFlag()) {
+				synchronized (mFindLock){
+					mFindLock.wait(m_slicemillisecond);
+				}
+				while (m_bFinding) {
 					if (m_bInterruptFlag) {
 						break;
 					}
@@ -513,34 +507,28 @@ public class PhoneType {
 			bRet = false;
 			ActionStep actionStep = new ActionStep();
 			actionStep.m_asActionName = "BACK";
-			doAction(m_context, actionStep, strPkgName, bStop);
+			doAction(actionStep, strPkgName, bStop);
 		}
 		setWrokingFlag(false);
 		return bRet;
 	}
 
-	private boolean doAction(Context m_context, ActionStep actionStep,
-							 String strPkgName, boolean bCheck) {
+	private boolean doAction(ActionStep actionStep, String strPkgName, boolean bCheck) {
 		boolean bRet = false;
 		if (actionStep.m_asActionName.equalsIgnoreCase("START")) {
-			if (m_context != null) {
-				Uri packageURI = Uri.parse("package:" + strPkgName);
-				Intent intentx = new Intent(actionStep.m_asActivityName,
-						packageURI);
-				intentx.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
-						| Intent.FLAG_ACTIVITY_NEW_TASK
-						| Intent.FLAG_ACTIVITY_NO_HISTORY);
-				m_context.startActivity(intentx);
-				bRet = true;
-				setCheckFlag(bCheck);
-				setCurPkgName(strPkgName);
-				setWrokingFlag(true);
-			}
+			Uri packageURI = Uri.parse("package:" + strPkgName);
+			Intent intentx = new Intent(actionStep.m_asActivityName,
+					packageURI);
+			intentx.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
+					| Intent.FLAG_ACTIVITY_NEW_TASK
+					| Intent.FLAG_ACTIVITY_NO_HISTORY);
+			MyApp.getApp().getApplicationContext().startActivity(intentx);
+			bRet = true;
+			setCheckFlag(bCheck);
+			setWrokingFlag(true);
 		} else if (actionStep.m_asActionName.equalsIgnoreCase("BACK")) {
 			setWrokingFlag(false);
 			bRet = true;
-		} else {
-			bRet = false;
 		}
 		return bRet;
 	}
@@ -569,20 +557,13 @@ public class PhoneType {
 		getInstance().m_bCheckFlag = flag;
 	}
 
-	public synchronized static boolean getFindingFlag() {
-		return getInstance().m_bFinding;
-	}
-
-	public synchronized static void setFindingFlag(boolean flag) {
-		getInstance().m_bFinding = flag;
-	}
-
-	public synchronized static String getCurPkgName() {
-		return getInstance().m_curPkgName;
-	}
-
-	public synchronized static void setCurPkgName(String pkgName) {
-		getInstance().m_curPkgName = pkgName;
+	public void setFindingFlag(boolean flag) {
+		m_bFinding = flag;
+		if(m_bFinding){
+			synchronized (mFindLock){
+				mFindLock.notifyAll();
+			}
+		}
 	}
 
 	public void setInterruptFlag(boolean flag) {
@@ -591,10 +572,6 @@ public class PhoneType {
 
 	private void sendMessageToCaller(Messenger messenger, int iType,
 									 String strData) {
-		if (messenger == null) {
-			return;
-		}
-
 		try {
 			Message msg = Message.obtain();
 			msg.what = iType;
