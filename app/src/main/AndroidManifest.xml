@@ -26,9 +26,9 @@
         <service
             android:name=".remotebg.SleepAccessibilityService"
             android:enabled="true"
-            android:process=":service"
             android:label="BatteryTest"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:process=":service">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
@@ -36,14 +36,21 @@
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
-
         </service>
+
         <provider
             android:name="com.tools.ipc.ServiceProvider"
             android:authorities="${applicationId}.local_service"
             android:enabled="true"
             android:exported="false"
             android:process=":service" />
+
+        <service
+            android:name=".remotebg.ProcessService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":service"
+            ></service>
     </application>
 
 </manifest>

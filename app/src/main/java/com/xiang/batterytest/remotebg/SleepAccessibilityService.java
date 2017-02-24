@@ -14,6 +14,8 @@ import com.xiang.batterytest.util.AccessUtil;
 
 public class SleepAccessibilityService extends AccessibilityService {
 
+    public static boolean mIsServiceRunning = false;
+
     @Override
     public void onInterrupt() {
 
@@ -86,13 +88,8 @@ public class SleepAccessibilityService extends AccessibilityService {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        LocalServiceManager.getInstance().addService("accessibility_service", new AccessibilityBinder().asBinder());
-        return super.onStartCommand(intent, flags, startId);
-    }
-
-    @Override
     protected void onServiceConnected() {
+        mIsServiceRunning = true;
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
         info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
@@ -304,6 +301,7 @@ public class SleepAccessibilityService extends AccessibilityService {
 
 
     public boolean onUnbind(Intent intent) {
+        mIsServiceRunning = false;
         return super.onUnbind(intent);
     }
 
