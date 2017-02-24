@@ -49,6 +49,7 @@ public class SleepAccessibilityService extends AccessibilityService {
                     }
                     if (PhoneType.getInstance().m_messagetype == PhoneType.MESSAGE_STATE_CONTEXT) {
                         if (doForHTC(event, curActionStep) == false) {
+                            PhoneType.getInstance().setFindingFlag(false);
                             return;
                         }
                     }
@@ -63,13 +64,18 @@ public class SleepAccessibilityService extends AccessibilityService {
                             // PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
                             // "getNextStep NULL");
                         }
+                        if(PhoneType.getInstance().checkStepOver()){
+                            PhoneType.getInstance().setFindingFlag(false);
+                        }
                     } else {
                         PhoneType.getInstance().setWrokingFlag(false);
+                        PhoneType.getInstance().setFindingFlag(false);
                     }
-                    PhoneType.getInstance().setFindingFlag(false);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     PhoneType.getInstance().setWrokingFlag(false);
+                    PhoneType.getInstance().setFindingFlag(false);
                 }
             }
         }
@@ -293,16 +299,13 @@ public class SleepAccessibilityService extends AccessibilityService {
             if (event.getSource().getChildCount() > 0) {
                 PhoneType.getInstance().setFindingFlag(true);
                 if (forNodeHtc(event.getSource(), curActionStep.m_asElementType, 0) == null) {
-                    PhoneType.getInstance().setFindingFlag(false);
                     return false;
                 }
             } else {
                 return false;
             }
         } else {
-            PhoneType.getInstance().setFindingFlag(true);
             if (forNode(event.getSource(), curActionStep.m_asElementText) == null) {
-                PhoneType.getInstance().setFindingFlag(false);
                 return false;
             }
         }

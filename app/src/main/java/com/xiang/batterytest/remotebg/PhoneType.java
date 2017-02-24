@@ -44,7 +44,6 @@ public class PhoneType {
 
 	private int m_iCurType = 0;
 	private int m_iCurStep = 0;
-	private boolean m_bThreadFlag = false; //用于标记点击的线程是否开始
 	private static PhoneType m_phoneType = null;
 
 	// use in sleepaccessibility
@@ -137,7 +136,6 @@ public class PhoneType {
 
 	private void doForceStopThread(){
 		int iErrorCount = 0;
-		m_bThreadFlag = true;
 		setStreamMute(true);
 		Messenger messenger = mMessenger;
 		ArrayList<String> appInfoList = mAppList;
@@ -159,7 +157,7 @@ public class PhoneType {
 							AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG,
 							strPkgName);
 				}
-				waitMilliseconds(m_intervalmillisecond);
+//				waitMilliseconds(m_intervalmillisecond);
 				if (m_bInterruptFlag) {
 					sendMessageToCaller(
 							messenger,
@@ -178,7 +176,6 @@ public class PhoneType {
 		sendMessageToCaller(messenger,
 				AccessUtil.TYPE_PACKAGE_FORCE_ALL_END,
 				"PACKAGE ALL END");
-		m_bThreadFlag = false;
 		setStreamMute(false);
 	}
 
@@ -200,7 +197,7 @@ public class PhoneType {
 				}
 			}
 			m_bInterruptFlag = false;
-			if(!m_bThreadFlag && mAppList.size() > 0){
+			if(mAppList.size() > 0){
 				mWorkerHandler.removeMessages(0);
 				mWorkerHandler.sendEmptyMessage(0);
 			}
@@ -383,6 +380,16 @@ public class PhoneType {
 //		return false;
 //	}
 
+	public boolean checkStepOver(){
+		boolean vRet = false;
+		if(m_iCurType == PARSETYPE_FORCE_STOP){
+			if((m_iCurStep + 1) >= m_asForceStopList.size()){
+				vRet = true;
+			}
+		}
+		return vRet;
+	}
+
 	public ActionStep getNextStep() {
 		ActionStep actionStep = null;
 		switch (m_iCurType) {
@@ -562,6 +569,11 @@ public class PhoneType {
 
 	public void setInterruptFlag(boolean flag) {
 		m_bInterruptFlag = flag;
+		if(m_bInterruptFlag){
+			synchronized (mFindLock){
+				mFindLock.notifyAll();
+			}
+		}
 	}
 
 	private void sendMessageToCaller(Messenger messenger, int iType,
