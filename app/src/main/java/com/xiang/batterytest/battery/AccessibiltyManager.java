@@ -55,13 +55,13 @@ public class AccessibiltyManager {
         return vRet;
     }
 
-    public boolean startForceClose(IBinder messenger, List<String> pnames){
-        try {
-            mIAccessibilityServiceInterface.startForceClose(messenger, pnames);
-        } catch (Exception e) {
-            return false;
+    public void startForceStop(IBinder messenger, List<String> pnames){
+        try{
+            mIAccessibilityServiceInterface.startForceStop(messenger, pnames);
         }
-        return true;
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 //    public boolean startNotiManage(IBinder messenger, List<String> pnames,

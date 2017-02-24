@@ -58,8 +58,7 @@ public class MFBlankActivity extends AppCompatActivity {
                         AccessibiltyManager.getInstance().setInterruptFlag(true);
                         finish();
                     } else {
-                        AccessibiltyManager.getInstance().startForceClose(messenger.getBinder(),
-                                mSelectList);
+                        AccessibiltyManager.getInstance().startForceStop(messenger.getBinder(), mSelectList);
                     }
                     break;
                 }
@@ -120,15 +119,6 @@ public class MFBlankActivity extends AppCompatActivity {
                 }
                 case AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG: {// 包名有错
                     errorCount++;
-                    break;
-                }
-                case AccessUtil.TYPE_PACKAGE_FORCE_ERROR_SERVICE: {// 服务有错
-                    // Toast.makeText(context, text, duration)
-                    finish();
-                    break;
-                }
-                case AccessUtil.TYPE_PACKAGE_FORCE_ERROR_APPLIST: {// 列表有错
-
                     break;
                 }
                 case AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT: {// 打断

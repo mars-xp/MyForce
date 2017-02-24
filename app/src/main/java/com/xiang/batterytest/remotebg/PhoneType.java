@@ -186,7 +186,6 @@ public class PhoneType {
 					AccessUtil.TYPE_PACKAGE_FORCE_ALL_ERROR,
 					m_allElementName);
 		}
-		// logInfo(TYPE_LOGINFO, m_allElementName);
 		sendMessageToCaller(messenger,
 				AccessUtil.TYPE_PACKAGE_FORCE_ALL_END,
 				"PACKAGE ALL END");
@@ -194,68 +193,82 @@ public class PhoneType {
 		setStreamMute(false);
 	}
 
-	public boolean forceStop(final IBinder aMessenger,
-			final ArrayList<String> appInfoList) {
-		m_iCurType = PARSETYPE_FORCE_STOP;
-		m_iCurStep = 0;
-		
-		if (aMessenger == null) {
-			return false;
+	public void startForceStop(IBinder aBinder, List<String> aAppInfoList){
+		if(aBinder != null && aAppInfoList != null && aAppInfoList.size() > 0){
+			m_iCurType = PARSETYPE_FORCE_STOP;
+			m_iCurStep = 0;
+			mMessenger = new Messenger(aBinder);
+			if(mAppList != null){
+				mAppList.clear();
+			}
+			else{
+				mAppList = new ArrayList<>(aAppInfoList.size());
+			}
+			for(int i = 0; i < aAppInfoList.size(); i++){
+				mAppList.add(aAppInfoList.get(i));
+			}
+			m_bInterruptFlag = false;
+			if(!m_bThreadFlag){
+				mWorkerHandler.removeMessages(0);
+				mWorkerHandler.sendEmptyMessage(0);
+			}
 		}
-		final Messenger messenger = new Messenger(aMessenger);
-		if (appInfoList == null) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_FORCE_ERROR_APPLIST,
-					"APP INFO LIST IS NULL");
-			return false;
-		}
-		if (appInfoList.size() == 0) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_FORCE_ERROR_APPLIST,
-					"APP INFO LIST IS NULL");
-			return false;
-		}
-		if (m_phoneType == null) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_FROCE_MPHONE_NONE,
-					"m_phoneType IS NULL");
-			return false;
-		}
-		if (m_asForceStopList == null) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_FROCE_ACLIST_NONE,
-					"m_asForceStopList IS NULL");
-			return false;
-		}
-		if (m_asForceStopList.size() == 0) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_FROCE_ACLIST_NONE,
-					"m_asForceStopList IS EMPTY");
-			return false;
-		}
-		if (SleepAccessibilityService.getServiceRunningFlag() == false) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_FORCE_ERROR_SERVICE,
-					"SERVICE NOT RUNNING");
-			return false;
-		}
-		setInterruptFlag(false);
-		final boolean bRet = false;
-		mMessenger = messenger;
-		mAppList = appInfoList;
-//		if (getThreadFlag() == false) {
-//			new Thread() {
-//				public void run() {
-//					doForceStopThread(messenger, appInfoList);
-//				}
-//			}.start();
-//		}
-		if(!m_bThreadFlag){
-			mWorkerHandler.removeMessages(0);
-			mWorkerHandler.sendEmptyMessage(0);
-		}
-		return bRet;
 	}
+
+//	public boolean forceStop(final IBinder aMessenger, final ArrayList<String> appInfoList) {
+//		m_iCurType = PARSETYPE_FORCE_STOP;
+//		m_iCurStep = 0;
+//
+//		if (aMessenger == null) {
+//			return false;
+//		}
+//		final Messenger messenger = new Messenger(aMessenger);
+//		if (appInfoList == null) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_FORCE_ERROR_APPLIST,
+//					"APP INFO LIST IS NULL");
+//			return false;
+//		}
+//		if (appInfoList.size() == 0) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_FORCE_ERROR_APPLIST,
+//					"APP INFO LIST IS NULL");
+//			return false;
+//		}
+//		if (m_phoneType == null) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_FROCE_MPHONE_NONE,
+//					"m_phoneType IS NULL");
+//			return false;
+//		}
+//		if (m_asForceStopList == null) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_FROCE_ACLIST_NONE,
+//					"m_asForceStopList IS NULL");
+//			return false;
+//		}
+//		if (m_asForceStopList.size() == 0) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_FROCE_ACLIST_NONE,
+//					"m_asForceStopList IS EMPTY");
+//			return false;
+//		}
+//		if (SleepAccessibilityService.getServiceRunningFlag() == false) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_FORCE_ERROR_SERVICE,
+//					"SERVICE NOT RUNNING");
+//			return false;
+//		}
+//		setInterruptFlag(false);
+//		final boolean bRet = false;
+//		mMessenger = messenger;
+//		mAppList = appInfoList;
+//		if(!m_bThreadFlag){
+//			mWorkerHandler.removeMessages(0);
+//			mWorkerHandler.sendEmptyMessage(0);
+//		}
+//		return bRet;
+//	}
 
 //	public boolean notifiChange(final IBinder aBinder,
 //								final ArrayList<String> appInfoList, final boolean bStop) {
@@ -433,12 +446,6 @@ public class PhoneType {
 		if (strPkgName == null) {
 			return false;
 		}
-		if (SleepAccessibilityService.getServiceRunningFlag() == false) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_SERVICE,
-					"SERVICE NOT RUNNING");
-			return false;
-		}
 		m_iCurStep = 0;
 		int iCount = m_pkgwaitsecond * 1000 / m_slicemillisecond;
 		boolean bRet = true;
@@ -456,10 +463,6 @@ public class PhoneType {
 				if (bNext == true) {
 					bNext = false;
 					ActionStep actionStep = getCurrentStep();
-					if (SleepAccessibilityService.getServiceRunningFlag() == false) {
-						bRet = false;
-						break;
-					}
 					if (actionStep == null) {
 						if (m_iCurStep >= stepCount) {
 							bRet = true;
@@ -582,8 +585,8 @@ public class PhoneType {
 		getInstance().m_curPkgName = pkgName;
 	}
 
-	public synchronized static void setInterruptFlag(boolean flag) {
-		getInstance().m_bInterruptFlag = flag;
+	public synchronized void setInterruptFlag(boolean flag) {
+		m_bInterruptFlag = flag;
 	}
 
 	public synchronized static boolean getInterruptFlag() {
@@ -602,8 +605,6 @@ public class PhoneType {
 			Bundle data = new Bundle();
 			data.putString("MESSAGE", strData);
 			msg.setData(data);
-			// msg.sendToTarget();
-			// handler.sendMessage(msgMessage);
 			messenger.send(msg);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -620,29 +621,6 @@ public class PhoneType {
 				+ m_release + "," + m_sdk + "] ";
 
 		return strBaseInfo;
-	}
-
-	public static void writeServiceFlag(int iFlag) {
-		try {
-			FileOutputStream fos = MyApp.getApp().getApplicationContext().openFileOutput(
-					"serviceflag", Context.MODE_WORLD_WRITEABLE);
-			fos.write(String.valueOf(iFlag).toString().getBytes(), 0, 1);
-			fos.close();
-		} catch (Exception e) {
-		}
-	}
-
-	public static int getServiceFlag() {
-		int iFlag = 0;
-		try {
-			FileInputStream fin = MyApp.getApp().getApplicationContext()
-					.openFileInput("serviceflag");
-			iFlag = fin.read();
-			iFlag = iFlag - 0x30;
-			fin.close();
-		} catch (Exception e) {
-		}
-		return iFlag;
 	}
 
 	public void setStreamMute(boolean bMute) {

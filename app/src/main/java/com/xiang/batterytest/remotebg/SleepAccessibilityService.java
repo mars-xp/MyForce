@@ -13,10 +13,6 @@ import com.xiang.batterytest.MyApp;
 import com.xiang.batterytest.util.AccessUtil;
 
 public class SleepAccessibilityService extends AccessibilityService {
-    public static final int TYPE_SERVICE_RUNNING = 1;
-    public static final int TYPE_SERVICE_UNBIND = 2;
-
-    private static boolean m_bServiceRunning = false;
 
     @Override
     public void onInterrupt() {
@@ -95,25 +91,15 @@ public class SleepAccessibilityService extends AccessibilityService {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public void onServiceConnected() {
-        PhoneType.writeServiceFlag(TYPE_SERVICE_RUNNING);
-        setServiceRunningFlag(true);
+    @Override
+    protected void onServiceConnected() {
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-        info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;// AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
-        // info.eventTypes =
-        // AccessibilityEvent.TYPE_VIEW_CLICKED|AccessibilityEvent.TYPE_VIEW_FOCUSED|AccessibilityEvent.TYPE_VIEW_SCROLLED|AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
+        info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
         info.flags = AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS
                 | AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS;
         info.packageNames = PhoneType.getInstance().m_packageNames;
         setServiceInfo(info);
-
-        AccessUtil.setStatusForWidget(this, true);
-
-        // 发送一个静态广播 。通知辅助服务已经连接上
-        Intent intent = new Intent("com.anguanjia.security.AccessibilityService");
-        intent.putExtra("isServicesConnected", true);
-        sendOrderedBroadcast(intent, null);
     }
 
     private AccessibilityNodeInfo forNode(AccessibilityNodeInfo node,
@@ -315,40 +301,10 @@ public class SleepAccessibilityService extends AccessibilityService {
         return bRet;
     }
 
+
+
     public boolean onUnbind(Intent intent) {
-        PhoneType.writeServiceFlag(TYPE_SERVICE_UNBIND);
-        setServiceRunningFlag(false);
-
-        AccessUtil.setStatusForWidget(this, false);
-
-        // 发送一个静态广播 。通知辅助服务已经连接上
-        Intent intentUnBind = new Intent(
-                "com.anguanjia.security.AccessibilityService");
-        intentUnBind.putExtra("isServicesConnected", false);
-        stopSelf();
-        sendOrderedBroadcast(intentUnBind, null);
         return super.onUnbind(intent);
-    }
-
-    public synchronized static boolean getServiceRunningFlag() {
-        if (m_bServiceRunning == false) {
-            try {
-                if ((MyApp.getApp().getApplicationContext().getApplicationInfo().flags & ApplicationInfo.FLAG_STOPPED) == ApplicationInfo.FLAG_STOPPED) {
-                    PhoneType.writeServiceFlag(TYPE_SERVICE_UNBIND);
-                    return false;
-                }
-            } catch (Exception e) {
-                return false;
-            }
-            if (PhoneType.getServiceFlag() == TYPE_SERVICE_RUNNING) {
-                m_bServiceRunning = true;
-            }
-        }
-        return m_bServiceRunning;
-    }
-
-    public synchronized static void setServiceRunningFlag(boolean flag) {
-        m_bServiceRunning = flag;
     }
 
     private boolean doForHTC(AccessibilityEvent event, ActionStep curActionStep) {

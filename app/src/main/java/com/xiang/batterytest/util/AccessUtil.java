@@ -34,15 +34,15 @@ public class AccessUtil {
 	public static final int TYPE_PACKAGE_FORCE_START = 11001;
 	public static final int TYPE_PACKAGE_FORCE_SUCCESS = 11002;
 	public static final int TYPE_PACKAGE_FORCE_ERROR_PKG = 11003;
-	public static final int TYPE_PACKAGE_FORCE_ERROR_SERVICE = 11004;
-	public static final int TYPE_PACKAGE_FORCE_ERROR_APPLIST = 11005;
+//	public static final int TYPE_PACKAGE_FORCE_ERROR_SERVICE = 11004;
+	//public static final int TYPE_PACKAGE_FORCE_ERROR_APPLIST = 11005;
 	public static final int TYPE_PACKAGE_FORCE_ERROR_INTERRUPT = 11006;
 	public static final int TYPE_PACKAGE_FORCE_ERROR_HANDLER = 11007;
 	public static final int TYPE_PACKAGE_FORCE_ALL_ERROR = 11008;
 	public static final int TYPE_PACKAGE_FORCE_ALL_END = 11009;
-	public static final int TYPE_PACKAGE_FROCE_MPHONE_NONE = 11010;
-	public static final int TYPE_PACKAGE_FROCE_ACLIST_NONE = 11011;
-	public static final int TYPE_PACKAGE_FROCE_CONTEXT_NONE = 11012;
+//	public static final int TYPE_PACKAGE_FROCE_MPHONE_NONE = 11010;
+//	public static final int TYPE_PACKAGE_FROCE_ACLIST_NONE = 11011;
+//	public static final int TYPE_PACKAGE_FROCE_CONTEXT_NONE = 11012;
 
 	public static boolean isDebug = true;
 	public static boolean needDesktop = false;
@@ -204,39 +204,5 @@ public class AccessUtil {
 		version[2] = Build.MODEL;// model
 		version[3] = Build.DISPLAY;// system version
 		return version;
-	}
-
-	public static void setStatusForWidget(Context context, boolean status) {
-		try {
-			FileOutputStream outStream = context.openFileOutput(
-					"SleepAccessibilityService.txt", Context.MODE_PRIVATE);
-			outStream.write(status ? "Running".getBytes() : "UnRunning"
-					.getBytes());
-			outStream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public synchronized static boolean getServiceRunningFlagForWidget(
-			Context context) {
-		try {
-			FileInputStream inputStream = context
-					.openFileInput("SleepAccessibilityService.txt");// 只需传文件名
-			byte[] bytes = new byte[1024];
-			ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-			while (inputStream.read(bytes) != -1) {
-				arrayOutputStream.write(bytes, 0, bytes.length);
-			}
-			inputStream.close();
-			arrayOutputStream.close();
-			String content = new String(arrayOutputStream.toByteArray());
-
-			return (content != null && content.startsWith("Running"));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-
 	}
 }

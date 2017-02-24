@@ -13,29 +13,16 @@ public class AccessibilityBinder extends IAccessibilityServiceInterface.Stub {
 
 	public AccessibilityBinder() {
 
-	}	
-
-	@Override
-	public boolean getServicesStatus() throws RemoteException {
-		// TODO 自动生成的方法存根
-		return SleepAccessibilityService.getServiceRunningFlag();
 	}
 
 	@Override
-	public boolean setServicesStatus(boolean isRunning) {
-		SleepAccessibilityService.setServiceRunningFlag(isRunning);
-		return true;
-	}
-
-	@Override
-	public boolean writeServiceFlag(int flag) throws RemoteException {
-		PhoneType.writeServiceFlag(flag);
-		return true;
+	public void startForceStop(IBinder messenger, List<String> pnames) throws RemoteException {
+		PhoneType.getInstance().startForceStop(messenger, pnames);
 	}
 
 	@Override
 	public boolean setInterruptFlag(boolean flag) throws RemoteException {
-		PhoneType.setInterruptFlag(flag);
+		PhoneType.getInstance().setInterruptFlag(flag);
 		return true;
 	}
 
@@ -43,21 +30,4 @@ public class AccessibilityBinder extends IAccessibilityServiceInterface.Stub {
 	public boolean getInterruptFlag() throws RemoteException {
 		return PhoneType.getInterruptFlag();
 	}
-
-	@Override
-	public boolean startForceClose(IBinder messenger, List<String> pnames)
-			throws RemoteException {
-		PhoneType.getInstance().forceStop(messenger,
-				new ArrayList<String>(pnames));
-		return true;
-	}
-
-	@Override
-	public boolean startNotiManage(IBinder messenger, List<String> pnames,
-								   boolean needClose) throws RemoteException {
-//		PhoneType.getInstance().notifiChange(messenger,
-//				new ArrayList<String>(pnames), !needClose);
-		return true;
-	}
-
 }
