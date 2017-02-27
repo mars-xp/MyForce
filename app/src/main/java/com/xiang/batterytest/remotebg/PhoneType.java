@@ -10,6 +10,7 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.util.Log;
 
 import com.xiang.batterytest.MyApp;
 import com.xiang.batterytest.util.AccessUtil;
@@ -48,11 +49,10 @@ public class PhoneType {
 
 	// use in sleepaccessibility
 	public boolean m_bWorkingFlag = false;
-	public boolean m_bCheckFlag = false;
 	public boolean m_bFinding = false;
 	public String[] m_packageNames = { "com.android.settings",
 			"com.android.systemui" };
-	public String m_allElementName = null;
+//	public String m_allElementName = null;
 
 	public final static int MESSAGE_STATE_CONTEXT = 2;
 //	public final int MESSAGE_STATE = 1;
@@ -134,50 +134,109 @@ public class PhoneType {
 		return true;
 	}
 
+	private boolean exeClickAction(String aPkgName, boolean aStopFlag){
+		m_iCurStep = 0;
+		boolean vRet = false;
+
+		ActionStep vActionStep = null;
+		if(m_iCurStep < m_asForceStopList.size()){
+			vActionStep = m_asForceStopList.get(m_iCurStep);
+		}
+		if(vActionStep != null && vActionStep.m_asActionName != null && vActionStep.m_asActionName.equalsIgnoreCase("START")){
+			m_bWorkingFlag = true;
+			try{
+				Uri packageURI = Uri.parse("package:" + aPkgName);
+				Intent intentx = new Intent(vActionStep.m_asActivityName,
+						packageURI);
+				intentx.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
+						| Intent.FLAG_ACTIVITY_NEW_TASK
+						| Intent.FLAG_ACTIVITY_NO_HISTORY);
+				MyApp.getApp().getApplicationContext().startActivity(intentx);
+				synchronized (mFindLock){
+					mFindLock.wait(3000);
+				}
+				m_bWorkingFlag = false;
+				if(m_asForceStopList.get(m_iCurStep).m_asActionName.equalsIgnoreCase("BACK")){
+					vRet = true;
+				}
+			}
+			catch (Exception e){
+				vRet = false;
+			}
+		}
+		m_bWorkingFlag = false;
+		return vRet;
+	}
+
 	private void doForceStopThread(){
-		int iErrorCount = 0;
+		int vErrorCount = 0;
 		setStreamMute(true);
-		Messenger messenger = mMessenger;
-		ArrayList<String> appInfoList = mAppList;
-		for (int i = 0; i < appInfoList.size(); i++) {
+		for (int i = 0; i < mAppList.size(); i++) {
 			if (m_bInterruptFlag) {
-				sendMessageToCaller(messenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT, "INTERRUT");
+				sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT, "INTERRUT");
 				break;
 			} else {
-				String strPkgName = appInfoList.get(i);
-				sendMessageToCaller(messenger, AccessUtil.TYPE_PACKAGE_FORCE_START, strPkgName);
-				if (exeClickAction(strPkgName, m_asForceStopList.size(), true, messenger) == true) {
-					sendMessageToCaller(messenger,
-							AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS,
-							strPkgName);
+				String strPkgName = mAppList.get(i);
+				sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_START, strPkgName);
+				if (exeClickAction(strPkgName, true) == true) {
+					sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS, strPkgName);
 				} else {
-					iErrorCount++;
-					sendMessageToCaller(
-							messenger,
-							AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG,
-							strPkgName);
+					vErrorCount++;
+					sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG, strPkgName);
 				}
-//				waitMilliseconds(m_intervalmillisecond);
 				if (m_bInterruptFlag) {
-					sendMessageToCaller(
-							messenger,
-							AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
-							"INTERRUT");
+					sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT, "INTERRUT");
 					break;
 				}
 			}
 		}
-		m_allElementName = getBaseInfo() + m_allElementName;
-		if (iErrorCount == appInfoList.size()) {
-			sendMessageToCaller(messenger,
-					AccessUtil.TYPE_PACKAGE_FORCE_ALL_ERROR,
-					m_allElementName);
-		}
-		sendMessageToCaller(messenger,
-				AccessUtil.TYPE_PACKAGE_FORCE_ALL_END,
-				"PACKAGE ALL END");
+		sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ALL_END, "PACKAGE ALL END");
 		setStreamMute(false);
 	}
+
+//	private void doForceStopThread(){
+//		int iErrorCount = 0;
+//		setStreamMute(true);
+//		Messenger messenger = mMessenger;
+//		ArrayList<String> appInfoList = mAppList;
+//		for (int i = 0; i < appInfoList.size(); i++) {
+//			if (m_bInterruptFlag) {
+//				sendMessageToCaller(messenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT, "INTERRUT");
+//				break;
+//			} else {
+//				String strPkgName = appInfoList.get(i);
+//				sendMessageToCaller(messenger, AccessUtil.TYPE_PACKAGE_FORCE_START, strPkgName);
+//				if (exeClickAction(strPkgName, m_asForceStopList.size(), true, messenger) == true) {
+//					sendMessageToCaller(messenger,
+//							AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS,
+//							strPkgName);
+//				} else {
+//					iErrorCount++;
+//					sendMessageToCaller(
+//							messenger,
+//							AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG,
+//							strPkgName);
+//				}
+//				if (m_bInterruptFlag) {
+//					sendMessageToCaller(
+//							messenger,
+//							AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT,
+//							"INTERRUT");
+//					break;
+//				}
+//			}
+//		}
+//		m_allElementName = getBaseInfo() + m_allElementName;
+//		if (iErrorCount == appInfoList.size()) {
+//			sendMessageToCaller(messenger,
+//					AccessUtil.TYPE_PACKAGE_FORCE_ALL_ERROR,
+//					m_allElementName);
+//		}
+//		sendMessageToCaller(messenger,
+//				AccessUtil.TYPE_PACKAGE_FORCE_ALL_END,
+//				"PACKAGE ALL END");
+//		setStreamMute(false);
+//	}
 
 	public void startForceStop(IBinder aBinder, List<String> aAppInfoList){
 		if(aBinder != null && aAppInfoList != null && aAppInfoList.size() > 0){
@@ -440,126 +499,112 @@ public class PhoneType {
 		return actionStep;
 	}
 
-	private boolean exeClickAction(String strPkgName, int stepCount, boolean bStop, Messenger messenger) {
-		m_iCurStep = 0;
-		int iCount = m_pkgwaitsecond * 1000 / m_slicemillisecond;
-		boolean bRet = true;
-		boolean bNext = true;
-		int iOldStep = m_iCurStep;
+//	private boolean exeClickAction(String strPkgName, int stepCount, boolean bStop, Messenger messenger) {
+//		m_iCurStep = 0;
+//		int iCount = m_pkgwaitsecond * 1000 / m_slicemillisecond;
+//		boolean bRet = true;
+//		boolean bNext = true;
+//		int iOldStep = m_iCurStep;
+//
+//		while (iCount > 0 && bRet) {
+//			if (m_bInterruptFlag) {
+//				sendMessageToCaller(messenger, AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT, "INTERRUT");
+//				break;
+//			}
+//			try {
+//				if (bNext) {
+//					bNext = false;
+//					ActionStep actionStep = null;
+//					if(m_iCurStep < m_asForceStopList.size()){
+//						actionStep = m_asForceStopList.get(m_iCurStep);
+//					}
+//					if(actionStep != null){
+//						if (actionStep.m_asActionName.equalsIgnoreCase("START")) {
+//							bRet = doAction(actionStep, strPkgName,	bStop);
+//						} else if (actionStep.m_asActionName.equalsIgnoreCase("BACK")) {
+//							bRet = doAction(actionStep, strPkgName, bStop);
+//							bRet = true;
+//							break;
+//						}
+//					}
+//					else{
+//						if (m_iCurStep >= stepCount) {
+//							bRet = true;
+//							break;
+//						} else {
+//							bRet = false;
+//							break;
+//						}
+//					}
+//				}
+//				synchronized (mFindLock){
+//					Log.v("xiangpeng", "wait for notify");
+//					mFindLock.wait();
+//				}
+//				Log.v("xiangpeng", "has been notified "+m_bFinding+" step is "+m_iCurStep);
+//				if (iOldStep == m_iCurStep) {
+//					bNext = false;
+//				} else {
+//					iOldStep = m_iCurStep;
+//					bNext = true;
+//				}
+//				if (m_bWorkingFlag == false) {
+//					bRet = false;
+//					break;
+//				}
+//				iCount--;
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				bRet = false;
+//				break;
+//			}
+//		}
+//
+//		if (iCount <= 0) {
+//			bRet = false;
+//			ActionStep actionStep = new ActionStep();
+//			actionStep.m_asActionName = "BACK";
+//			doAction(actionStep, strPkgName, bStop);
+//		}
+//		setWrokingFlag(false);
+//		return bRet;
+//	}
 
-		while (iCount > 0 && bRet) {
-			if (m_bInterruptFlag) {
-				sendMessageToCaller(messenger, AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT, "INTERRUT");
-				break;
-			}
-			try {
-				if (bNext) {
-					bNext = false;
-					ActionStep actionStep = null;
-					if(m_iCurStep < m_asForceStopList.size()){
-						actionStep = m_asForceStopList.get(m_iCurStep);
-					}
-					if(actionStep != null){
-						if (actionStep.m_asActionName.equalsIgnoreCase("START")) {
-							bRet = doAction(actionStep, strPkgName,	bStop);
-						} else if (actionStep.m_asActionName.equalsIgnoreCase("BACK")) {
-							bRet = doAction(actionStep, strPkgName, bStop);
-							bRet = true;
-							break;
-						}
-					}
-					else{
-						if (m_iCurStep >= stepCount) {
-							bRet = true;
-							break;
-						} else {
-							bRet = false;
-							break;
-						}
-					}
-				}
-				synchronized (mFindLock){
-					mFindLock.wait(m_slicemillisecond * 2);
-				}
-				while(m_bFinding){
-					synchronized (mFindLock){
-						mFindLock.wait(m_slicemillisecond);
-					}
-				}
-				if (iOldStep == m_iCurStep) {
-					bNext = false;
-				} else {
-					iOldStep = m_iCurStep;
-					bNext = true;
-				}
-				if (m_bWorkingFlag == false) {
-					bRet = false;
-					break;
-				}
-				iCount--;
-			} catch (Exception e) {
-				e.printStackTrace();
-				bRet = false;
-				break;
-			}
-		}
+//	private boolean doAction(ActionStep actionStep, String strPkgName, boolean bCheck) {
+//		boolean bRet = false;
+//		if (actionStep.m_asActionName.equalsIgnoreCase("START")) {
+//			setWrokingFlag(true);
+//			Uri packageURI = Uri.parse("package:" + strPkgName);
+//			Intent intentx = new Intent(actionStep.m_asActivityName,
+//					packageURI);
+//			intentx.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
+//					| Intent.FLAG_ACTIVITY_NEW_TASK
+//					| Intent.FLAG_ACTIVITY_NO_HISTORY);
+//			MyApp.getApp().getApplicationContext().startActivity(intentx);
+//			bRet = true;
+//			setCheckFlag(bCheck);
+//		} else if (actionStep.m_asActionName.equalsIgnoreCase("BACK")) {
+//			setWrokingFlag(false);
+//			bRet = true;
+//		}
+//		return bRet;
+//	}
+//
+//	public void waitMilliseconds(int count) {
+//		try {
+//			Thread.sleep(count);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
-		if (iCount <= 0) {
-			bRet = false;
-			ActionStep actionStep = new ActionStep();
-			actionStep.m_asActionName = "BACK";
-			doAction(actionStep, strPkgName, bStop);
-		}
-		setWrokingFlag(false);
-		return bRet;
-	}
-
-	private boolean doAction(ActionStep actionStep, String strPkgName, boolean bCheck) {
-		boolean bRet = false;
-		if (actionStep.m_asActionName.equalsIgnoreCase("START")) {
-			Uri packageURI = Uri.parse("package:" + strPkgName);
-			Intent intentx = new Intent(actionStep.m_asActivityName,
-					packageURI);
-			intentx.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
-					| Intent.FLAG_ACTIVITY_NEW_TASK
-					| Intent.FLAG_ACTIVITY_NO_HISTORY);
-			MyApp.getApp().getApplicationContext().startActivity(intentx);
-			bRet = true;
-			setCheckFlag(bCheck);
-			setWrokingFlag(true);
-		} else if (actionStep.m_asActionName.equalsIgnoreCase("BACK")) {
-			setWrokingFlag(false);
-			bRet = true;
-		}
-		return bRet;
-	}
-
-	public void waitMilliseconds(int count) {
-		try {
-			Thread.sleep(count);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public synchronized boolean getWrokingFlag() {
+	public boolean getWrokingFlag() {
 		return m_bWorkingFlag;
-	}
-
-	public synchronized void setWrokingFlag(boolean flag) {
-		m_bWorkingFlag = flag;
-	}
-
-	public synchronized static boolean getCheckFlag() {
-		return getInstance().m_bCheckFlag;
-	}
-
-	public synchronized static void setCheckFlag(boolean flag) {
-		getInstance().m_bCheckFlag = flag;
 	}
 
 	public void setFindingFlag(boolean flag) {
 		m_bFinding = flag;
+		Log.v("xiangpeng", "setFindingFlag "+m_bFinding);
 		if(!m_bFinding){
 			synchronized (mFindLock){
 				mFindLock.notifyAll();
@@ -570,9 +615,8 @@ public class PhoneType {
 	public void setInterruptFlag(boolean flag) {
 		m_bInterruptFlag = flag;
 		if(m_bInterruptFlag){
-			synchronized (mFindLock){
-				mFindLock.notifyAll();
-			}
+			Log.v("xiangpeng", "setInterruptFlag notify");
+			setFindingFlag(false);
 		}
 	}
 

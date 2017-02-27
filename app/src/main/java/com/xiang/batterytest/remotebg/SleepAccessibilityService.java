@@ -5,6 +5,7 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
+import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
@@ -49,32 +50,26 @@ public class SleepAccessibilityService extends AccessibilityService {
                     }
                     if (PhoneType.getInstance().m_messagetype == PhoneType.MESSAGE_STATE_CONTEXT) {
                         if (doForHTC(event, curActionStep) == false) {
+                            Log.v("xiangpeng", "dofothtc null notify");
                             PhoneType.getInstance().setFindingFlag(false);
                             return;
                         }
                     }
                     PhoneType.getInstance().setFindingFlag(true);
-                    if (doAction(event, curActionStep, PhoneType.getCheckFlag()) == true) {
-                        curActionStep = PhoneType.getInstance().getNextStep();
-                        if (curActionStep != null) {
-                            if (curActionStep.m_asActionName.equalsIgnoreCase("BACK")) {
-                                PhoneType.getInstance().getNextStep();
-                            }
-                        } else {
-                            // PhoneType.logInfo(PhoneType.TYPE_LOGINFO,
-                            // "getNextStep NULL");
-                        }
+                    if (doAction(event, curActionStep)) {
+                        Log.v("xiangpeng", "doaction success");
                         if(PhoneType.getInstance().checkStepOver()){
+                            Log.v("xiangpeng", "doaction success and notify");
                             PhoneType.getInstance().setFindingFlag(false);
                         }
                     } else {
-                        PhoneType.getInstance().setWrokingFlag(false);
+                        Log.v("xiangpeng", "doaction failed and notify");
                         PhoneType.getInstance().setFindingFlag(false);
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    PhoneType.getInstance().setWrokingFlag(false);
+                    Log.v("xiangpeng", "exception "+e+" and notify");
                     PhoneType.getInstance().setFindingFlag(false);
                 }
             }
@@ -100,15 +95,6 @@ public class SleepAccessibilityService extends AccessibilityService {
         CharSequence cs = node.getText();
         if (cs != null) {
             int iStart = 0;
-            PhoneType.getInstance().m_allElementName += cs;
-            CharSequence clsName = node.getClassName();
-            if (clsName != null) {
-                PhoneType.getInstance().m_allElementName += "(";
-                PhoneType.getInstance().m_allElementName += clsName;
-                PhoneType.getInstance().m_allElementName += "),";
-            } else {
-                PhoneType.getInstance().m_allElementName += ",";
-            }
             try {
                 for (int i = 0; i < strElementText.length(); i++) {
                     if (strElementText.charAt(i) == '|') {
@@ -153,26 +139,12 @@ public class SleepAccessibilityService extends AccessibilityService {
             return null;
         }
 
-        PhoneType.getInstance().m_allElementName = new String();
         return forNode(mNodeInfo, strElementText);
     }
 
-    public boolean doAction(AccessibilityEvent accEvent, ActionStep actionStep,
-                            boolean bCheck) {
-        boolean bRet = false;
+    public boolean doAction(AccessibilityEvent accEvent, ActionStep actionStep) {
+        boolean vRet = false;
         try {
-//            if (actionStep.m_asActionName.equalsIgnoreCase("GET")) {
-//                if (actionStep.m_asElementType
-//                        .equalsIgnoreCase("android.widget.CheckBox")) {
-//                    AccessibilityNodeInfo nodeInfo = findElement(accEvent,
-//                            actionStep.m_asElementType,
-//                            actionStep.m_asElementText);
-//                    if (nodeInfo != null && nodeInfo.isClickable()
-//                            && nodeInfo.isEnabled() && nodeInfo.isCheckable()
-//                            && nodeInfo.isFocusable()) {
-//                    }
-//                }
-//            } else
             if (actionStep.m_asActionName.equalsIgnoreCase("CLICK")) {
                 AccessibilityNodeInfo nodeInfo = findElement(accEvent,
                         actionStep.m_asElementType, actionStep.m_asElementText);
@@ -187,9 +159,8 @@ public class SleepAccessibilityService extends AccessibilityService {
                         && (actionStep.m_asElementType
                         .equalsIgnoreCase("android.widget.CheckBox") || actionStep.m_asElementType
                         .equalsIgnoreCase("android.widget.TextView"))) {
-                    return doForXiaomi(accEvent, nodeInfo, actionStep, bCheck);
+                    return doForXiaomi(accEvent, nodeInfo, actionStep);
                 }
-
                 if (android.os.Build.MANUFACTURER.equalsIgnoreCase("ZTE")
                         && actionStep.m_asElementType
                         .equalsIgnoreCase("com.nubia.nubiaswitch.NubiaSwitch")) {
@@ -202,89 +173,46 @@ public class SleepAccessibilityService extends AccessibilityService {
                             .equalsIgnoreCase("android.widget.CheckBox")) {
                         if (nodeInfo.isClickable() && nodeInfo.isEnabled()) {
                             boolean bCurChecked = nodeInfo.isChecked();
-                            if (bCheck == true) {
-                                if (bCurChecked == true) {
-                                    PhoneType.getInstance().getNextStep();
-                                    PhoneType.getInstance().getNextStep();
-                                } else {
-                                    nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                                    PhoneType.getInstance().getNextStep();
-                                    PhoneType.getInstance().getNextStep();
-                                }
-                            } else {
-                                if (bCurChecked == true) {
-                                    nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                                } else {
-                                    PhoneType.getInstance().getNextStep();
-                                    PhoneType.getInstance().getNextStep();
-                                }
+                            if (!bCurChecked) {
+                                PhoneType.getInstance().getNextStep();
+                                nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                                vRet = true;
                             }
-                        } else {
-                            PhoneType.getInstance().getNextStep();
-                            PhoneType.getInstance().getNextStep();
                         }
-                        nodeInfo.recycle();
-                        bRet = true;
                     } else if (actionStep.m_asElementType
                             .equalsIgnoreCase("com.nubia.nubiaswitch.NubiaSwitch")) {
                         if (nodeInfo.isCheckable() && nodeInfo.isEnabled()) {
                             boolean bCurChecked = nodeInfo.isChecked();
-                            if (bCheck == true) {
-                                if (bCurChecked == true) {
-                                    PhoneType.getInstance().getNextStep();
-                                    PhoneType.getInstance().getNextStep();
-                                } else {
-                                    nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                                    PhoneType.getInstance().getNextStep();
-                                    PhoneType.getInstance().getNextStep();
-                                }
-                            } else {
-                                if (bCurChecked == true) {
-                                    nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                                } else {
-                                    PhoneType.getInstance().getNextStep();
-                                    PhoneType.getInstance().getNextStep();
-                                }
+                            if(!bCurChecked){
+                                PhoneType.getInstance().getNextStep();
+                                nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                                vRet = true;
                             }
-                        } else {
-                            PhoneType.getInstance().getNextStep();
-                            PhoneType.getInstance().getNextStep();
                         }
-                        nodeInfo.recycle();
-                        bRet = true;
-                    } else if (actionStep.m_asElementType
-                            .equalsIgnoreCase("android.widget.Button")) {
-                        if (/* nodeInfo.isClickable() && nodeInfo.isEnabled() */true) {
+                    } else if (actionStep.m_asElementType.equalsIgnoreCase("android.widget.Button")) {
+                        if (nodeInfo.isClickable() && nodeInfo.isEnabled()) {
+                            PhoneType.getInstance().getNextStep();
                             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                        } else {
-                            PhoneType.getInstance().getNextStep();
+                            vRet = true;
                         }
-                        nodeInfo.recycle();
-                        bRet = true;
                     }
                     else if(actionStep.m_asElementType.equalsIgnoreCase("android.widget.textview") && Build.VERSION.SDK_INT > 22){
                         AccessibilityNodeInfo vTmp = nodeInfo.getParent();
                         if(vTmp != null){
                             nodeInfo = vTmp;
+                            PhoneType.getInstance().getNextStep();
                             nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                            vRet = true;
                         }
                     }
                     nodeInfo.recycle();
-                    bRet = true;
-                } else {
-                    bRet = false;
                 }
-            } else if (actionStep.m_asActionName.equalsIgnoreCase("BACK")) {
-                bRet = true;
-            } else if (actionStep.m_asActionName.equalsIgnoreCase("START")) {
-                bRet = true;
-            } else {
-                bRet = false;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            vRet = false;
         }
-        return bRet;
+        return vRet;
     }
 
 
@@ -333,41 +261,34 @@ public class SleepAccessibilityService extends AccessibilityService {
         return null;
     }
 
-    private boolean doForXiaomi(AccessibilityEvent accEvent,
-                                AccessibilityNodeInfo nodeInfo, ActionStep actionStep,
-                                boolean bCheck) {
-        if (accEvent == null || nodeInfo == null || actionStep == null) {
-            return false;
-        }
-
-        if (actionStep.m_asElementType
-                .equalsIgnoreCase("android.widget.TextView")) {
-            nodeInfo = nodeInfo.getParent();
-            if (nodeInfo == null) {
-                return false;
-            }
-            nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-            return true;
-        } else if (actionStep.m_asElementType
-                .equalsIgnoreCase("android.widget.CheckBox")) {
-            nodeInfo = forNodeHtc(accEvent.getSource(),
-                    actionStep.m_asElementType, 0);
-
-            boolean bCurChecked = nodeInfo.isChecked();
-            if (bCheck == true) {
-                if (!bCurChecked) {
-                    nodeInfo.getParent().performAction(
-                            AccessibilityNodeInfo.ACTION_CLICK);
-                }
-            } else {
-                if (bCurChecked == true) {
-                    nodeInfo.getParent().performAction(
-                            AccessibilityNodeInfo.ACTION_CLICK);
+    private boolean doForXiaomi(AccessibilityEvent accEvent, AccessibilityNodeInfo nodeInfo, ActionStep actionStep) {
+        boolean vRet = false;
+        if(accEvent != null && nodeInfo != null && actionStep != null){
+            if(actionStep.m_asElementType.equalsIgnoreCase("android.widget.TextView")){
+                nodeInfo = nodeInfo.getParent();
+                if(nodeInfo != null){
+                    PhoneType.getInstance().getNextStep();
+                    nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                    vRet = true;
+                    nodeInfo.recycle();
                 }
             }
-            nodeInfo.recycle();
-            return true;
+            else if(actionStep.m_asElementType.equalsIgnoreCase("android.widget.CheckBox")){
+                nodeInfo = forNodeHtc(accEvent.getSource(), actionStep.m_asElementType, 0);
+                if(nodeInfo != null){
+                    boolean vIsChecked = nodeInfo.isChecked();
+                    if(!vIsChecked){
+                        PhoneType.getInstance().getNextStep();
+                        nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                        vRet = true;
+                        nodeInfo.recycle();
+                    }
+                }
+            }
+            else{
+                nodeInfo.recycle();
+            }
         }
-        return false;
+        return vRet;
     }
 }

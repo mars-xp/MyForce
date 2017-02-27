@@ -38,7 +38,7 @@ public class AccessUtil {
 	//public static final int TYPE_PACKAGE_FORCE_ERROR_APPLIST = 11005;
 	public static final int TYPE_PACKAGE_FORCE_ERROR_INTERRUPT = 11006;
 	public static final int TYPE_PACKAGE_FORCE_ERROR_HANDLER = 11007;
-	public static final int TYPE_PACKAGE_FORCE_ALL_ERROR = 11008;
+//	public static final int TYPE_PACKAGE_FORCE_ALL_ERROR = 11008;
 	public static final int TYPE_PACKAGE_FORCE_ALL_END = 11009;
 //	public static final int TYPE_PACKAGE_FROCE_MPHONE_NONE = 11010;
 //	public static final int TYPE_PACKAGE_FROCE_ACLIST_NONE = 11011;

@@ -131,28 +131,12 @@ public class MFBlankActivity extends AppCompatActivity {
                     mHandler.sendEmptyMessage(MSG_RESTART_BLANK);
                     break;
                 }
-                case AccessUtil.TYPE_PACKAGE_FORCE_ALL_ERROR: {// 错误
-                    String str = msg.getData().getString("MESSAGE");
-                    sendErrorMsg(str);
-                    break;
-                }
                 default:
 
                     break;
             }
         };
     };
-
-    private void sendErrorMsg(final String str) {
-//        new Thread(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                SystemUtil
-//                        .uploadLog(MFBlankActivity.this, str, "userAssistlog");
-//            }
-//        }).start();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
