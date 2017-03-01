@@ -41,7 +41,7 @@ public class MyApp extends Application {
                 startService(new Intent(this, ProcessService.class));
             }
             else if(vProcessName.equals(BuildConfig.APPLICATION_ID+":service")){
-                PhoneType.getInstance().init(PhoneType.PARSETYPE_FORCE_STOP);
+                PhoneType.getInstance().init();
             }
         }
     }

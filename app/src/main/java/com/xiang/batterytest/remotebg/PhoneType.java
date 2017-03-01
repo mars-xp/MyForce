@@ -29,27 +29,17 @@ import java.util.List;
 
 public class PhoneType {
 
-	// used AccessibilityConfig.xml version
-	public final String UAB_SDK_VERSION = "2.0";
 	// phone base info
 	public String m_manufacturer;
 	public String m_mode;
-	public String m_release;
-	public String m_sdk;
+	public int m_minsdk;
+	public int m_maxsdk;
 	public String m_uabsdkver;
-	public int m_pkgwaitsecond = 3;
-	public int m_slicemillisecond = 200;
-	public int m_actionwaitmillisecond = 500;
-	public int m_messagetype = 1;
-	public String m_matchtype;
+	public int m_id;
 
 	// step action list
 	public List<ActionStep> m_asForceStopList;
-	public List<ActionStep> m_asNotifiClickList;
-	public List<ActionStep> m_asNotifiGetList;
-	public List<ActionStep> m_asClearCatchList;
 
-	private int m_iCurType = 0;
 	private int m_iCurStep = 0;
 	private static PhoneType m_phoneType = null;
 
@@ -60,12 +50,6 @@ public class PhoneType {
 
 	// use in NotiResultActivity
 	public boolean m_bInterruptFlag = false;
-
-	//parse type
-	public final static int PARSETYPE_FORCE_STOP = 0x00000001;
-	public final static int PARSETYPE_NOTIFY_CLK = 0x00000010;
-	public final static int PARSETYPE_NOTIFY_GET = 0x00000100;
-	public final static int PARSETYPE_CLEAR_CACH = 0x00001000;
 
 	private HandlerThread mWorkerThread;
 	private Handler mWorkerHandler;
@@ -190,20 +174,10 @@ public class PhoneType {
 		return m_phoneType;
 	}
 
-	public void init(int aParseType){
-		if((aParseType & PARSETYPE_FORCE_STOP) != 0){
-			m_asForceStopList = new ArrayList<ActionStep>();
-		}
-		if((aParseType & PARSETYPE_CLEAR_CACH) != 0){
-			m_asClearCatchList = new ArrayList<ActionStep>();
-		}
-		if((aParseType & PARSETYPE_NOTIFY_CLK) != 0){
-			m_asNotifiClickList = new ArrayList<ActionStep>();
-		}
-		if((aParseType & PARSETYPE_NOTIFY_GET) != 0){
-			m_asNotifiGetList = new ArrayList<ActionStep>();
-		}
+	public void init(){
+		m_asForceStopList = new ArrayList<ActionStep>();
 		m_phoneType.parseXML();
+		Log.v("xiangpeng", "get xml id "+m_id);
 		mFindThread.start();
 	}
 
@@ -314,7 +288,6 @@ public class PhoneType {
 
 	public void startForceStop(IBinder aBinder, List<String> aAppInfoList){
 		if(aBinder != null && aAppInfoList != null && aAppInfoList.size() > 0){
-			m_iCurType = PARSETYPE_FORCE_STOP;
 			m_iCurStep = 0;
 			mMessenger = new Messenger(aBinder);
 			if(mAppList != null){
@@ -339,60 +312,25 @@ public class PhoneType {
 
 	public boolean checkStepOver(){
 		boolean vRet = false;
-		if(m_iCurType == PARSETYPE_FORCE_STOP){
-			if((m_iCurStep + 1) >= m_asForceStopList.size()){
-				vRet = true;
-			}
+		if((m_iCurStep + 1) >= m_asForceStopList.size()){
+			vRet = true;
 		}
 		return vRet;
 	}
 
 	public ActionStep getNextStep() {
 		ActionStep actionStep = null;
-		switch (m_iCurType) {
-		case PARSETYPE_FORCE_STOP:
-			if ((++m_iCurStep) >= m_asForceStopList.size()) {
-				break;
-			}
+		m_iCurStep++;
+		if(m_iCurStep < m_asForceStopList.size()){
 			actionStep = m_asForceStopList.get(m_iCurStep);
-			break;
-		case PARSETYPE_NOTIFY_GET:
-			if ((++m_iCurStep) >= m_asNotifiGetList.size()) {
-				break;
-			}
-			actionStep = m_asNotifiGetList.get(m_iCurStep);
-			break;
-		case PARSETYPE_NOTIFY_CLK:
-			if ((++m_iCurStep) >= m_asNotifiClickList.size()) {
-				break;
-			}
-			actionStep = m_asNotifiClickList.get(m_iCurStep);
-			break;
 		}
 		return actionStep;
 	}
 
 	public ActionStep getCurrentStep() {
 		ActionStep actionStep = null;
-		switch (m_iCurType) {
-		case PARSETYPE_FORCE_STOP:
-			if (m_iCurStep >= m_asForceStopList.size()) {
-				break;
-			}
+		if(m_iCurStep < m_asForceStopList.size()){
 			actionStep = m_asForceStopList.get(m_iCurStep);
-			break;
-		case PARSETYPE_NOTIFY_GET:
-			if (m_iCurStep >= m_asNotifiGetList.size()) {
-				break;
-			}
-			actionStep = m_asNotifiGetList.get(m_iCurStep);
-			break;
-		case PARSETYPE_NOTIFY_CLK:
-			if (m_iCurStep >= m_asNotifiClickList.size()) {
-				break;
-			}
-			actionStep = m_asNotifiClickList.get(m_iCurStep);
-			break;
 		}
 		return actionStep;
 	}

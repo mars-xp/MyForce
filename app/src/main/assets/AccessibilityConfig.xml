@@ -1,490 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>  
-<PHONES>  
-    <PHONE>  
-        <BASEINFO>
-	        <id>10001</id>
-	        <manufacturer>YuLong</manufacturer>
-	        <mode>|||Coolpad T1|||</mode>
-	        <release>4.4.22</release>  
-	        <sdk>19</sdk>
-	        <package_wait>10</package_wait>
-	        <interval>1000</interval>
-	        <slice>200</slice>
-	        <action_wait>500</action_wait>
-	        <message_type>1</message_type>
-	        <match_type>only</match_type>
-	        <uab_sdk_ver>2.0</uab_sdk_ver>
-        </BASEINFO>
-        <FORCESTOP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>强行停止|強制停止|強制停止|Force stop|Sunni peatuma|Sunni peatuma|توقف اجباری|Pakota lopetus|Forcer l\'arrêt|Forcer l\'arrêt|बंद करना बाध्‍य करें|Prisilno zaustavi|Kényszerített leállítás|Ստիպողաբար դադարեցնել|Ստիպողաբար դադարեցնել|Paksa berhenti|Termina|אלץ עצירה|強制停止|ძალით შეჩერება|ძალით შეჩერება|បង្ខំ​ឲ្យ​បញ្ឈប់|បង្ខំ​ឲ្យ​បញ្ឈប់|강제 종료|ບັງ​ຄັບ​ປິດ|ບັງ​ຄັບ​ປິດ|Sustabdyti|Forsēt apturēšanu|Хүчээр зогсоох|Хүчээр зогсоох|Henti paksa|Henti paksa|Tving avslutning|जबरजस्ती रोक्नुहोस्|जबरजस्ती रोक्नुहोस्|Nu stoppen|Wymuś zatrzymanie|Forçar parada|Forçar paragem|Sfurzar da terminar|Opriţi forţat|Остановить|බලෙන් නවත්වන්න|බලෙන් නවත්වන්න|Vynútiť zastavenie|Prisilna ustavitev|Принудно заустави|Tvingad avslutning|Komesha kwa lazima|บังคับให้หยุด|Sapilitang pagtigil|Durmaya zorla|Примус.припин.|Buộc dừng|Phoqelela ukuma|Dwing stop|በኃይል ማቆም|فرض الإيقاف|Məcburən dayansın|Məcburən dayansın|Прымусовае спыненне|Принудително спиране|Força l\'aturada|Vynutit ukončení|Tving til at standse|Beenden erzwingen|Αναγκαστική διακοπή|Force stop|Force stop|Forzar detención|Forzar la detención|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>            	
-				<ELEMENTTEXT>确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </FORCESTOP>
-        <NOTIFICLICK>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>CLICK</ACTION>
-                <ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFICLICK>
-        <NOTIFIGET>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>GET</ACTION>
-            	<ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFIGET>
-        <CLEARCATCH>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>清除缓存|清除快取|清除快取|Sula inqolobane|Maak kas skoon|መሸጎጫ አጥራ|محو ذاكرة التخزين المؤقت|Keşi təmizləyin|Keşi təmizləyin|Ачысціць кэш|Изчистване на кеша|Esborra la memòria cau|Vymazat mezipaměť|Ryd cache|Cache leeren|Εκκαθάριση προσωρινής μνήμης|Clear cache|Clear cache|Borrar caché|Eliminar memoria caché|Clear cache|Tühjenda vahemälu|Tühjenda vahemälu|پاک کردن حافظهٔ پنهان|Tyhjennä välimuisti|Vider le cache|Vider le cache|कैश साफ़ करें|Očisti predmemoriju|A gyorsítótár törlése|Մաքրել քեշը|Մաքրել քեշը|Hapus cache|Cancella cache|נקה קבצים שמורים|キャッシュを消去|ქეშის წაშლა|ქეშის წაშლა|សម្អាត​ឃ្លាំង|សម្អាត​ឃ្លាំង|캐시 지우기|ລຶບລ້າງແຄຊ|ລຶບລ້າງແຄຊ|Išvalyti talpyklą|Notīrīt kešatmiņu|Кешийг арилгах|Кешийг арилгах|Kosongkan cache|Kosongkan cache|Fjern hurtiglager|केस हटाउनुहोस्|केस हटाउनुहोस्|Cache wissen|Wyczyść pamięć podręczną|Limpar cache|Limpar cache|Stizzar il cache|Goliţi memoria cache|Очистить кэш|හැඹිලිය හිස් කරන්න|හැඹිලිය හිස් කරන්න|Vymazať vyrovnávaciu pamäť|Počisti predpomnilnik|Обриши кеш|Rensa cacheminne|Futa akiba|ล้างแคช|I-clear ang cache|Önbelleği temizle|Очистити кеш|Xóa bộ nhớ cache|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </CLEARCATCH>
-        <RATEFLOW>
-            
-        </RATEFLOW>
-    </PHONE>  
-    <PHONE>  
-        <BASEINFO>
-	        <id>10003</id>
-	        <manufacturer>HTC</manufacturer>
-	        <mode>HTC ALL</mode>
-	        <release>4.2.2</release>  
-	        <sdk>17</sdk>
-	        <package_wait>10</package_wait>
-	        <interval>1000</interval>
-	        <slice>200</slice>
-	       	<action_wait>500</action_wait>
-	       	<message_type>2</message_type>
-	        <match_type>all</match_type>
-	        <uab_sdk_ver>2.0</uab_sdk_ver>
-        </BASEINFO>
-        <FORCESTOP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>强行停止|强制停止|強制停止|Force stop|Sunni peatuma|Sunni peatuma|توقف اجباری|Pakota lopetus|Forcer l\'arrêt|Forcer l\'arrêt|बंद करना बाध्‍य करें|Prisilno zaustavi|Kényszerített leállítás|Ստիպողաբար դադարեցնել|Ստիպողաբար դադարեցնել|Paksa berhenti|Termina|אלץ עצירה|強制停止|ძალით შეჩერება|ძალით შეჩერება|បង្ខំ​ឲ្យ​បញ្ឈប់|បង្ខំ​ឲ្យ​បញ្ឈប់|강제 종료|ບັງ​ຄັບ​ປິດ|ບັງ​ຄັບ​ປິດ|Sustabdyti|Forsēt apturēšanu|Хүчээр зогсоох|Хүчээр зогсоох|Henti paksa|Henti paksa|Tving avslutning|जबरजस्ती रोक्नुहोस्|जबरजस्ती रोक्नुहोस्|Nu stoppen|Wymuś zatrzymanie|Forçar parada|Forçar paragem|Sfurzar da terminar|Opriţi forţat|Остановить|බලෙන් නවත්වන්න|බලෙන් නවත්වන්න|Vynútiť zastavenie|Prisilna ustavitev|Принудно заустави|Tvingad avslutning|Komesha kwa lazima|บังคับให้หยุด|Sapilitang pagtigil|Durmaya zorla|Примус.припин.|Buộc dừng|Phoqelela ukuma|Dwing stop|በኃይል ማቆም|فرض الإيقاف|Məcburən dayansın|Məcburən dayansın|Прымусовае спыненне|Принудително спиране|Força l\'aturada|Vynutit ukončení|Tving til at standse|Beenden erzwingen|Αναγκαστική διακοπή|Force stop|Force stop|Forzar detención|Forzar la detención|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>            	
-				<ELEMENTTEXT>确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </FORCESTOP>
-        <NOTIFICLICK>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>CLICK</ACTION>
-                <ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFICLICK>
-        <NOTIFIGET>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>GET</ACTION>
-            	<ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFIGET>
-        <CLEARCATCH>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>清除缓存|清除快取|清除快取|Sula inqolobane|Maak kas skoon|መሸጎጫ አጥራ|محو ذاكرة التخزين المؤقت|Keşi təmizləyin|Keşi təmizləyin|Ачысціць кэш|Изчистване на кеша|Esborra la memòria cau|Vymazat mezipaměť|Ryd cache|Cache leeren|Εκκαθάριση προσωρινής μνήμης|Clear cache|Clear cache|Borrar caché|Eliminar memoria caché|Clear cache|Tühjenda vahemälu|Tühjenda vahemälu|پاک کردن حافظهٔ پنهان|Tyhjennä välimuisti|Vider le cache|Vider le cache|कैश साफ़ करें|Očisti predmemoriju|A gyorsítótár törlése|Մաքրել քեշը|Մաքրել քեշը|Hapus cache|Cancella cache|נקה קבצים שמורים|キャッシュを消去|ქეშის წაშლა|ქეშის წაშლა|សម្អាត​ឃ្លាំង|សម្អាត​ឃ្លាំង|캐시 지우기|ລຶບລ້າງແຄຊ|ລຶບລ້າງແຄຊ|Išvalyti talpyklą|Notīrīt kešatmiņu|Кешийг арилгах|Кешийг арилгах|Kosongkan cache|Kosongkan cache|Fjern hurtiglager|केस हटाउनुहोस्|केस हटाउनुहोस्|Cache wissen|Wyczyść pamięć podręczną|Limpar cache|Limpar cache|Stizzar il cache|Goliţi memoria cache|Очистить кэш|හැඹිලිය හිස් කරන්න|හැඹිලිය හිස් කරන්න|Vymazať vyrovnávaciu pamäť|Počisti predpomnilnik|Обриши кеш|Rensa cacheminne|Futa akiba|ล้างแคช|I-clear ang cache|Önbelleği temizle|Очистити кеш|Xóa bộ nhớ cache|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </CLEARCATCH>
-        <RATEFLOW>
-            
-        </RATEFLOW>
-    </PHONE>  
-    <PHONE>  
-        <BASEINFO>
-	        <id>10004</id>
-	        <manufacturer>Xiaomi</manufacturer>
-	        <mode>ALL</mode>
-	        <release>4.2.0</release>  
-	        <sdk>16</sdk>
-	        <package_wait>10</package_wait>
-	        <interval>2000</interval>
-	        <slice>200</slice>
-	       	<action_wait>500</action_wait>
-	       	<message_type>1</message_type>
-	        <match_type>all</match_type>
-	        <uab_sdk_ver>2.0</uab_sdk_ver>
-        </BASEINFO>
-        <FORCESTOP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>结束运行|End|結束操作|强行停止|强制停止|強制停止|Force stop|Sunni peatuma|Sunni peatuma|توقف اجباری|Pakota lopetus|Forcer l\'arrêt|Forcer l\'arrêt|बंद करना बाध्‍य करें|Prisilno zaustavi|Kényszerített leállítás|Ստիպողաբար դադարեցնել|Ստիպողաբար դադարեցնել|Paksa berhenti|Termina|אלץ עצירה|強制停止|ძალით შეჩერება|ძალით შეჩერება|បង្ខំ​ឲ្យ​បញ្ឈប់|បង្ខំ​ឲ្យ​បញ្ឈប់|강제 종료|ບັງ​ຄັບ​ປິດ|ບັງ​ຄັບ​ປິດ|Sustabdyti|Forsēt apturēšanu|Хүчээр зогсоох|Хүчээр зогсоох|Henti paksa|Henti paksa|Tving avslutning|जबरजस्ती रोक्नुहोस्|जबरजस्ती रोक्नुहोस्|Nu stoppen|Wymuś zatrzymanie|Forçar parada|Forçar paragem|Sfurzar da terminar|Opriţi forţat|Остановить|බලෙන් නවත්වන්න|බලෙන් නවත්වන්න|Vynútiť zastavenie|Prisilna ustavitev|Принудно заустави|Tvingad avslutning|Komesha kwa lazima|บังคับให้หยุด|Sapilitang pagtigil|Durmaya zorla|Примус.припин.|Buộc dừng|Phoqelela ukuma|Dwing stop|በኃይል ማቆም|فرض الإيقاف|Məcburən dayansın|Məcburən dayansın|Прымусовае спыненне|Принудително спиране|Força l\'aturada|Vynutit ukončení|Tving til at standse|Beenden erzwingen|Αναγκαστική διακοπή|Force stop|Force stop|Forzar detención|Forzar la detención|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>            	
-				<ELEMENTTEXT>确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </FORCESTOP>
-        <NOTIFICLICK>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.TextView</ELEMENTTYPE>
-            	<ELEMENTTEXT>自定义通知|自定義通知|Notifications|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>CLICK</ACTION>
-                <ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-            	<ELEMENTTEXT>NULL|</ELEMENTTEXT>
-            </STEP>
-        </NOTIFICLICK>
-        <NOTIFIGET>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>GET</ACTION>
-            	<ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFIGET>
-        <CLEARCATCH>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>清除缓存|清除快取|清除快取|Sula inqolobane|Maak kas skoon|መሸጎጫ አጥራ|محو ذاكرة التخزين المؤقت|Keşi təmizləyin|Keşi təmizləyin|Ачысціць кэш|Изчистване на кеша|Esborra la memòria cau|Vymazat mezipaměť|Ryd cache|Cache leeren|Εκκαθάριση προσωρινής μνήμης|Clear cache|Clear cache|Borrar caché|Eliminar memoria caché|Clear cache|Tühjenda vahemälu|Tühjenda vahemälu|پاک کردن حافظهٔ پنهان|Tyhjennä välimuisti|Vider le cache|Vider le cache|कैश साफ़ करें|Očisti predmemoriju|A gyorsítótár törlése|Մաքրել քեշը|Մաքրել քեշը|Hapus cache|Cancella cache|נקה קבצים שמורים|キャッシュを消去|ქეშის წაშლა|ქეშის წაშლა|សម្អាត​ឃ្លាំង|សម្អាត​ឃ្លាំង|캐시 지우기|ລຶບລ້າງແຄຊ|ລຶບລ້າງແຄຊ|Išvalyti talpyklą|Notīrīt kešatmiņu|Кешийг арилгах|Кешийг арилгах|Kosongkan cache|Kosongkan cache|Fjern hurtiglager|केस हटाउनुहोस्|केस हटाउनुहोस्|Cache wissen|Wyczyść pamięć podręczną|Limpar cache|Limpar cache|Stizzar il cache|Goliţi memoria cache|Очистить кэш|හැඹිලිය හිස් කරන්න|හැඹිලිය හිස් කරන්න|Vymazať vyrovnávaciu pamäť|Počisti predpomnilnik|Обриши кеш|Rensa cacheminne|Futa akiba|ล้างแคช|I-clear ang cache|Önbelleği temizle|Очистити кеш|Xóa bộ nhớ cache|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </CLEARCATCH>
-        <RATEFLOW>
-            
-        </RATEFLOW>
-    </PHONE>  
-    <PHONE>  
-        <BASEINFO>
-	        <id>10002</id>
-	        <manufacturer>Hisense</manufacturer>
-	        <mode>|||Hisense I639T|||</mode>
-	        <release>4.4.4</release>  
-	        <sdk>19</sdk>
-	        <package_wait>10</package_wait>
-	        <interval>1000</interval>
-	        <slice>200</slice>
-	      	<action_wait>500</action_wait>
-	      	<message_type>2</message_type>
-	        <match_type>only</match_type>
-	        <uab_sdk_ver>2.0</uab_sdk_ver>
-        </BASEINFO>
-        <FORCESTOP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>强行停止|强制停止|強制停止|结束运行|End|結束操作|Force stop|Sunni peatuma|Sunni peatuma|توقف اجباری|Pakota lopetus|Forcer l\'arrêt|Forcer l\'arrêt|बंद करना बाध्‍य करें|Prisilno zaustavi|Kényszerített leállítás|Ստիպողաբար դադարեցնել|Ստիպողաբար դադարեցնել|Paksa berhenti|Termina|אלץ עצירה|強制停止|ძალით შეჩერება|ძალით შეჩერება|បង្ខំ​ឲ្យ​បញ្ឈប់|បង្ខំ​ឲ្យ​បញ្ឈប់|강제 종료|ບັງ​ຄັບ​ປິດ|ບັງ​ຄັບ​ປິດ|Sustabdyti|Forsēt apturēšanu|Хүчээр зогсоох|Хүчээр зогсоох|Henti paksa|Henti paksa|Tving avslutning|जबरजस्ती रोक्नुहोस्|जबरजस्ती रोक्नुहोस्|Nu stoppen|Wymuś zatrzymanie|Forçar parada|Forçar paragem|Sfurzar da terminar|Opriţi forţat|Остановить|බලෙන් නවත්වන්න|බලෙන් නවත්වන්න|Vynútiť zastavenie|Prisilna ustavitev|Принудно заустави|Tvingad avslutning|Komesha kwa lazima|บังคับให้หยุด|Sapilitang pagtigil|Durmaya zorla|Примус.припин.|Buộc dừng|Phoqelela ukuma|Dwing stop|በኃይል ማቆም|فرض الإيقاف|Məcburən dayansın|Məcburən dayansın|Прымусовае спыненне|Принудително спиране|Força l\'aturada|Vynutit ukončení|Tving til at standse|Beenden erzwingen|Αναγκαστική διακοπή|Force stop|Force stop|Forzar detención|Forzar la detención|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>            	
-				<ELEMENTTEXT>确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </FORCESTOP>
-        <NOTIFICLICK>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>CLICK</ACTION>
-                <ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFICLICK>
-        <NOTIFIGET>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>GET</ACTION>
-            	<ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFIGET>
-        <CLEARCATCH>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>清除缓存|清除快取|清除快取|Sula inqolobane|Maak kas skoon|መሸጎጫ አጥራ|محو ذاكرة التخزين المؤقت|Keşi təmizləyin|Keşi təmizləyin|Ачысціць кэш|Изчистване на кеша|Esborra la memòria cau|Vymazat mezipaměť|Ryd cache|Cache leeren|Εκκαθάριση προσωρινής μνήμης|Clear cache|Clear cache|Borrar caché|Eliminar memoria caché|Clear cache|Tühjenda vahemälu|Tühjenda vahemälu|پاک کردن حافظهٔ پنهان|Tyhjennä välimuisti|Vider le cache|Vider le cache|कैश साफ़ करें|Očisti predmemoriju|A gyorsítótár törlése|Մաքրել քեշը|Մաքրել քեշը|Hapus cache|Cancella cache|נקה קבצים שמורים|キャッシュを消去|ქეშის წაშლა|ქეშის წაშლა|សម្អាត​ឃ្លាំង|សម្អាត​ឃ្លាំង|캐시 지우기|ລຶບລ້າງແຄຊ|ລຶບລ້າງແຄຊ|Išvalyti talpyklą|Notīrīt kešatmiņu|Кешийг арилгах|Кешийг арилгах|Kosongkan cache|Kosongkan cache|Fjern hurtiglager|केस हटाउनुहोस्|केस हटाउनुहोस्|Cache wissen|Wyczyść pamięć podręczną|Limpar cache|Limpar cache|Stizzar il cache|Goliţi memoria cache|Очистить кэш|හැඹිලිය හිස් කරන්න|හැඹිලිය හිස් කරන්න|Vymazať vyrovnávaciu pamäť|Počisti predpomnilnik|Обриши кеш|Rensa cacheminne|Futa akiba|ล้างแคช|I-clear ang cache|Önbelleği temizle|Очистити кеш|Xóa bộ nhớ cache|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </CLEARCATCH>
-        <RATEFLOW>
-            
-        </RATEFLOW>
-    </PHONE>  
-       <PHONE>  
-        <BASEINFO>
-	        <id>10005</id>
-	        <manufacturer>ZTE</manufacturer>
-	        <mode>|||V9180|||N9180|||</mode>
-	        <release>4.3</release>  
-	        <sdk>18</sdk>
-	        <package_wait>10</package_wait>
-	        <interval>1000</interval>
-	        <slice>200</slice>
-	      	<action_wait>500</action_wait>
-	      	<message_type>2</message_type>
-	        <match_type>only</match_type>
-	        <uab_sdk_ver>2.0</uab_sdk_ver>
-        </BASEINFO>
-        <FORCESTOP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>强行停止|强制停止|強制停止|结束运行|End|結束操作|Force stop|Sunni peatuma|Sunni peatuma|توقف اجباری|Pakota lopetus|Forcer l\'arrêt|Forcer l\'arrêt|बंद करना बाध्‍य करें|Prisilno zaustavi|Kényszerített leállítás|Ստիպողաբար դադարեցնել|Ստիպողաբար դադարեցնել|Paksa berhenti|Termina|אלץ עצירה|強制停止|ძალით შეჩერება|ძალით შეჩერება|បង្ខំ​ឲ្យ​បញ្ឈប់|បង្ខំ​ឲ្យ​បញ្ឈប់|강제 종료|ບັງ​ຄັບ​ປິດ|ບັງ​ຄັບ​ປິດ|Sustabdyti|Forsēt apturēšanu|Хүчээр зогсоох|Хүчээр зогсоох|Henti paksa|Henti paksa|Tving avslutning|जबरजस्ती रोक्नुहोस्|जबरजस्ती रोक्नुहोस्|Nu stoppen|Wymuś zatrzymanie|Forçar parada|Forçar paragem|Sfurzar da terminar|Opriţi forţat|Остановить|බලෙන් නවත්වන්න|බලෙන් නවත්වන්න|Vynútiť zastavenie|Prisilna ustavitev|Принудно заустави|Tvingad avslutning|Komesha kwa lazima|บังคับให้หยุด|Sapilitang pagtigil|Durmaya zorla|Примус.припин.|Buộc dừng|Phoqelela ukuma|Dwing stop|በኃይል ማቆም|فرض الإيقاف|Məcburən dayansın|Məcburən dayansın|Прымусовае спыненне|Принудително спиране|Força l\'aturada|Vynutit ukončení|Tving til at standse|Beenden erzwingen|Αναγκαστική διακοπή|Force stop|Force stop|Forzar detención|Forzar la detención|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>            	
-				<ELEMENTTEXT>确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </FORCESTOP>
-        <NOTIFICLICK>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>com.nubia.nubiaswitch.NubiaSwitch</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>CLICK</ACTION>
-                <ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFICLICK>
-        <NOTIFIGET>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>GET</ACTION>
-            	<ELEMENTTYPE>com.nubia.nubiaswitch.NubiaSwitch</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFIGET>
-        <CLEARCATCH>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>清除缓存|清除快取|清除快取|Sula inqolobane|Maak kas skoon|መሸጎጫ አጥራ|محو ذاكرة التخزين المؤقت|Keşi təmizləyin|Keşi təmizləyin|Ачысціць кэш|Изчистване на кеша|Esborra la memòria cau|Vymazat mezipaměť|Ryd cache|Cache leeren|Εκκαθάριση προσωρινής μνήμης|Clear cache|Clear cache|Borrar caché|Eliminar memoria caché|Clear cache|Tühjenda vahemälu|Tühjenda vahemälu|پاک کردن حافظهٔ پنهان|Tyhjennä välimuisti|Vider le cache|Vider le cache|कैश साफ़ करें|Očisti predmemoriju|A gyorsítótár törlése|Մաքրել քեշը|Մաքրել քեշը|Hapus cache|Cancella cache|נקה קבצים שמורים|キャッシュを消去|ქეშის წაშლა|ქეშის წაშლა|សម្អាត​ឃ្លាំង|សម្អាត​ឃ្លាំង|캐시 지우기|ລຶບລ້າງແຄຊ|ລຶບລ້າງແຄຊ|Išvalyti talpyklą|Notīrīt kešatmiņu|Кешийг арилгах|Кешийг арилгах|Kosongkan cache|Kosongkan cache|Fjern hurtiglager|केस हटाउनुहोस्|केस हटाउनुहोस्|Cache wissen|Wyczyść pamięć podręczną|Limpar cache|Limpar cache|Stizzar il cache|Goliţi memoria cache|Очистить кэш|හැඹිලිය හිස් කරන්න|හැඹිලිය හිස් කරන්න|Vymazať vyrovnávaciu pamäť|Počisti predpomnilnik|Обриши кеш|Rensa cacheminne|Futa akiba|ล้างแคช|I-clear ang cache|Önbelleği temizle|Очистити кеш|Xóa bộ nhớ cache|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </CLEARCATCH>
-        <RATEFLOW>
-            
-        </RATEFLOW>
-    </PHONE>
+<PHONES>
     <PHONE>
         <BASEINFO>
-            <id>10006</id>
-            <manufacturer>AndroidM</manufacturer>
-            <mode>AndroidM</mode>
-            <release>6.0</release>
-            <sdk>23</sdk>
-            <package_wait>10</package_wait>
-            <interval>1000</interval>
-            <slice>200</slice>
-            <action_wait>50</action_wait>
-            <message_type>1</message_type>
-            <match_type>AndroidM</match_type>
-            <uab_sdk_ver>2.0</uab_sdk_ver>
+            <id>3</id>
+            <manufacturer>TEST</manufacturer>
+            <mode>TEST</mode>
+            <minsdk>0</minsdk>
+            <maxsdk>0</maxsdk>
+            <uab_sdk_ver>1.0</uab_sdk_ver>
         </BASEINFO>
         <FORCESTOP>
             <STEP>
@@ -508,45 +31,17 @@
                 <ACTION>BACK</ACTION>
             </STEP>
         </FORCESTOP>
-        <NOTIFICLICK>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>CLICK</ACTION>
-                <ELEMENTTYPE>android.widget.TextView</ELEMENTTYPE>
-                <ELEMENTTEXT>通知|Notifications|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>CLICK</ACTION>
-                <ELEMENTTYPE>android.widget.TextView</ELEMENTTYPE>
-                <ELEMENTTEXT>全部阻止|Block all|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFICLICK>
-        <NOTIFIGET>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>GET</ACTION>
-                <ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-                <ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFIGET>
-        <CLEARCATCH>
+    </PHONE>
+    <PHONE>
+        <BASEINFO>
+            <id>2</id>
+            <manufacturer>Xiaomi</manufacturer>
+            <mode>all</mode>
+            <minsdk>0</minsdk>
+            <maxsdk>0</maxsdk>
+            <uab_sdk_ver>1.0</uab_sdk_ver>
+        </BASEINFO>
+        <FORCESTOP>
             <STEP>
                 <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
                 <ACTION>START</ACTION>
@@ -555,31 +50,28 @@
                 <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
                 <ACTION>CLICK</ACTION>
                 <ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-                <ELEMENTTEXT>清除缓存|清除快取|清除快取|Sula inqolobane|Maak kas skoon|መሸጎጫ አጥራ|محو ذاكرة التخزين المؤقت|Keşi təmizləyin|Keşi təmizləyin|Ачысціць кэш|Изчистване на кеша|Esborra la memòria cau|Vymazat mezipaměť|Ryd cache|Cache leeren|Εκκαθάριση προσωρινής μνήμης|Clear cache|Clear cache|Borrar caché|Eliminar memoria caché|Clear cache|Tühjenda vahemälu|Tühjenda vahemälu|پاک کردن حافظهٔ پنهان|Tyhjennä välimuisti|Vider le cache|Vider le cache|कैश साफ़ करें|Očisti predmemoriju|A gyorsítótár törlése|Մաքրել քեշը|Մաքրել քեշը|Hapus cache|Cancella cache|נקה קבצים שמורים|キャッシュを消去|ქეშის წაშლა|ქეშის წაშლა|សម្អាត​ឃ្លាំង|សម្អាត​ឃ្លាំង|캐시 지우기|ລຶບລ້າງແຄຊ|ລຶບລ້າງແຄຊ|Išvalyti talpyklą|Notīrīt kešatmiņu|Кешийг арилгах|Кешийг арилгах|Kosongkan cache|Kosongkan cache|Fjern hurtiglager|केस हटाउनुहोस्|केस हटाउनुहोस्|Cache wissen|Wyczyść pamięć podręczną|Limpar cache|Limpar cache|Stizzar il cache|Goliţi memoria cache|Очистить кэш|හැඹිලිය හිස් කරන්න|හැඹිලිය හිස් කරන්න|Vymazať vyrovnávaciu pamäť|Počisti predpomnilnik|Обриши кеш|Rensa cacheminne|Futa akiba|ล้างแคช|I-clear ang cache|Önbelleği temizle|Очистити кеш|Xóa bộ nhớ cache|</ELEMENTTEXT>
+                <ELEMENTTEXT>结束运行|結束操作|强行停止|强制停止|強制停止|结束运行|End|結束操作|Force stop|Sunni peatuma|Sunni peatuma|توقف اجباری|Pakota lopetus|Forcer l\'arrêt|Forcer l\'arrêt|बंद करना बाध्‍य करें|Prisilno zaustavi|Kényszerített leállítás|Ստիպողաբար դադարեցնել|Ստիպողաբար դադարեցնել|Paksa berhenti|Termina|אלץ עצירה|強制停止|ძალით შეჩერება|ძალით შეჩერება|បង្ខំ​ឲ្យ​បញ្ឈប់|បង្ខំ​ឲ្យ​បញ្ឈប់|강제 종료|ບັງ​ຄັບ​ປິດ|ບັງ​ຄັບ​ປິດ|Sustabdyti|Forsēt apturēšanu|Хүчээр зогсоох|Хүчээр зогсоох|Henti paksa|Henti paksa|Tving avslutning|जबरजस्ती रोक्नुहोस्|जबरजस्ती रोक्नुहोस्|Nu stoppen|Wymuś zatrzymanie|Forçar parada|Forçar paragem|Sfurzar da terminar|Opriţi forţat|Остановить|බලෙන් නවත්වන්න|බලෙන් නවත්වන්න|Vynútiť zastavenie|Prisilna ustavitev|Принудно заустави|Tvingad avslutning|Komesha kwa lazima|บังคับให้หยุด|Sapilitang pagtigil|Durmaya zorla|Примус.припин.|Buộc dừng|Phoqelela ukuma|Dwing stop|በኃይል ማቆም|فرض الإيقاف|Məcburən dayansın|Məcburən dayansın|Прымусовае спыненне|Принудително спиране|Força l\'aturada|Vynutit ukončení|Tving til at standse|Beenden erzwingen|Αναγκαστική διακοπή|Force stop|Force stop|Forzar detención|Forzar la detención|</ELEMENTTEXT>
+            </STEP>
+            <STEP>
+                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
+                <ACTION>CLICK</ACTION>
+                <ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
+                <ELEMENTTEXT>是|确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
             </STEP>
             <STEP>
                 <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
                 <ACTION>BACK</ACTION>
             </STEP>
-        </CLEARCATCH>
-        <RATEFLOW>
-
-        </RATEFLOW>
+        </FORCESTOP>
     </PHONE>
-    <PHONE>  
+    <PHONE>
         <BASEINFO>
-	        <id>10002</id>
+	        <id>1</id>
 	        <manufacturer>ALL</manufacturer>
 	        <mode>ALL</mode>
-	        <release>4.4.2</release>  
-	        <sdk>19</sdk>
-	        <package_wait>10</package_wait>
-	        <interval>1000</interval>
-	        <slice>200</slice>
-	      	<action_wait>50</action_wait>
-	      	<message_type>1</message_type>
-	        <match_type>all</match_type>
-	        <uab_sdk_ver>2.0</uab_sdk_ver>
+	        <minsdk>0</minsdk>
+	        <maxsdk>0</maxsdk>
+	        <uab_sdk_ver>1.0</uab_sdk_ver>
         </BASEINFO>
         <FORCESTOP>
             <STEP>
@@ -590,12 +82,12 @@
                 <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
             	<ACTION>CLICK</ACTION>
             	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>强行停止|强制停止|強制停止|结束运行|End|結束操作|Force stop|Sunni peatuma|Sunni peatuma|توقف اجباری|Pakota lopetus|Forcer l\'arrêt|Forcer l\'arrêt|बंद करना बाध्‍य करें|Prisilno zaustavi|Kényszerített leállítás|Ստիպողաբար դադարեցնել|Ստիպողաբար դադարեցնել|Paksa berhenti|Termina|אלץ עצירה|強制停止|ძალით შეჩერება|ძალით შეჩერება|បង្ខំ​ឲ្យ​បញ្ឈប់|បង្ខំ​ឲ្យ​បញ្ឈប់|강제 종료|ບັງ​ຄັບ​ປິດ|ບັງ​ຄັບ​ປິດ|Sustabdyti|Forsēt apturēšanu|Хүчээр зогсоох|Хүчээр зогсоох|Henti paksa|Henti paksa|Tving avslutning|जबरजस्ती रोक्नुहोस्|जबरजस्ती रोक्नुहोस्|Nu stoppen|Wymuś zatrzymanie|Forçar parada|Forçar paragem|Sfurzar da terminar|Opriţi forţat|Остановить|බලෙන් නවත්වන්න|බලෙන් නවත්වන්න|Vynútiť zastavenie|Prisilna ustavitev|Принудно заустави|Tvingad avslutning|Komesha kwa lazima|บังคับให้หยุด|Sapilitang pagtigil|Durmaya zorla|Примус.припин.|Buộc dừng|Phoqelela ukuma|Dwing stop|በኃይል ማቆም|فرض الإيقاف|Məcburən dayansın|Məcburən dayansın|Прымусовае спыненне|Принудително спиране|Força l\'aturada|Vynutit ukončení|Tving til at standse|Beenden erzwingen|Αναγκαστική διακοπή|Force stop|Force stop|Forzar detención|Forzar la detención|</ELEMENTTEXT>
+            	<ELEMENTTEXT>强行停止|强制停止|強制停止|结束运行|End|結束操作|Stop forcefully|Force stop|Sunni peatuma|Sunni peatuma|توقف اجباری|Pakota lopetus|Forcer l\'arrêt|Forcer l\'arrêt|बंद करना बाध्‍य करें|Prisilno zaustavi|Kényszerített leállítás|Ստիպողաբար դադարեցնել|Ստիպողաբար դադարեցնել|Paksa berhenti|Termina|אלץ עצירה|強制停止|ძალით შეჩერება|ძალით შეჩერება|បង្ខំ​ឲ្យ​បញ្ឈប់|បង្ខំ​ឲ្យ​បញ្ឈប់|강제 종료|ບັງ​ຄັບ​ປິດ|ບັງ​ຄັບ​ປິດ|Sustabdyti|Forsēt apturēšanu|Хүчээр зогсоох|Хүчээр зогсоох|Henti paksa|Henti paksa|Tving avslutning|जबरजस्ती रोक्नुहोस्|जबरजस्ती रोक्नुहोस्|Nu stoppen|Wymuś zatrzymanie|Forçar parada|Forçar paragem|Sfurzar da terminar|Opriţi forţat|Остановить|බලෙන් නවත්වන්න|බලෙන් නවත්වන්න|Vynútiť zastavenie|Prisilna ustavitev|Принудно заустави|Tvingad avslutning|Komesha kwa lazima|บังคับให้หยุด|Sapilitang pagtigil|Durmaya zorla|Примус.припин.|Buộc dừng|Phoqelela ukuma|Dwing stop|በኃይል ማቆም|فرض الإيقاف|Məcburən dayansın|Məcburən dayansın|Прымусовае спыненне|Принудително спиране|Força l\'aturada|Vynutit ukončení|Tving til at standse|Beenden erzwingen|Αναγκαστική διακοπή|Force stop|Force stop|Forzar detención|Forzar la detención|</ELEMENTTEXT>
             </STEP>
             <STEP>
                 <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
             	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>            	
+            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
 				<ELEMENTTEXT>是|确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
             </STEP>
             <STEP>
@@ -603,62 +95,5 @@
             	<ACTION>BACK</ACTION>
             </STEP>
         </FORCESTOP>
-        <NOTIFICLICK>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>CLICK</ACTION>
-                <ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>是|确定|OK|ठीक है|U redu|OK|Լավ|Լավ|Oke|OK|אישור|OK|კარგი|კარგი|យល់​ព្រម|យល់​ព្រម|확인|ຕົກລົງ|ຕົກລົງ|Gerai|Labi|Тийм|Тийм|OK|OK|OK|ठीक छ|ठीक छ|OK|OK|OK|OK|OK|OK|ОК|හරි|හරි|OK|V redu|Потврди|OK|Sawa|ตกลง|OK|Tamam|OK|OK|確定|確定|KULUNGILE|OK|እሺ|موافق|OK|OK|ОК|OK|D\'acord|OK|OK|OK|OK|OK|OK|Aceptar|Aceptar|OK|OK|OK|تأیید|OK|OK|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFICLICK>
-        <NOTIFIGET>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>GET</ACTION>
-            	<ELEMENTTYPE>android.widget.CheckBox</ELEMENTTYPE>
-            	<ELEMENTTEXT>显示通知|顯示通知|顯示通知|Show notifications|Wys kennisgewings|ማሳወቂያዎች አሳይ|إظهار الإشعارات|Bildirişləri göstər|Bildirişləri göstər|Паказваць паведамленні|Известия: Показване|Mostra les notificacions|Zobrazit upozornění|Vis meddelelser|Benachrichtigungen zeigen|Εμφάν. ειδοποιήσεων|Show notifications|Show notifications|Mostrar notificaciones|Mostrar notificaciones|Kuva teatised|Kuva teatised|نمایش اعلان‌ها|Näytä ilmoitukset|Afficher notifications|Afficher les notifications|सूचना दिखाएं|Prikaži obavijesti|Értesítések megjelenítése|Տեսնել ծանուցումները|Տեսնել ծանուցումները|Tampilkan pemberitahuan|Mostra notifiche|הצג התראות|通知を表示|შეტყობინებების ჩვენება|შეტყობინებების ჩვენება|បង្ហាញ​ការ​ជូន​ដំណឹង|បង្ហាញ​ការ​ជូន​ដំណឹង|알림 표시|ສະແດງແຈ້ງເຕືອນ|ສະແດງແຈ້ງເຕືອນ|Rodyti pranešimus|Rādīt paziņojumus|Мэдэгдлүүдийг харуулах|Мэдэгдлүүдийг харуулах|Tunjukkan pemberitahuan|Tunjukkan pemberitahuan|Vis varsler|सूचनाहरू देखाउनुहोस्|सूचनाहरू देखाउनुहोस्|Meldingen weergeven|Pokaż powiadomienia|Mostrar notificações|Mostrar notificações|Afişaţi notificările|Включить уведомления|දැනුම්දීම් පෙන්වන්න|දැනුම්දීම් පෙන්වන්න|Zobraziť upozornenia|Pokaži obvestila|Прикажи обавештења|Visa meddelanden|Onyesha arifa|แสดงการแจ้งเตือน|Ipakita notification|Bildirimleri göster|Показати сповіщення|Hiển thị thông báo|Bonisa izaziso|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </NOTIFIGET>
-        <CLEARCATCH>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-                <ACTION>START</ACTION>
-            </STEP>
-            <STEP>
-            	<ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>CLICK</ACTION>
-            	<ELEMENTTYPE>android.widget.Button</ELEMENTTYPE>
-            	<ELEMENTTEXT>清除缓存|清除快取|清除快取|Sula inqolobane|Maak kas skoon|መሸጎጫ አጥራ|محو ذاكرة التخزين المؤقت|Keşi təmizləyin|Keşi təmizləyin|Ачысціць кэш|Изчистване на кеша|Esborra la memòria cau|Vymazat mezipaměť|Ryd cache|Cache leeren|Εκκαθάριση προσωρινής μνήμης|Clear cache|Clear cache|Borrar caché|Eliminar memoria caché|Clear cache|Tühjenda vahemälu|Tühjenda vahemälu|پاک کردن حافظهٔ پنهان|Tyhjennä välimuisti|Vider le cache|Vider le cache|कैश साफ़ करें|Očisti predmemoriju|A gyorsítótár törlése|Մաքրել քեշը|Մաքրել քեշը|Hapus cache|Cancella cache|נקה קבצים שמורים|キャッシュを消去|ქეშის წაშლა|ქეშის წაშლა|សម្អាត​ឃ្លាំង|សម្អាត​ឃ្លាំង|캐시 지우기|ລຶບລ້າງແຄຊ|ລຶບລ້າງແຄຊ|Išvalyti talpyklą|Notīrīt kešatmiņu|Кешийг арилгах|Кешийг арилгах|Kosongkan cache|Kosongkan cache|Fjern hurtiglager|केस हटाउनुहोस्|केस हटाउनुहोस्|Cache wissen|Wyczyść pamięć podręczną|Limpar cache|Limpar cache|Stizzar il cache|Goliţi memoria cache|Очистить кэш|හැඹිලිය හිස් කරන්න|හැඹිලිය හිස් කරන්න|Vymazať vyrovnávaciu pamäť|Počisti predpomnilnik|Обриши кеш|Rensa cacheminne|Futa akiba|ล้างแคช|I-clear ang cache|Önbelleği temizle|Очистити кеш|Xóa bộ nhớ cache|</ELEMENTTEXT>
-            </STEP>
-            <STEP>
-                <ACTIVITY>android.settings.APPLICATION_DETAILS_SETTINGS</ACTIVITY>
-            	<ACTION>BACK</ACTION>
-            </STEP>
-        </CLEARCATCH>
-        <RATEFLOW>
-            
-        </RATEFLOW>
-    </PHONE>  
-</PHONES>  
+    </PHONE>
+</PHONES>
