@@ -1,9 +1,13 @@
 package com.xiang.batterytest.remotebg;
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -11,6 +15,8 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.xiang.batterytest.MyApp;
 import com.xiang.batterytest.util.AccessUtil;
@@ -70,7 +76,279 @@ public class PhoneType {
 	private Messenger mMessenger;
 	private ArrayList<String> mAppList;
 	private AudioManager mAudioManager;
-	private Object mFindLock;
+	private Object mFindLock = new Object();
+	private Object mEventLock = new Object();
+	private ArrayList<AccessibilityEvent> mEventList = new ArrayList<>();
+
+	private Thread mFindThread = new Thread(){
+		@Override
+		public void run() {
+			while(true){
+				Log.v("xiangpeng", "find thread is running");
+				ActionStep vStep = PhoneType.getInstance().getCurrentStep();
+				AccessibilityEvent vEvent = null;
+				synchronized (mEventLock){
+					if(!m_bWorkingFlag){
+						synchronized (mEventLock){
+							try {
+								mEventList.clear();
+								mEventLock.wait();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					}
+					else{
+						if(mEventList.size() == 0){
+							synchronized (mEventLock){
+								if(mEventList.size() == 0){
+									try{
+										mEventLock.wait(2000);
+									}
+									catch (Exception e){
+										e.printStackTrace();
+									}
+								}
+							}
+						}
+					}
+					if(mEventList.size() > 0){
+						synchronized (mEventLock){
+							if(mEventList.size() > 0){
+								vEvent = mEventList.remove(0);
+							}
+						}
+					}
+					else{
+						vEvent = null;
+					}
+					if(vEvent != null){
+						if(doAction(vEvent, vStep)){
+							if(checkStepOver()){
+								m_bWorkingFlag = false;
+								synchronized (mEventLock){
+									mEventList.clear();
+								}
+								setFindingFlag(false);
+							}
+						}
+					}
+					else{
+						m_bWorkingFlag = false;
+						synchronized (mEventLock){
+							mEventList.clear();
+						}
+						setFindingFlag(false);
+					}
+				}
+			}
+		}
+	};
+
+	public AccessibilityNodeInfo findElement(AccessibilityEvent accEvent,
+											 String strElementType, String strElementText) {
+		AccessibilityNodeInfo vRet = null;
+		if (accEvent == null) {
+			return null;
+		}
+		AccessibilityNodeInfo mNodeInfo = accEvent.getSource();
+		if (mNodeInfo == null) {
+			return null;
+		}
+		if (strElementType == null || strElementText == null) {
+			return null;
+		}
+		vRet = forNode(accEvent.getSource(), strElementText);
+//        if(vRet == null){
+//            Log.v("xiangpeng", "findElement fornode failed first" + strElementText);
+//            try{
+//                Thread.sleep(1500);
+//            }
+//            catch (Exception e){
+//                e.printStackTrace();
+//            }
+//            vRet = forNode(accEvent.getSource(), strElementText);
+//            if(vRet == null){
+//                Log.v("xiangpeng", "findElement fornode failed second" + strElementText);
+//            }
+//        }
+		return vRet;
+	}
+
+	private AccessibilityNodeInfo forNode(AccessibilityNodeInfo node,
+										  String strElementText) {
+		if (node == null || strElementText == null)
+			return null;
+		CharSequence cs = node.getText();
+		if (cs != null) {
+			Log.v("nodeinfo", "node text is "+cs.toString());
+//            if(cs.toString().equalsIgnoreCase(strElementText)){
+//                Log.w("nodeinfo", "test find node "+strElementText);
+//                return node;
+//            }
+			int iStart = 0;
+			try {
+				for (int i = 0; i < strElementText.length(); i++) {
+					if (strElementText.charAt(i) == '|') {
+						String strTmp = strElementText.substring(iStart, i);
+						iStart = i + 1;
+						if (strTmp.equalsIgnoreCase(cs.toString()) == true) {
+							return node;
+						}
+					}
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		int n = node.getChildCount();
+
+		for (int i = 0; i < n; i++) {
+			AccessibilityNodeInfo an = node.getChild(i);
+			if (an != null) {
+				AccessibilityNodeInfo newNodeInfo = forNode(an, strElementText);
+				if (newNodeInfo != null) {
+					return newNodeInfo;
+				}
+				an.recycle();
+			}
+		}
+
+		return null;
+	}
+
+	private AccessibilityNodeInfo forNodeHtc(AccessibilityNodeInfo node, String strElementType, int iLevel) {
+		if (node == null || strElementType == null)
+			return null;
+		if (node.getClassName().toString().equalsIgnoreCase(strElementType)) {
+			return node;
+		}
+		int n = node.getChildCount();
+		for (int i = 0; i < n; i++) {
+			AccessibilityNodeInfo an = node.getChild(i);
+			if (an != null) {
+				AccessibilityNodeInfo newNodeInfo = forNodeHtc(an,
+						strElementType, ++iLevel);
+				if (newNodeInfo != null) {
+					return newNodeInfo;
+				}
+				an.recycle();
+			}
+		}
+		return null;
+	}
+
+	public boolean doAction(AccessibilityEvent accEvent, ActionStep actionStep) {
+		boolean vRet = false;
+		try {
+			if (actionStep.m_asActionName.equalsIgnoreCase("CLICK")) {
+				AccessibilityNodeInfo nodeInfo = findElement(accEvent,
+						actionStep.m_asElementType, actionStep.m_asElementText);
+				if (android.os.Build.MANUFACTURER.equalsIgnoreCase("HTC")
+						&& actionStep.m_asElementType
+						.equalsIgnoreCase("android.widget.CheckBox")) {
+					nodeInfo = forNodeHtc(accEvent.getSource(),
+							actionStep.m_asElementType, 0);
+				}
+
+				if (BuildProperties.isMIUI()
+						&& (actionStep.m_asElementType
+						.equalsIgnoreCase("android.widget.CheckBox") || actionStep.m_asElementType
+						.equalsIgnoreCase("android.widget.TextView"))) {
+					return doForXiaomi(accEvent, nodeInfo, actionStep);
+				}
+				if (android.os.Build.MANUFACTURER.equalsIgnoreCase("ZTE")
+						&& actionStep.m_asElementType
+						.equalsIgnoreCase("com.nubia.nubiaswitch.NubiaSwitch")) {
+					nodeInfo = forNodeHtc(accEvent.getSource(),
+							actionStep.m_asElementType, 0);
+				}
+
+				if (nodeInfo != null) {
+					if (actionStep.m_asElementType
+							.equalsIgnoreCase("android.widget.CheckBox")) {
+						if (nodeInfo.isClickable() && nodeInfo.isEnabled()) {
+							boolean bCurChecked = nodeInfo.isChecked();
+							if (!bCurChecked) {
+								PhoneType.getInstance().getNextStep();
+								nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+								vRet = true;
+							}
+						}
+					} else if (actionStep.m_asElementType
+							.equalsIgnoreCase("com.nubia.nubiaswitch.NubiaSwitch")) {
+						if (nodeInfo.isCheckable() && nodeInfo.isEnabled()) {
+							boolean bCurChecked = nodeInfo.isChecked();
+							if(!bCurChecked){
+								PhoneType.getInstance().getNextStep();
+								nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+								vRet = true;
+							}
+						}
+					} else if (actionStep.m_asElementType.equalsIgnoreCase("android.widget.Button")) {
+						if (nodeInfo.isClickable() && nodeInfo.isEnabled()) {
+							PhoneType.getInstance().getNextStep();
+							nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+							vRet = true;
+						}
+					}
+					else if(actionStep.m_asElementType.equalsIgnoreCase("android.widget.textview") && Build.VERSION.SDK_INT > 22){
+						AccessibilityNodeInfo vTmp = nodeInfo.getParent();
+						if(vTmp != null){
+							nodeInfo = vTmp;
+							PhoneType.getInstance().getNextStep();
+							nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+							vRet = true;
+						}
+					}
+					nodeInfo.recycle();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			vRet = false;
+		}
+		return vRet;
+	}
+
+	public void addEvent(AccessibilityEvent aEvent){
+		synchronized (mEventLock){
+			mEventList.add(aEvent);
+			mEventLock.notifyAll();
+		}
+	}
+
+	private boolean doForXiaomi(AccessibilityEvent accEvent, AccessibilityNodeInfo nodeInfo, ActionStep actionStep) {
+		boolean vRet = false;
+		if(accEvent != null && nodeInfo != null && actionStep != null){
+			if(actionStep.m_asElementType.equalsIgnoreCase("android.widget.TextView")){
+				nodeInfo = nodeInfo.getParent();
+				if(nodeInfo != null){
+					PhoneType.getInstance().getNextStep();
+					nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+					vRet = true;
+					nodeInfo.recycle();
+				}
+			}
+			else if(actionStep.m_asElementType.equalsIgnoreCase("android.widget.CheckBox")){
+				nodeInfo = forNodeHtc(accEvent.getSource(), actionStep.m_asElementType, 0);
+				if(nodeInfo != null){
+					boolean vIsChecked = nodeInfo.isChecked();
+					if(!vIsChecked){
+						PhoneType.getInstance().getNextStep();
+						nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+						vRet = true;
+						nodeInfo.recycle();
+					}
+				}
+			}
+			else{
+				nodeInfo.recycle();
+			}
+		}
+		return vRet;
+	}
 
 	public static PhoneType getInstance() {
 		if (m_phoneType == null) {
@@ -95,10 +373,10 @@ public class PhoneType {
 			m_asNotifiGetList = new ArrayList<ActionStep>();
 		}
 		m_phoneType.parseXML();
+		mFindThread.start();
 	}
 
 	private PhoneType() {
-		mFindLock = new Object();
 		mAudioManager = (AudioManager) MyApp.getApp().getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
 		mWorkerThread = new HandlerThread("accessibility_thread");
 		mWorkerThread.start();
@@ -134,6 +412,7 @@ public class PhoneType {
 		return true;
 	}
 
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private boolean exeClickAction(String aPkgName, boolean aStopFlag){
 		m_iCurStep = 0;
 		boolean vRet = false;
@@ -145,15 +424,20 @@ public class PhoneType {
 		if(vActionStep != null && vActionStep.m_asActionName != null && vActionStep.m_asActionName.equalsIgnoreCase("START")){
 			m_bWorkingFlag = true;
 			try{
+				getNextStep();
 				Uri packageURI = Uri.parse("package:" + aPkgName);
 				Intent intentx = new Intent(vActionStep.m_asActivityName,
 						packageURI);
-				intentx.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
-						| Intent.FLAG_ACTIVITY_NEW_TASK
-						| Intent.FLAG_ACTIVITY_NO_HISTORY);
-				MyApp.getApp().getApplicationContext().startActivity(intentx);
+//				intentx.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
+//						| Intent.FLAG_ACTIVITY_NEW_TASK
+//						| Intent.FLAG_ACTIVITY_NO_HISTORY);
+				intentx.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+				intentx.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+				intentx.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intentx.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+				MyApp.getApp().getApplicationContext().startActivity(intentx, ActivityOptions.makeCustomAnimation(MyApp.getApp().getApplicationContext(), 0, 0).toBundle());
 				synchronized (mFindLock){
-					mFindLock.wait(3000);
+					mFindLock.wait();
 				}
 				m_bWorkingFlag = false;
 				if(m_asForceStopList.get(m_iCurStep).m_asActionName.equalsIgnoreCase("BACK")){
