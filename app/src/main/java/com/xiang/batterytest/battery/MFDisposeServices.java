@@ -1,6 +1,7 @@
 package com.xiang.batterytest.battery;
 
 import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -289,6 +290,7 @@ public class MFDisposeServices extends Service {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void startBlank() {
         if (AccessUtil.needDesktop) {
             hideView();
@@ -297,12 +299,15 @@ public class MFDisposeServices extends Service {
             time = 1;
             Intent intent = new Intent(getApplicationContext(),
                     MFBlankActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                    | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+                    | Intent.FLAG_ACTIVITY_NO_ANIMATION
+                    | Intent.FLAG_ACTIVITY_NO_HISTORY);
             intent.putExtra("mode", 1);
             intent.putExtra("TEST", 999);
             // SystemUtil.startActivity(mContext, intent);
-            startActivity(intent);
+            startActivity(intent, ActivityOptions.makeCustomAnimation(getApplicationContext(), 0, 0).toBundle());
         }
     }
 
