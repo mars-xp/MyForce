@@ -103,7 +103,7 @@ public class PhoneType {
 							synchronized (mEventLock){
 								if(mEventList.size() == 0){
 									try{
-										mEventLock.wait(2000);
+										mEventLock.wait(3500);
 									}
 									catch (Exception e){
 										e.printStackTrace();

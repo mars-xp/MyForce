@@ -188,8 +188,8 @@ public class MFDisposeServices extends Service {
         msg.what = MSG_INIT;
         msg.obj = firstName;
         mHandler.sendMessage(msg);
-        mHandler.sendEmptyMessageDelayed(0, 2000);
-        mHandler.sendEmptyMessage(99);
+//        mHandler.sendEmptyMessageDelayed(0, 2000);
+//        mHandler.sendEmptyMessage(99);
     }
 
     public void onDisconnected(){
