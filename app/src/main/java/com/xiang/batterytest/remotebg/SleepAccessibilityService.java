@@ -42,9 +42,10 @@ public class SleepAccessibilityService extends AccessibilityService {
 
         mIsServiceRunning = true;
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-        Log.v("testDevice", "manu "+Build.MANUFACTURER+" broad "+Build.BOARD+" BRAND "+Build.BRAND);
-        Log.v("testDevice", "MODE "+Build.MODEL);
+//        Log.v("testDevice", "manu "+Build.MANUFACTURER+" broad "+Build.BOARD+" BRAND "+Build.BRAND);
+//        Log.v("testDevice", "MODE "+Build.MODEL);
         info.eventTypes = AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED|AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
+//        info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
         info.flags = AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS
                 | AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS;
