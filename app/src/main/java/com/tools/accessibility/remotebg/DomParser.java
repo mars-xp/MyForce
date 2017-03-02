@@ -1,4 +1,4 @@
-package com.xiang.batterytest.remotebg;
+package com.tools.accessibility.remotebg;
 
 import android.os.Build;
 

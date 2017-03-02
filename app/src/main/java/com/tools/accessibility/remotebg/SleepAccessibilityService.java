@@ -1,21 +1,11 @@
-package com.xiang.batterytest.remotebg;
+package com.tools.accessibility.remotebg;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.os.Build;
-import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
 
-import com.tools.ipc.LocalServiceManager;
-import com.xiang.batterytest.MyApp;
-import com.xiang.batterytest.util.AccessUtil;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
+import com.tools.accessibility.remotebg.PhoneType;
 
 public class SleepAccessibilityService extends AccessibilityService {
 

@@ -1,4 +1,4 @@
-package com.xiang.batterytest.remotebg;
+package com.tools.accessibility.remotebg;
 
 import android.annotation.TargetApi;
 import android.app.ActivityOptions;
@@ -19,12 +19,11 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.xiang.batterytest.MyApp;
-import com.xiang.batterytest.util.AccessUtil;
+import com.tools.accessibility.uitils.AccessUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class PhoneType {
@@ -203,20 +202,20 @@ public class PhoneType {
 		setStreamMute(true);
 		for (int i = 0; i < mAppList.size(); i++) {
 			if (m_bInterruptFlag) {
-				sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT, "INTERRUT");
+				sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INT, "INTERRUT");
 				break;
 			} else {
 				String strPkgName = mAppList.get(i);
-				sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_START, strPkgName);
+				sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_START_ONE, strPkgName);
 				if (exeClickAction(strPkgName) == true) {
-					sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS, strPkgName);
+					sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_SUCCE_ONE, strPkgName);
 				} else {
 					if(m_bInterruptFlag){
-						sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT, "INTERRUT");
+						sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INT, "INTERRUT");
 						break;
 					}
 					else{
-						sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG, strPkgName);
+						sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_ONE, strPkgName);
 					}
 				}
 			}
@@ -230,7 +229,7 @@ public class PhoneType {
 	}
 
 	public void sendOver(){
-		sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ALL_END, "PACKAGE ALL END");
+		sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ENDED_ALL, "PACKAGE ALL END");
 	}
 
 	public  void realStart(Context aContext){

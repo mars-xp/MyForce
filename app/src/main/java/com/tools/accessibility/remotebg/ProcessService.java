@@ -1,9 +1,10 @@
-package com.xiang.batterytest.remotebg;
+package com.tools.accessibility.remotebg;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.tools.accessibility.remotebg.AccessibilityBinder;
 import com.tools.ipc.LocalServiceManager;
 
 public class ProcessService extends Service {

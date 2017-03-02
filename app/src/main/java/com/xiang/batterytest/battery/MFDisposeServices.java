@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,10 +20,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tools.accessibility.uiinterface.AccessibiltyManager;
 import com.xiang.batterytest.MyApp;
 import com.xiang.batterytest.R;
-import com.xiang.batterytest.util.AccessUtil;
-import com.xiang.batterytest.util.SystemUtil;
+import com.tools.accessibility.uitils.AccessUtil;
+import com.tools.accessibility.uitils.SystemUtil;
 
 public class MFDisposeServices extends Service {
 
@@ -148,7 +148,7 @@ public class MFDisposeServices extends Service {
                 }
                 case 99: {
                     try{
-                        if (AccessUtil.needDesktop) {
+                        if (MFBlankActivity.needDesktop) {
                             hideView();
                         } else {
                             if (time == 0) {
@@ -292,7 +292,7 @@ public class MFDisposeServices extends Service {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void startBlank() {
-        if (AccessUtil.needDesktop) {
+        if (MFBlankActivity.needDesktop) {
             hideView();
             // PhoneType.needDesktop = false;
         } else {

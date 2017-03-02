@@ -2,14 +2,12 @@ package com.xiang.batterytest;
 
 import android.app.Application;
 import android.content.Intent;
-import android.os.Process;
 import android.text.TextUtils;
 
 import com.xiang.batterytest.battery.MFDisposeServices;
-import com.xiang.batterytest.remotebg.PhoneType;
-import com.xiang.batterytest.remotebg.ProcessService;
-import com.xiang.batterytest.remotebg.SleepAccessibilityService;
-import com.xiang.batterytest.util.SystemUtil;
+import com.tools.accessibility.remotebg.PhoneType;
+import com.tools.accessibility.remotebg.ProcessService;
+import com.tools.accessibility.uitils.SystemUtil;
 
 /**
  * Created by jinxiangpeng on 2017/2/21.

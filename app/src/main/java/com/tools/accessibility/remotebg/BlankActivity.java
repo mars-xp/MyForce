@@ -1,10 +1,9 @@
-package com.xiang.batterytest.remotebg;
+package com.tools.accessibility.remotebg;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.xiang.batterytest.R;
-import com.xiang.batterytest.util.AccessUtil;
 
 public class BlankActivity extends AppCompatActivity {
 

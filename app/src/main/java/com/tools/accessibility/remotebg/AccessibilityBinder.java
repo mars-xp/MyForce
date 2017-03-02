@@ -1,12 +1,10 @@
-package com.xiang.batterytest.remotebg;
+package com.tools.accessibility.remotebg;
 
 import android.os.IBinder;
 import android.os.RemoteException;
 
-import com.tools.ipc.LocalServiceManager;
 import com.xiang.batterytest.battery.IAccessibilityServiceInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AccessibilityBinder extends IAccessibilityServiceInterface.Stub {

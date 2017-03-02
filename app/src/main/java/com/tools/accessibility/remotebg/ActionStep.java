@@ -1,4 +1,4 @@
-package com.xiang.batterytest.remotebg;
+package com.tools.accessibility.remotebg;
 
 public class ActionStep {
 	public String m_asActivityName;//Activity name

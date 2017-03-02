@@ -1,10 +1,9 @@
-package com.xiang.batterytest.battery;
+package com.tools.accessibility.uiinterface;
 
-import android.content.Context;
 import android.os.IBinder;
-import android.os.RemoteException;
 
 import com.tools.ipc.LocalServiceManager;
+import com.xiang.batterytest.battery.IAccessibilityServiceInterface;
 
 import java.util.List;
 

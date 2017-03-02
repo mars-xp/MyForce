@@ -1,4 +1,4 @@
-package com.xiang.batterytest.util;
+package com.tools.accessibility.uitils;
 
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
@@ -10,7 +10,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;

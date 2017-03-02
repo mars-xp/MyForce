@@ -24,7 +24,7 @@
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".remotebg.SleepAccessibilityService"
+            android:name="com.tools.accessibility.remotebg.SleepAccessibilityService"
             android:enabled="true"
             android:label="BatteryTest"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
@@ -46,12 +46,12 @@
             android:process=":service" />
 
         <service
-            android:name=".remotebg.ProcessService"
+            android:name="com.tools.accessibility.remotebg.ProcessService"
             android:enabled="true"
             android:exported="true"
             android:process=":service" />
 
-        <activity android:name=".remotebg.BlankActivity"
+        <activity android:name="com.tools.accessibility.remotebg.BlankActivity"
             android:process=":service"></activity>
     </application>
 

@@ -1,26 +1,22 @@
 package com.xiang.batterytest.battery;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Messenger;
-import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
+import com.tools.accessibility.uiinterface.AccessibiltyManager;
 import com.xiang.batterytest.MFScanActivity;
 import com.xiang.batterytest.MyApp;
-import com.xiang.batterytest.R;
-import com.xiang.batterytest.util.AccessUtil;
-import com.xiang.batterytest.util.SystemUtil;
+import com.tools.accessibility.uitils.AccessUtil;
+import com.tools.accessibility.uitils.SystemUtil;
 
 import java.util.ArrayList;
 
@@ -46,6 +42,8 @@ public class MFBlankActivity extends AppCompatActivity {
     private String interrupt = "";
 
     private Messenger messenger;
+    public static boolean needDesktop = false;
+
 
     /**
      * 传给PhoneType，供回调消息使用。消息码由处理方定义
@@ -54,7 +52,7 @@ public class MFBlankActivity extends AppCompatActivity {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case MSG_START_DISPOSE: {
-                    if (AccessUtil.needDesktop) {
+                    if (needDesktop) {
                         AccessibiltyManager.getInstance().setInterruptFlag(true);
                         finish();
                     } else {
@@ -104,30 +102,27 @@ public class MFBlankActivity extends AppCompatActivity {
                     break;
                 }
 
-                case AccessUtil.TYPE_PACKAGE_FORCE_START: {
+                case AccessUtil.TYPE_PACKAGE_FORCE_START_ONE: {
                     String pname = msg.getData().getString("MESSAGE");
                     MyApp.getApp().getMfService().startDisposeOne(pname);
                     dispossCount++;
                     break;
                 }
-                case AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS: {
+                case AccessUtil.TYPE_PACKAGE_FORCE_SUCCE_ONE: {
                     // TODO:完成一个要记录，然后好刷新
                     String pname = msg.getData().getString("MESSAGE");
                     currentCount++;
                     // NotiUtil.saveAppNotiStatus(pname, bNeedClose);
                     break;
                 }
-                case AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG: {// 包名有错
+                case AccessUtil.TYPE_PACKAGE_FORCE_ERROR_ONE: {//失败了一个
                     errorCount++;
                     break;
                 }
-                case AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT: {// 打断
+                case AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INT: {// 打断
                     break;
                 }
-                case AccessUtil.TYPE_PACKAGE_FORCE_ERROR_HANDLER: {// handler 错误
-                    break;
-                }
-                case AccessUtil.TYPE_PACKAGE_FORCE_ALL_END: {// 完成
+                case AccessUtil.TYPE_PACKAGE_FORCE_ENDED_ALL: {// 完成
                     mHandler.sendEmptyMessage(MSG_RESTART_BLANK);
                     break;
                 }
@@ -141,7 +136,7 @@ public class MFBlankActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AccessUtil.needDesktop = false;
+        needDesktop = false;
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         messenger=new Messenger(mHandler);
@@ -259,7 +254,7 @@ public class MFBlankActivity extends AppCompatActivity {
                 String reason = intent.getStringExtra("reason");
                 interrupt = reason;
                 if ("homekey".equals(reason)) {
-                    AccessUtil.needDesktop = true;
+                    needDesktop = true;
                     finish();
                 }
                 if ("homekey".equals(reason) || "lock".equals(reason)
