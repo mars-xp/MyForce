@@ -29,11 +29,11 @@ public class SleepAccessibilityService extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if(event != null){
-            if(event.getEventType() != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
-                    && event.getEventType() != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED){
-                return;
-            }
-            PhoneType.getInstance().addEventSync(event);
+//            if(event.getEventType() != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+//                    && event.getEventType() != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED){
+//                return;
+//            }
+            PhoneType.getInstance().findAndClick(event);
         }
     }
 
@@ -42,7 +42,9 @@ public class SleepAccessibilityService extends AccessibilityService {
 
         mIsServiceRunning = true;
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
-        info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
+        Log.v("testDevice", "manu "+Build.MANUFACTURER+" broad "+Build.BOARD+" BRAND "+Build.BRAND);
+        Log.v("testDevice", "MODE "+Build.MODEL);
+        info.eventTypes = AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED|AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
         info.flags = AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS
                 | AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS;

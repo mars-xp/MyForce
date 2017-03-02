@@ -57,79 +57,25 @@ public class PhoneType {
 	private ArrayList<String> mAppList;
 	private AudioManager mAudioManager;
 	private Object mFindLock = new Object();
-	private Object mEventLock = new Object();
-	private LinkedList<AccessibilityEvent> mEventList = new LinkedList<>();
 	private String mCurPkgName;
-	private int mForceCount = 0;
-	private int mOkCount = 0;
 
-	private Thread mFindThread = new Thread(){
-		@Override
-		public void run() {
-			synchronized (mEventLock){
-				try{
-					mEventLock.wait();
-				}
-				catch (Exception e){
-					e.printStackTrace();
-				}
-			}
-			while(true){
-				Log.v("nodeinfo", "find thread is running");
-				ActionStep vStep = getCurrentStep();
-				AccessibilityEvent vEvent = null;
-				synchronized (mEventLock){
-					if(mEventList.size() == 0){
-						try{
-							mEventLock.wait(3000);
-						}
-						catch (Exception e){
-							e.printStackTrace();
-						}
-					}
-				}
-				vEvent = null;
-				synchronized (mEventLock){
-					if(mEventList.size() > 0){
-						vEvent = mEventList.remove(0);
-					}
-				}
-				if(vEvent != null){
-					AccessibilityNodeInfo vRootNode = vEvent.getSource();
-					AccessibilityNodeInfo vNodeInfo = null;
-					if(vStep != null){
-						vNodeInfo = forNode(vRootNode, vStep.m_asElementText);
-					}
-					if(vNodeInfo != null){
-						if(vNodeInfo.isClickable() && vNodeInfo.isEnabled()){
-							getNextStep();
-							vNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-						}
+	public void findAndClick(AccessibilityEvent aEvent){
+		if(m_bWorkingFlag){
+			ActionStep vStep = getCurrentStep();
+			if(vStep != null && vStep.m_asActionName.equalsIgnoreCase("CLICK")){
+				AccessibilityNodeInfo vNodeInfo = forNode(aEvent.getSource(), vStep.m_asElementText);
+				if(vNodeInfo != null){
+					if(vNodeInfo.isClickable() && vNodeInfo.isEnabled()){
+						getNextStep();
+						vNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
 						if(checkStepOver()){
 							notifyFindLock();
-							synchronized (mEventLock){
-								try {
-									mEventLock.wait();
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-							}
-						}
-					}
-				}
-				else{
-					notifyFindLock();
-					synchronized (mEventLock){
-						try {
-							mEventLock.wait();
-						} catch (Exception e) {
-							e.printStackTrace();
 						}
 					}
 				}
 			}
 		}
-	};
+	}
 
 	private AccessibilityNodeInfo forNode(AccessibilityNodeInfo node, String strElementText) {
 		AccessibilityNodeInfo vRet = null;
@@ -182,7 +128,6 @@ public class PhoneType {
 		m_asForceStopList = new ArrayList<ActionStep>();
 		m_phoneType.parseXML();
 		Log.v("xiangpeng", "get xml id "+m_id);
-		mFindThread.start();
 	}
 
 	private PhoneType() {
@@ -225,6 +170,7 @@ public class PhoneType {
 	private boolean exeClickAction(String aPkgName){
 		mCurPkgName = aPkgName;
 		m_iCurStep = 0;
+		m_bWorkingFlag = false;
 		boolean vRet = false;
 		ActionStep vActionStep = null;
 		if(m_iCurStep < m_asForceStopList.size()){
@@ -234,10 +180,7 @@ public class PhoneType {
 			if(m_bInterruptFlag){
 				return false;
 			}
-			synchronized (mEventLock){
-				m_bWorkingFlag = true;
-				mEventList.clear();
-			}
+			m_bWorkingFlag = true;
 			try{
 				getNextStep();
 				Uri packageURI = Uri.parse("package:" + aPkgName);
@@ -249,7 +192,7 @@ public class PhoneType {
 						| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 				MyApp.getApp().getApplicationContext().startActivity(intentx, ActivityOptions.makeCustomAnimation(MyApp.getApp().getApplicationContext(), 0, 0).toBundle());
 				synchronized (mFindLock){
-					mFindLock.wait();
+					mFindLock.wait(3000);
 				}
 				if(m_asForceStopList.get(m_iCurStep).m_asActionName.equalsIgnoreCase("BACK")){
 					vRet = true;
@@ -264,8 +207,6 @@ public class PhoneType {
 
 	private void doForceStopThread(){
 		setStreamMute(true);
-		mForceCount = 0;
-		mOkCount = 0;
 		for (int i = 0; i < mAppList.size(); i++) {
 			if (m_bInterruptFlag) {
 				sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_INTERRUPT, "INTERRUT");
@@ -276,17 +217,18 @@ public class PhoneType {
 				if (exeClickAction(strPkgName) == true) {
 					sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_SUCCESS, strPkgName);
 				} else {
-					sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG, strPkgName);
-				}
-				if (m_bInterruptFlag) {
-					sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT, "INTERRUT");
-					break;
+					if(m_bInterruptFlag){
+						sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_NOTIFY_ERROR_INTERRUPT, "INTERRUT");
+						break;
+					}
+					else{
+						sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ERROR_PKG, strPkgName);
+					}
 				}
 			}
 		}
 		sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ALL_END, "PACKAGE ALL END");
 		setStreamMute(false);
-		Log.v("nodeinfo", "force click "+mForceCount+" ok click "+mOkCount);
 	}
 
 	public void startForceStop(IBinder aBinder, List<String> aAppInfoList){
@@ -338,21 +280,9 @@ public class PhoneType {
 		return actionStep;
 	}
 
-	public void addEventSync(AccessibilityEvent aEvent) {
-		synchronized (mEventLock){
-			if(m_bWorkingFlag){
-				AccessibilityEvent vSave = AccessibilityEvent.obtain(aEvent);
-				mEventList.add(vSave);
-				mEventLock.notifyAll();
-			}
-		}
-	}
 
 	public void notifyFindLock() {
-		synchronized (mEventLock){
-			m_bWorkingFlag = false;
-			mEventList.clear();
-		}
+		m_bWorkingFlag = false;
 		synchronized (mFindLock){
 			mFindLock.notifyAll();
 		}
