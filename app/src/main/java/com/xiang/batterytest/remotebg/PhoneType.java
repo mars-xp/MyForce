@@ -57,7 +57,7 @@ public class PhoneType {
 	private ArrayList<String> mAppList;
 	private AudioManager mAudioManager;
 	private Object mFindLock = new Object();
-	private String mCurPkgName;
+	private Context mContext;
 
 	public void findAndClick(AccessibilityEvent aEvent){
 		if(m_bWorkingFlag){
@@ -108,9 +108,6 @@ public class PhoneType {
 					}
 				}
 			}
-		}
-		if(vRet != null){
-			Log.v("nodeinfo", "find node "+vRet.getText().toString()+" "+mCurPkgName);
 		}
 		return vRet;
 	}
@@ -168,7 +165,6 @@ public class PhoneType {
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private boolean exeClickAction(String aPkgName){
-		mCurPkgName = aPkgName;
 		m_iCurStep = 0;
 		m_bWorkingFlag = false;
 		boolean vRet = false;
@@ -186,11 +182,8 @@ public class PhoneType {
 				Uri packageURI = Uri.parse("package:" + aPkgName);
 				Intent intentx = new Intent(vActionStep.m_asActivityName,
 						packageURI);
-				intentx.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION
-						| Intent.FLAG_ACTIVITY_NEW_TASK
-						| Intent.FLAG_ACTIVITY_NO_HISTORY
-						| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-				MyApp.getApp().getApplicationContext().startActivity(intentx, ActivityOptions.makeCustomAnimation(MyApp.getApp().getApplicationContext(), 0, 0).toBundle());
+				intentx.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+				mContext.startActivity(intentx, ActivityOptions.makeCustomAnimation(mContext, 0, 0).toBundle());
 				synchronized (mFindLock){
 					mFindLock.wait(3000);
 				}
@@ -205,6 +198,7 @@ public class PhoneType {
 		return vRet;
 	}
 
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void doForceStopThread(){
 		setStreamMute(true);
 		for (int i = 0; i < mAppList.size(); i++) {
@@ -227,10 +221,27 @@ public class PhoneType {
 				}
 			}
 		}
-		sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ALL_END, "PACKAGE ALL END");
 		setStreamMute(false);
+		mContext = null;
+		Intent vIntent = new Intent(MyApp.getApp().getApplicationContext(), BlankActivity.class);
+		vIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION|Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		vIntent.putExtra("finish", true);
+		MyApp.getApp().getApplicationContext().startActivity(vIntent, ActivityOptions.makeCustomAnimation(MyApp.getApp().getApplicationContext(), 0, 0).toBundle());
 	}
 
+	public void sendOver(){
+		sendMessageToCaller(mMessenger, AccessUtil.TYPE_PACKAGE_FORCE_ALL_END, "PACKAGE ALL END");
+	}
+
+	public  void realStart(Context aContext){
+		if(mAppList.size() > 0){
+			mContext = aContext;
+			mWorkerHandler.removeMessages(0);
+			mWorkerHandler.sendEmptyMessage(0);
+		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public void startForceStop(IBinder aBinder, List<String> aAppInfoList){
 		if(aBinder != null && aAppInfoList != null && aAppInfoList.size() > 0){
 			m_iCurStep = 0;
@@ -248,10 +259,9 @@ public class PhoneType {
 				}
 			}
 			m_bInterruptFlag = false;
-			if(mAppList.size() > 0){
-				mWorkerHandler.removeMessages(0);
-				mWorkerHandler.sendEmptyMessage(0);
-			}
+			Intent vIntent = new Intent(MyApp.getApp().getApplicationContext(), BlankActivity.class);
+			vIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_ANIMATION|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+			MyApp.getApp().getApplicationContext().startActivity(vIntent, ActivityOptions.makeCustomAnimation(MyApp.getApp().getApplicationContext(), 0, 0).toBundle());
 		}
 	}
 
