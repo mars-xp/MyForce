@@ -1,4 +1,4 @@
-package com.tools.accessibility.remotebg;
+package com.xiang.batterytest.battery;
 
 import android.app.Service;
 import android.content.Intent;

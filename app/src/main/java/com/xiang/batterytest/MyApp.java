@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import com.xiang.batterytest.battery.MFDisposeServices;
 import com.tools.accessibility.remotebg.PhoneType;
-import com.tools.accessibility.remotebg.ProcessService;
+import com.xiang.batterytest.battery.ProcessService;
 import com.tools.accessibility.uitils.SystemUtil;
 
 /**
