@@ -66,24 +66,22 @@ public class PhoneType {
 	private Thread mFindThread = new Thread(){
 		@Override
 		public void run() {
+			synchronized (mEventLock){
+				try{
+					mEventLock.wait();
+				}
+				catch (Exception e){
+					e.printStackTrace();
+				}
+			}
 			while(true){
 				Log.v("nodeinfo", "find thread is running");
 				ActionStep vStep = getCurrentStep();
 				AccessibilityEvent vEvent = null;
 				synchronized (mEventLock){
-					if(!m_bWorkingFlag){
-						mEventList.clear();
-						try {
-							mEventLock.wait();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				}
-				synchronized (mEventLock){
 					if(mEventList.size() == 0){
 						try{
-							mEventLock.wait(3500);
+							mEventLock.wait(3000);
 						}
 						catch (Exception e){
 							e.printStackTrace();
@@ -108,20 +106,26 @@ public class PhoneType {
 							vNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
 						}
 						if(checkStepOver()){
-							synchronized (mEventLock){
-								m_bWorkingFlag = false;
-								mEventList.clear();
-							}
 							notifyFindLock();
+							synchronized (mEventLock){
+								try {
+									mEventLock.wait();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
 						}
 					}
 				}
 				else{
-					synchronized (mEventLock){
-						m_bWorkingFlag = false;
-						mEventList.clear();
-					}
 					notifyFindLock();
+					synchronized (mEventLock){
+						try {
+							mEventLock.wait();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
 				}
 			}
 		}
@@ -222,15 +226,14 @@ public class PhoneType {
 		mCurPkgName = aPkgName;
 		m_iCurStep = 0;
 		boolean vRet = false;
-		synchronized (mEventLock){
-			m_bWorkingFlag = false;
-			mEventList.clear();
-		}
 		ActionStep vActionStep = null;
 		if(m_iCurStep < m_asForceStopList.size()){
 			vActionStep = m_asForceStopList.get(m_iCurStep);
 		}
 		if(vActionStep != null && vActionStep.m_asActionName != null && vActionStep.m_asActionName.equalsIgnoreCase("START")){
+			if(m_bInterruptFlag){
+				return false;
+			}
 			synchronized (mEventLock){
 				m_bWorkingFlag = true;
 				mEventList.clear();

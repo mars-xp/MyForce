@@ -29,7 +29,10 @@ public class SleepAccessibilityService extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if(event != null){
-            Log.v("nodeinfo", "get type "+event.getEventType());
+            if(event.getEventType() != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+                    && event.getEventType() != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED){
+                return;
+            }
             PhoneType.getInstance().addEventSync(event);
         }
     }
