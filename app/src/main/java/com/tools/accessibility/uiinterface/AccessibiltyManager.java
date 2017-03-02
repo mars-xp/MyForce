@@ -62,16 +62,4 @@ public class AccessibiltyManager {
         }
         return vRet;
     }
-
-//    public boolean startNotiManage(IBinder messenger, List<String> pnames,
-//                                   boolean needClose) throws RemoteException {
-//        try {
-//            mIAccessibilityServiceInterface.startNotiManage(messenger, pnames,
-//                    needClose);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//        return true;
-//    }
 }
