@@ -59,28 +59,37 @@ public class PhoneType {
 	private Context mContext;
 
 	public void findAndClick(AccessibilityEvent aEvent){
+		Log.v("xiangpeng", "event type is "+aEvent.getEventType()+" package name is "+aEvent.getPackageName()+" workflag is "+m_bWorkingFlag);
 		if(m_bWorkingFlag){
 			ActionStep vStep = getCurrentStep();
 			if(vStep != null && vStep.m_asActionName.equalsIgnoreCase("CLICK")){
-				AccessibilityNodeInfo vNodeInfo = forNode(aEvent.getSource(), vStep.m_asElementText);
+				Log.v("xiangpeng", "find node "+vStep.m_asElementText.substring(0, 10));
+				AccessibilityNodeInfo vNodeInfo = forNode(aEvent.getSource(), vStep.m_asElementText, vStep.m_asElementType);
 				if(vNodeInfo != null){
 					if(vNodeInfo.isClickable() && vNodeInfo.isEnabled()){
+						Log.v("xiangpeng", "go to click "+vNodeInfo.getText().toString());
 						getNextStep();
-						vNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+						if(!vNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK)){
+							Log.v("xiangpeng", "Click error");
+							m_iCurStep--;
+						}
 						if(checkStepOver()){
 							notifyFindLock();
 						}
+					}
+					else{
+						Log.v("xiangpeng", "this node is disabled"+vNodeInfo.getText().toString());
 					}
 				}
 			}
 		}
 	}
 
-	private AccessibilityNodeInfo forNode(AccessibilityNodeInfo node, String strElementText) {
+	private AccessibilityNodeInfo forNode(AccessibilityNodeInfo node, String strElementText, String aNodeType) {
 		AccessibilityNodeInfo vRet = null;
-		if(node != null && !TextUtils.isEmpty(strElementText)){
+		if(node != null && !TextUtils.isEmpty(strElementText) && !TextUtils.isEmpty(aNodeType)){
 			CharSequence vNoteCs = node.getText();
-			if(vNoteCs != null){
+			if(vNoteCs != null && node.getClassName() != null && aNodeType.equalsIgnoreCase(node.getClassName().toString())){
 				int vStart = 0;
 				try {
 					for (int i = 0; i < strElementText.length(); i++) {
@@ -88,6 +97,7 @@ public class PhoneType {
 							String strTmp = strElementText.substring(vStart, i);
 							vStart = i + 1;
 							if (strTmp.equalsIgnoreCase(vNoteCs.toString())) {
+								Log.w("xiangpeng", "find node is"+vNoteCs.toString());
 								vRet = node;
 								break;
 							}
@@ -101,7 +111,7 @@ public class PhoneType {
 			if(vRet == null){
 				int vChildCount = node.getChildCount();
 				for(int i = 0; i < vChildCount; i++){
-					vRet = forNode(node.getChild(i), strElementText);
+					vRet = forNode(node.getChild(i), strElementText, aNodeType);
 					if(vRet != null){
 						break;
 					}
@@ -188,6 +198,9 @@ public class PhoneType {
 				}
 				if(m_asForceStopList.get(m_iCurStep).m_asActionName.equalsIgnoreCase("BACK")){
 					vRet = true;
+				}
+				else{
+					Log.v("xiangpeng", "find time out");
 				}
 			}
 			catch (Exception e){
@@ -300,7 +313,6 @@ public class PhoneType {
 	public void setInterruptFlag(boolean flag) {
 		m_bInterruptFlag = flag;
 		if(m_bInterruptFlag){
-			Log.v("xiangpeng", "setInterruptFlag notify");
 			notifyFindLock();
 		}
 	}

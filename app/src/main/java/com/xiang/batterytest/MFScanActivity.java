@@ -108,7 +108,6 @@ public class MFScanActivity extends AppCompatActivity {
                     mCheckedList.add(vList.get(i).packageName);
                 }
             }
-            Log.v("xiang", "get a list "+mCheckedList.size());
             mAppCount = mCheckedList.size();
         }
     }
