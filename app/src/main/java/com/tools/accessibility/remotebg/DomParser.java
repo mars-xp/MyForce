@@ -124,6 +124,7 @@ public class DomParser {
 											}
 										}
 										if(PhoneType.getInstance().m_asForceStopList != null){
+											actionStep.mStepId = PhoneType.getInstance().m_asForceStopList.size();
 											PhoneType.getInstance().m_asForceStopList.add(actionStep);
 										}
 									}

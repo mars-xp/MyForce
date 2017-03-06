@@ -59,60 +59,79 @@ public class PhoneType {
 	private Context mContext;
 
 	public void findAndClick(AccessibilityEvent aEvent){
-		Log.v("xiangpeng", "event type is "+aEvent.getEventType()+" package name is "+aEvent.getPackageName()+" workflag is "+m_bWorkingFlag);
 		if(m_bWorkingFlag){
 			ActionStep vStep = getCurrentStep();
 			if(vStep != null && vStep.m_asActionName.equalsIgnoreCase("CLICK")){
-				Log.v("xiangpeng", "find node "+vStep.m_asElementText.substring(0, 10));
-				AccessibilityNodeInfo vNodeInfo = forNode(aEvent.getSource(), vStep.m_asElementText, vStep.m_asElementType);
-				if(vNodeInfo != null){
-					if(vNodeInfo.isClickable() && vNodeInfo.isEnabled()){
-						Log.v("xiangpeng", "go to click "+vNodeInfo.getText().toString());
-						getNextStep();
+				AccessibilityNodeInfo vNodeInfo = forNode(aEvent.getSource(), vStep);
+				if(vNodeInfo != null && vNodeInfo.isClickable() && vNodeInfo.isEnabled()){
+					ActionStep vNext = getNextStep();
+					if(vNext.mStepId - vStep.mStepId == 1){
 						if(!vNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK)){
-							Log.v("xiangpeng", "Click error");
+							Log.v("xiangpeng", "find node click error");
 							m_iCurStep--;
 						}
-						if(checkStepOver()){
-							notifyFindLock();
+						else {
+							Log.v("xiangpeng", "find node click success");
+							if(checkStepOver()){
+								notifyFindLock();
+							}
 						}
 					}
 					else{
-						Log.v("xiangpeng", "this node is disabled"+vNodeInfo.getText().toString());
+						Log.v("xiangpeng", "find node error step");
+						m_iCurStep--;
 					}
 				}
 			}
 		}
 	}
 
-	private AccessibilityNodeInfo forNode(AccessibilityNodeInfo node, String strElementText, String aNodeType) {
+	private AccessibilityNodeInfo forNode(AccessibilityNodeInfo aNode, ActionStep aStep) {
 		AccessibilityNodeInfo vRet = null;
-		if(node != null && !TextUtils.isEmpty(strElementText) && !TextUtils.isEmpty(aNodeType)){
-			CharSequence vNoteCs = node.getText();
-			if(vNoteCs != null && node.getClassName() != null && aNodeType.equalsIgnoreCase(node.getClassName().toString())){
-				int vStart = 0;
-				try {
-					for (int i = 0; i < strElementText.length(); i++) {
-						if (strElementText.charAt(i) == '|') {
-							String strTmp = strElementText.substring(vStart, i);
-							vStart = i + 1;
-							if (strTmp.equalsIgnoreCase(vNoteCs.toString())) {
-								Log.w("xiangpeng", "find node is"+vNoteCs.toString());
-								vRet = node;
-								break;
+		if(aNode != null && aStep != null && m_bWorkingFlag){
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && !TextUtils.isEmpty(aStep.mElementResId)){
+				if(aStep.mElementResId.equals(aNode.getViewIdResourceName())){
+					Log.v("xiangpeng", "find node by id "+aNode.getViewIdResourceName()+" text is "+aNode.getText());
+					vRet = aNode;
+				}
+			}
+			else{
+				if(!TextUtils.isEmpty(aStep.m_asElementText) && !TextUtils.isEmpty(aStep.m_asElementType)){
+					CharSequence vNoteText = aNode.getText();
+					if(vNoteText != null && aNode.getClassName() != null && aStep.m_asElementType.equalsIgnoreCase(aNode.getClassName().toString())){
+						int vStart = 0;
+						try {
+							for (int i = 0; i < aStep.m_asElementText.length(); i++) {
+								if (aStep.m_asElementText.charAt(i) == '|') {
+									String strTmp = aStep.m_asElementText.substring(vStart, i);
+									vStart = i + 1;
+									if (strTmp.equalsIgnoreCase(vNoteText.toString())) {
+										Log.v("xiangpeng", "find node by text "+aNode.getText());
+										vRet = aNode;
+										if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && !TextUtils.isEmpty(aNode.getViewIdResourceName())){
+											Log.v("xiangpeng", "find node set id is "+aNode.getViewIdResourceName());
+											aStep.mElementResId = aNode.getViewIdResourceName();
+										}
+										break;
+									}
+								}
 							}
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
 					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 			if(vRet == null){
-				int vChildCount = node.getChildCount();
+				int vChildCount = aNode.getChildCount();
 				for(int i = 0; i < vChildCount; i++){
-					vRet = forNode(node.getChild(i), strElementText, aNodeType);
-					if(vRet != null){
+					if(m_bWorkingFlag){
+						vRet = forNode(aNode.getChild(i), aStep);
+						if(vRet != null){
+							break;
+						}
+					}
+					else{
 						break;
 					}
 				}
